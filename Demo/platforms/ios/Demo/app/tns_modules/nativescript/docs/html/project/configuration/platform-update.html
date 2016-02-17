@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <title>platform-update</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="platform-update">platform update</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Android latest runtime</td>
+<td><code>$ tns platform update android</code></td>
+</tr>
+<tr>
+<td>Android selected runtime</td>
+<td><code>$ tns platform update android@&lt;Version&gt;</code></td>
+</tr>
+<tr>
+<td>iOS latest runtime</td>
+<td><code>$ tns platform update ios</code></td>
+</tr>
+<tr>
+<td>iOS selected runtime</td>
+<td><code>$ tns platform update ios@&lt;Version&gt;</code>  </td>
+</tr>
+</tbody>
+</table>
+<p>Updates the NativeScript runtime for the specified platform. You must specify the target platform that you want to update.</p>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Platform&gt;</code> is the target mobile platform whose runtime you want to update. You can set the following target platforms.<ul>
+<li><code>android</code> - Updates the Android runtime.</li>
+<li><code>ios</code> - Updates the iOS runtime.</li>
+</ul>
+</li>
+<li><code>&lt;Version&gt;</code> is any available version of the respective platform runtime published in npm. If <code>@&lt;Version&gt;</code> is not specified, the NativeScript CLI installs the latest stable runtime for the selected platform.<br>To list all available versions for Android, run <code>$ npm view tns-android versions</code><br>To list only experimental versions for android, run <code>$ npm view tns-android dist-tags</code><br>To list all available versions for iOS, run <code>$ npm view tns-ios versions</code><br>To list only experimental versions for ios, run <code>$ npm view tns-ios dist-tags</code> </li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You can run <code>$ tns platform update ios</code> only on OS X systems.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="install.html">install</a></td>
+<td>Installs all platforms and dependencies described in the <code>package.json</code> file in the current directory.</td>
+</tr>
+<tr>
+<td><a href="platform-add.html">platform add</a></td>
+<td>Configures the current project to target the selected platform.</td>
+</tr>
+<tr>
+<td><a href="platform-remove.html">platform remove</a></td>
+<td>Removes the selected platform from the platforms that the project currently targets.</td>
+</tr>
+<tr>
+<td><a href="platform.html">platform</a></td>
+<td>Lists all platforms that the project currently targets.</td>
+</tr>
+<tr>
+<td><a href="prepare.html">prepare</a></td>
+<td>Copies common and relevant platform-specific content from the app directory to the subdirectory for the selected target platform in the platforms directory.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

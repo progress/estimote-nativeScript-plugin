@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <title>library-add</title>
+  <link rel="shortcut icon" type="image/ico" href="../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../index.html"><img class="logo" src="../../helpers/logo.png"></a>
+   <h1 id="library-add">library add</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td><code>$ tns library add &lt;Platform&gt; &lt;Library Path&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Adds a locally stored native library to the current project. Copies the library files to the <code>lib/&lt;platform&gt;</code> folder in your project and configures the platform-specific projects in <code>platforms/&lt;platform&gt;</code> to work with the library. Build operations might perform additional configuration changes on the platform-specific project in <code>platforms/&lt;platform&gt;</code>.</p>
+<p>IMPORTANT: The <code>tns library add</code> command is deprecated and will be removed in a future release. Use the <code>tns plugin</code> set of commands instead. For more information, see the <a href="plugin.html">plugin</a> set of commands..</p>
+<p>IMPORTANT: When adding frameworks, keep in mind the following behaviors.</p>
+<ul>
+<li>Any functionality exposed by the library will become available in the built application package.</li>
+<li>The first build operation after you run this command is significantly slower.</li>
+<li>When you add an iOS framework, the NativeScript CLI automatically changes your build target to iOS 8.0.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Platform&gt;</code> is the target mobile platform for which you want to add a native library. You can set the following target platforms.<ul>
+<li><code>android</code> - Adds an Android native library.</li>
+<li><code>ios</code> - Adds an iOS native library.</li>
+</ul>
+</li>
+<li><p><code>&lt;Library Path&gt;</code> is the file path to a locally stored framework.
+  When you want to add an iOS framework, <code>&lt;Library Path&gt;</code> must be the complete file path to the <code>*.framework</code> file that you want to use.
+  When you want to add an Android framework, <code>&lt;Library Path&gt;</code> might be any of the following:</p>
+<ul>
+<li>The file path to a directory containing one or more <code>*.jar</code> files.</li>
+<li>The file path to a directory containing the <code>project.properties</code> files for an Android library project created with Eclipse.</li>
+</ul>
+</li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before adding a framework, verify that your project meets the following requirements:</p>
+<ul>
+<li>You have added the platform for which you want to add a native library by running <code>$ tns platform add &lt;Platform&gt;</code></li>
+</ul>
+<p>Before adding an iOS framework, verify that your system and the framework meets the following requirements.</p>
+<ul>
+<li>You have Xcode 6 and the iOS 8.0 SDK installed.</li>
+<li>The framework is a Cocoa Touch Framework with all build architectures enabled.</li>
+<li>If the framework relies on other third-party frameworks, make sure to add these frameworks manually as well.</li>
+</ul>
+<p>Before adding an Android framework, verify that the framework meets the following requirements.</p>
+<ul>
+<li>If you want to add an Android library project, the project must be created and developed with Eclipse.</li>
+<li>If an Android library project depends on other libraries, make sure that these libraries are accessible locally.</li>
+<li>If a <code>*.jar</code> file depends on other libraries, make sure to add the dependent libraries by storing them in the same directory and passing this directory to <code>&lt;Library Path&gt;</code>. Otherwise, make sure to add each dependent library manually as well.</li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You can work with native iOS libraries only on OS X systems.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="library.html">library</a></td>
+<td>You must run the library command with a related command.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

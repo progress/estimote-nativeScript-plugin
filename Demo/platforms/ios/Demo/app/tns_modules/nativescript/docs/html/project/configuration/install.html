@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <title>install</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="install">install</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Install all dependencies</td>
+<td><code>$ tns install [--path]</code></td>
+</tr>
+<tr>
+<td>Install a selected npm module</td>
+<td><code>$ tns install &lt;Module&gt;</code></td>
+</tr>
+<tr>
+<td>Enable TypeScript support</td>
+<td><code>$ tns install typescript</code></td>
+</tr>
+</tbody>
+</table>
+<p>Installs all dependencies described in a valid <code>package.json</code> or installs a selected NativeScript development module as a dev dependency.</p>
+<p>The <code>package.json</code> file must be a valid <code>package.json</code> describing the configuration of a NativeScript project. If missing or corrupted, you can recreate the file by running <code>$ tns init</code> in the directory of a NativeScript project.</p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--path</code> - Specifies the directory which contains the <code>package.json</code> file, if different from the current directory.</li>
+</ul>
+<h3 id="arguments">Arguments</h3>
+<ul>
+<li><code>&lt;Module&gt;</code> - Specifies a NativeScript development module by path to a local directory containing a valid npm module or by name in the npm registry. When a <code>&lt;Module&gt;</code> is specified, this command adds the module as a dev dependency in your <code>package.json</code>.</li>
+</ul>
+<blockquote>
+<p><strong>TIP:</strong> When installing a module from the npm registry, you can specify it by full name or suffix. NativeScript development modules are published in the npm registry with the following name format: <code>nativescript-dev-&lt;suffix&gt;</code>.</p>
+</blockquote>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="platform-add.html">platform add</a></td>
+<td>Configures the current project to target the selected platform.</td>
+</tr>
+<tr>
+<td><a href="platform-remove.html">platform remove</a></td>
+<td>Removes the selected platform from the platforms that the project currently targets.</td>
+</tr>
+<tr>
+<td><a href="platform-update.html">platform update</a></td>
+<td>Updates the NativeScript runtime for the specified platform.</td>
+</tr>
+<tr>
+<td><a href="platform.html">platform</a></td>
+<td>Lists all platforms that the project currently targets.</td>
+</tr>
+<tr>
+<td><a href="prepare.html">prepare</a></td>
+<td>Copies common and relevant platform-specific content from the app directory to the subdirectory for the selected target platform in the platforms directory.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

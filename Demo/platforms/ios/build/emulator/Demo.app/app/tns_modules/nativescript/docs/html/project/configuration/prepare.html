@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <title>prepare</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="prepare">prepare</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td><code>$ tns prepare &lt;Platform&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Copies common and relevant platform-specific content from the <code>app</code> directory to the subdirectory for the selected target platform
+in the <code>platforms</code> directory. This lets you build the project with the SDK for the selected platform. You must specify the target platform for which you want to prepare your project.</p>
+<h3 id="attributes">Attributes</h3>
+<p><code>&lt;Platform&gt;</code> is the target mobile platform for which you want to prepare your project. You can set the following target platforms.</p>
+<ul>
+<li><code>android</code> - Prepares your project for an Android build.</li>
+<li><code>ios</code> - Prepares your project for an iOS build.</li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You can run <code>$ tns prepare ios</code> only on OS X systems.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="install.html">install</a></td>
+<td>Installs all platforms and dependencies described in the <code>package.json</code> file in the current directory.</td>
+</tr>
+<tr>
+<td><a href="platform-add.html">platform add</a></td>
+<td>Configures the current project to target the selected platform.</td>
+</tr>
+<tr>
+<td><a href="platform-remove.html">platform remove</a></td>
+<td>Removes the selected platform from the platforms that the project currently targets.</td>
+</tr>
+<tr>
+<td><a href="platform-update.html">platform update</a></td>
+<td>Updates the NativeScript runtime for the specified platform.</td>
+</tr>
+<tr>
+<td><a href="platform.html">platform</a></td>
+<td>Lists all platforms that the project currently targets.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

@@ -1,0 +1,12 @@
+{
+  "nativescript": {
+    "id": "org.nativescript.Demo",
+    "tns-ios": {
+      "version": "1.5.2"
+    }
+  },
+  "dependencies": {
+    "nativescript-estimote-sdk": "file:../Plugin",
+    "tns-core-modules": "1.5.2"
+  }
+}

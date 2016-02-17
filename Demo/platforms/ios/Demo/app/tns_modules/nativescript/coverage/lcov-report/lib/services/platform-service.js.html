@@ -1,0 +1,1752 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/services/platform-service.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">lib/services/platform-service.js</span></h1>
+    <h2>
+        Statements: <span class="metric">54.65% <small>(235 / 430)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">39.67% <small>(48 / 121)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">45.83% <small>(44 / 96)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">56.17% <small>(232 / 413)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/services/</a> &#187; platform-service.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-yes">33</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-yes">38</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../.d.ts"/&gt;
+"use strict";
+var __decorate = (this &amp;&amp; this.__decorate) || function (decorators, target, key, desc) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof Reflect === "object" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >typeof Reflect.decorate === "function")</span> <span class="cstat-no" title="statement not covered" >return Reflect.decorate(decorators, target, key, desc);</span>
+    switch (arguments.length) {
+<span class="branch-0 cbranch-no" title="branch not covered" >        case 2: <span class="cstat-no" title="statement not covered" >return decorators.reduceRight(<span class="fstat-no" title="function not covered" >function(o, d) {</span> <span class="cstat-no" title="statement not covered" >return (d &amp;&amp; d(o)) || o; </span>}, target);</span></span>
+<span class="branch-1 cbranch-no" title="branch not covered" >        case 3: <span class="cstat-no" title="statement not covered" >return decorators.reduceRight(<span class="fstat-no" title="function not covered" >function(o, d) {</span> <span class="cstat-no" title="statement not covered" >return (d &amp;&amp; d(target, key)), void 0; </span>}, void 0);</span></span>
+        case 4: return decorators.reduceRight(function(o, d) { return (d &amp;&amp; d(target, key, o)) || o; }, desc);
+    }
+};
+var path = require("path");
+var shell = require("shelljs");
+var constants = require("../constants");
+var helpers = require("../common/helpers");
+var semver = require("semver");
+var minimatch = require("minimatch");
+var Future = require("fibers/future");
+var os_1 = require("os");
+var PlatformService = (function () {
+    function PlatformService($devicesService, $errors, $fs, $logger, $npmInstallationManager, $platformsData, $projectData, $projectDataService, $prompter, $hooksService, $commandsService, $options, $broccoliBuilder, $pluginsService, $projectFilesManager) {
+        this.$devicesService = $devicesService;
+        this.$errors = $errors;
+        this.$fs = $fs;
+        this.$logger = $logger;
+        this.$npmInstallationManager = $npmInstallationManager;
+        this.$platformsData = $platformsData;
+        this.$projectData = $projectData;
+        this.$projectDataService = $projectDataService;
+        this.$prompter = $prompter;
+        this.$hooksService = $hooksService;
+        this.$commandsService = $commandsService;
+        this.$options = $options;
+        this.$broccoliBuilder = $broccoliBuilder;
+        this.$pluginsService = $pluginsService;
+        this.$projectFilesManager = $projectFilesManager;
+    }
+    PlatformService.prototype.addPlatforms = function (platforms) {
+        var _this = this;
+        return (function () {
+            var platformsDir = _this.$projectData.platformsDir;
+            _this.$fs.ensureDirectoryExists(platformsDir).wait();
+            _.each(platforms, function (platform) {
+                _this.addPlatform(platform.toLowerCase()).wait();
+            });
+        }).future()();
+    };
+    PlatformService.prototype.addPlatform = function (platformParam) {
+        var _this = this;
+        return (function () {
+            var _a = platformParam.split("@"), platform = _a[0], version = _a[1];
+            _this.validatePlatform(platform);
+            var platformPath = path.join(_this.$projectData.platformsDir, platform);
+            if (_this.$fs.exists(platformPath).wait()) {
+                _this.$errors.fail("Platform %s already added", platform);
+            }
+            var platformData = _this.$platformsData.getPlatformData(platform);
+            var platformProjectService = platformData.platformProjectService;
+            platformProjectService.validate().wait();
+            _this.$logger.trace("Creating NativeScript project for the %s platform", platform);
+            _this.$logger.trace("Path: %s", platformData.projectRoot);
+            _this.$logger.trace("Package: %s", _this.$projectData.projectId);
+            _this.$logger.trace("Name: %s", _this.$projectData.projectName);
+            _this.$logger.out("Copying template files...");
+            var packageToInstall = "";
+            var npmOptions = {
+                pathToSave: path.join(_this.$projectData.platformsDir, platform)
+            };
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$options.frameworkPath) {
+<span class="cstat-no" title="statement not covered" >                packageToInstall = _this.$options.frameworkPath;</span>
+            }
+            else {
+                packageToInstall = platformData.frameworkPackageName;
+                npmOptions["version"] = version;
+            }
+            try {
+                var downloadedPackagePath = _this.$npmInstallationManager.install(packageToInstall, npmOptions).wait();
+                var frameworkDir = path.join(downloadedPackagePath, constants.PROJECT_FRAMEWORK_FOLDER_NAME);
+                frameworkDir = path.resolve(frameworkDir);
+                _this.addPlatformCore(platformData, frameworkDir).wait();
+            }
+            catch (err) {
+                _this.$fs.deleteDirectory(platformPath).wait();
+                throw err;
+            }
+            _this.$logger.out("Project successfully created.");
+        }).future()();
+    };
+    PlatformService.prototype.addPlatformCore = function (platformData, frameworkDir) {
+        var _this = this;
+        return (function () {
+            var installedVersion = _this.$fs.readJson(path.join(frameworkDir, "../", "package.json")).wait().version;
+            var isFrameworkPathDirectory = false, isFrameworkPathNotSymlinkedFile = false;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$options.frameworkPath) {
+<span class="cstat-no" title="statement not covered" >                var frameworkPathStats = _this.$fs.getFsStats(_this.$options.frameworkPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                isFrameworkPathDirectory = frameworkPathStats.isDirectory();</span>
+<span class="cstat-no" title="statement not covered" >                isFrameworkPathNotSymlinkedFile = !_this.$options.symlink &amp;&amp; frameworkPathStats.isFile();</span>
+            }
+            var sourceFrameworkDir = isFrameworkPathDirectory &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >_this.$options.symlink </span>? <span class="branch-0 cbranch-no" title="branch not covered" >path.join(_this.$options.frameworkPath, "framework") </span>: frameworkDir;
+            platformData.platformProjectService.createProject(path.resolve(sourceFrameworkDir), installedVersion).wait();
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$options.baseConfig) {
+<span class="cstat-no" title="statement not covered" >                var newConfigFile = path.resolve(_this.$options.baseConfig);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Replacing '" + platformData.configurationFilePath + "' with '" + newConfigFile + "'.");</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.copyFile(newConfigFile, platformData.configurationFilePath).wait();</span>
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (isFrameworkPathDirectory || isFrameworkPathNotSymlinkedFile) {
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(path.join(frameworkDir, "../../")).wait();</span>
+            }
+            platformData.platformProjectService.interpolateData().wait();
+            platformData.platformProjectService.afterCreateProject(platformData.projectRoot).wait();
+            _this.$projectDataService.initialize(_this.$projectData.projectDir);
+            _this.$projectDataService.setValue(platformData.frameworkPackageName, { version: installedVersion }).wait();
+        }).future()();
+    };
+    PlatformService.prototype.getInstalledPlatforms = function () {
+        var _this = this;
+        return (function () {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.$fs.exists(_this.$projectData.platformsDir).wait()) {
+<span class="cstat-no" title="statement not covered" >                return [];</span>
+            }
+            var subDirs = _this.$fs.readDirectory(_this.$projectData.platformsDir).wait();
+<span class="cstat-no" title="statement not covered" >            return _.filter(subDirs, <span class="fstat-no" title="function not covered" >function (p) {</span> <span class="cstat-no" title="statement not covered" >return _this.$platformsData.platformsNames.indexOf(p) &gt; -1; </span>});</span>
+        }).future()();
+    };
+    PlatformService.prototype.getAvailablePlatforms = function () {
+        var _this = this;
+        return (function () {
+            var installedPlatforms = _this.getInstalledPlatforms().wait();
+<span class="cstat-no" title="statement not covered" >            return _.filter(_this.$platformsData.platformsNames, <span class="fstat-no" title="function not covered" >function (p) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return installedPlatforms.indexOf(p) &lt; 0 &amp;&amp; _this.isPlatformSupportedForOS(p);</span>
+            });
+        }).future()();
+    };
+    PlatformService.prototype.getPreparedPlatforms = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _.filter(_this.$platformsData.platformsNames, <span class="fstat-no" title="function not covered" >function (p) {</span> <span class="cstat-no" title="statement not covered" >return _this.isPlatformPrepared(p).wait(); </span>});</span>
+        }).future()();
+    };
+    PlatformService.prototype.preparePlatform = function (platform) {
+        var _this = this;
+        return (function () {
+            _this.validatePlatform(platform);
+            try {
+                _this.$pluginsService.ensureAllDependenciesAreInstalled().wait();
+            }
+            catch (err) {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace(err);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Unable to install dependencies. Make sure your package.json is valid and all dependencies are correct. Error is: " + err.message);</span>
+            }
+            return _this.preparePlatformCore(platform).wait();
+        }).future()();
+    };
+    PlatformService.prototype.checkXmlFiles = function (sourceFiles) {
+        var _this = this;
+        return (function () {
+            var xmlHasErrors = false;
+            var DomParser = require("xmldom").DOMParser;
+            sourceFiles
+                .filter(function (file) { return _.endsWith(file, ".xml"); })
+                .forEach(function (file) {
+                var fileContents = _this.$fs.readText(file).wait();
+                var hasErrors = false;
+                var errorOutput = "";
+                var domErrorHandler = function (level, msg) {
+                    errorOutput += level + os_1.EOL + msg + os_1.EOL;
+                    hasErrors = true;
+                };
+                var parser = new DomParser({
+                    locator: {},
+                    errorHandler: domErrorHandler
+                });
+                parser.parseFromString(fileContents, "text/xml");
+                xmlHasErrors = xmlHasErrors || hasErrors;
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (hasErrors) {
+                    _this.$logger.warn(file + " has syntax errors.");
+                    _this.$logger.out(errorOutput);
+                }
+            });
+            return !xmlHasErrors;
+        }).future()();
+    };
+    PlatformService.prototype.preparePlatformCore = function (platform) {
+        var _this = this;
+        return (function () {
+            platform = platform.toLowerCase();
+            _this.ensurePlatformInstalled(platform).wait();
+            var platformData = _this.$platformsData.getPlatformData(platform);
+            var appDestinationDirectoryPath = path.join(platformData.appDestinationDirectoryPath, constants.APP_FOLDER_NAME);
+            var lastModifiedTime = _this.$fs.exists(appDestinationDirectoryPath).wait() ?
+<span class="branch-0 cbranch-no" title="branch not covered" >                _this.$fs.getFsStats(appDestinationDirectoryPath).wait().mtime </span>: null;
+            _this.$fs.ensureDirectoryExists(appDestinationDirectoryPath).wait();
+            var appSourceDirectoryPath = path.join(_this.$projectData.projectDir, constants.APP_FOLDER_NAME);
+            var contents = _this.$fs.readDirectory(appDestinationDirectoryPath).wait();
+            _(contents)
+                .filter(<span class="fstat-no" title="function not covered" >function (directoryName) {</span> <span class="cstat-no" title="statement not covered" >return directoryName !== constants.TNS_MODULES_FOLDER_NAME; </span>})
+                .each(<span class="fstat-no" title="function not covered" >function (directoryName) {</span> <span class="cstat-no" title="statement not covered" >return _this.$fs.deleteDirectory(path.join(appDestinationDirectoryPath, directoryName)).wait(); </span>})
+                .value();
+            var sourceFiles = _this.$fs.enumerateFilesInDirectorySync(appSourceDirectoryPath, null, { includeEmptyDirectories: true });
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$options.release) {
+<span class="cstat-no" title="statement not covered" >                sourceFiles = sourceFiles.filter(<span class="fstat-no" title="function not covered" >function (source) {</span> <span class="cstat-no" title="statement not covered" >return source !== 'tests'; </span>});</span>
+            }
+            var hasTnsModulesInAppFolder = _this.$fs.exists(path.join(appSourceDirectoryPath, constants.TNS_MODULES_FOLDER_NAME)).wait();
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (hasTnsModulesInAppFolder &amp;&amp; _this.$projectData.dependencies &amp;&amp; _this.$projectData.dependencies[constants.TNS_CORE_MODULES_NAME]) {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.warn("You have tns_modules dir in your app folder and tns-core-modules in your package.json file. Tns_modules dir in your app folder will not be used and you can safely remove it.");</span>
+<span class="cstat-no" title="statement not covered" >                sourceFiles = sourceFiles.filter(<span class="fstat-no" title="function not covered" >function (source) {</span> <span class="cstat-no" title="statement not covered" >return !minimatch(source, "**/" + constants.TNS_MODULES_FOLDER_NAME + "/**", { nocase: true }); </span>});</span>
+            }
+            _this.checkXmlFiles(sourceFiles).wait();
+            PlatformService.EXCLUDE_FILES_PATTERN.forEach(function (pattern) { return sourceFiles = sourceFiles.filter(function (file) { return !minimatch(file, pattern, { nocase: true }); }); });
+            var copyFileFutures = sourceFiles.map(function (source) {
+                var destinationPath = path.join(appDestinationDirectoryPath, path.relative(appSourceDirectoryPath, source));
+                if (_this.$fs.getFsStats(source).wait().isDirectory()) {
+                    return _this.$fs.createDirectory(destinationPath);
+                }
+                return _this.$fs.copyFile(source, destinationPath);
+            });
+            Future.wait(copyFileFutures);
+            _this.$fs.ensureDirectoryExists(platformData.platformProjectService.getAppResourcesDestinationDirectoryPath().wait()).wait();
+            var appResourcesDirectoryPath = path.join(appDestinationDirectoryPath, constants.APP_RESOURCES_FOLDER_NAME);
+            if (_this.$fs.exists(appResourcesDirectoryPath).wait()) {
+                platformData.platformProjectService.prepareAppResources(appResourcesDirectoryPath).wait();
+                shell.cp("-Rf", path.join(appResourcesDirectoryPath, platformData.normalizedPlatformName, "*"), platformData.platformProjectService.getAppResourcesDestinationDirectoryPath().wait());
+                _this.$fs.deleteDirectory(appResourcesDirectoryPath).wait();
+            }
+            platformData.platformProjectService.prepareProject().wait();
+            var appDir = path.join(platformData.appDestinationDirectoryPath, constants.APP_FOLDER_NAME);
+            try {
+                var tnsModulesDestinationPath = path.join(appDir, PlatformService.TNS_MODULES_FOLDER_NAME);
+                _this.$broccoliBuilder.prepareNodeModules(tnsModulesDestinationPath, platform, lastModifiedTime).wait();
+            }
+            catch (error) {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.debug(error);</span>
+<span class="cstat-no" title="statement not covered" >                shell.rm("-rf", appDir);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Processing node_modules failed. " + error);</span>
+            }
+            var directoryPath = path.join(platformData.appDestinationDirectoryPath, constants.APP_FOLDER_NAME);
+            var excludedDirs = [constants.APP_RESOURCES_FOLDER_NAME];
+            _this.$projectFilesManager.processPlatformSpecificFiles(directoryPath, platform, excludedDirs).wait();
+            platformData.platformProjectService.processConfigurationFilesFromAppResources().wait();
+            _this.$logger.out("Project successfully prepared");
+            return true;
+        }).future()();
+    };
+    PlatformService.prototype.buildPlatform = <span class="fstat-no" title="function not covered" >function (platform, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            platform = platform.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.preparePlatform(platform).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Verify that listed files are well-formed and try again the operation.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var platformData = _this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >            platformData.platformProjectService.buildProject(platformData.projectRoot, buildConfig).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.out("Project successfully built");</span>
+        }).future()();
+    };
+    PlatformService.prototype.copyLastOutput = <span class="fstat-no" title="function not covered" >function (platform, targetPath, settings) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var packageFile;</span>
+<span class="cstat-no" title="statement not covered" >            platform = platform.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >            targetPath = path.resolve(targetPath);</span>
+<span class="cstat-no" title="statement not covered" >            var platformData = _this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >            if (settings.isForDevice) {</span>
+<span class="cstat-no" title="statement not covered" >                packageFile = _this.getLatestApplicationPackageForDevice(platformData).wait().packageName;</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                packageFile = _this.getLatestApplicationPackageForEmulator(platformData).wait().packageName;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (!packageFile || !_this.$fs.exists(packageFile).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Unable to find built application. Try 'tns build %s'.", platform);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(path.dirname(targetPath)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(targetPath).wait() &amp;&amp; _this.$fs.getFsStats(targetPath).wait().isDirectory()) {</span>
+<span class="cstat-no" title="statement not covered" >                var sourceFileName = path.basename(packageFile);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Specified target path: '" + targetPath + "' is directory. Same filename will be used: '" + sourceFileName + "'.");</span>
+<span class="cstat-no" title="statement not covered" >                targetPath = path.join(targetPath, sourceFileName);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$fs.copyFile(packageFile, targetPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.info("Copied file '" + packageFile + "' to '" + targetPath + "'.");</span>
+        }).future()();
+    };
+    PlatformService.prototype.runPlatform = <span class="fstat-no" title="function not covered" >function (platform, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            platform = platform.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.emulator) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.deployOnEmulator(platform, buildConfig).wait();</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.deployOnDevice(platform, buildConfig).wait();</span>
+            }
+        }).future()();
+    };
+    PlatformService.prototype.removePlatforms = function (platforms) {
+        var _this = this;
+        return (function () {
+            _this.$projectDataService.initialize(_this.$projectData.projectDir);
+            _.each(platforms, function (platform) {
+                _this.validatePlatformInstalled(platform);
+                var platformData = _this.$platformsData.getPlatformData(platform);
+                var platformDir = path.join(_this.$projectData.platformsDir, platform);
+                _this.$fs.deleteDirectory(platformDir).wait();
+                _this.$projectDataService.removeProperty(platformData.frameworkPackageName).wait();
+                _this.$logger.out("Platform " + platform + " successfully removed.");
+            });
+        }).future()();
+    };
+    PlatformService.prototype.updatePlatforms = function (platforms) {
+        var _this = this;
+        return (function () {
+            _.each(platforms, function (platformParam) {
+                var _a = platformParam.split("@"), platform = _a[0], version = _a[1];
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.isPlatformInstalled(platform).wait()) {
+                    _this.updatePlatform(platform, version).wait();
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    _this.addPlatform(platformParam).wait();</span>
+                }
+            });
+        }).future()();
+    };
+    PlatformService.prototype.installOnDevice = <span class="fstat-no" title="function not covered" >function (platform, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            platform = platform.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >            _this.ensurePlatformInstalled(platform).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var platformData = _this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$devicesService.initialize({ platform: platform, deviceId: _this.$options.device }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$devicesService.deviceCount &lt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Cannot find connected devices. Reconnect any connected devices, verify that your system recognizes them, and run this command again.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var cachedDeviceOption = _this.$options.forDevice;</span>
+<span class="cstat-no" title="statement not covered" >            _this.$options.forDevice = true;</span>
+<span class="cstat-no" title="statement not covered" >            _this.buildPlatform(platform, buildConfig).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$options.forDevice = !!cachedDeviceOption;</span>
+<span class="cstat-no" title="statement not covered" >            var packageFile = _this.getLatestApplicationPackageForDevice(platformData).wait().packageName;</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.out("Using ", packageFile);</span>
+<span class="cstat-no" title="statement not covered" >            var action = <span class="fstat-no" title="function not covered" >function (device) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >                    platformData.platformProjectService.deploy(device.deviceInfo.identifier).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    device.deploy(packageFile, _this.$projectData.projectId).wait();</span>
+                }).future()();
+            };
+<span class="cstat-no" title="statement not covered" >            _this.$devicesService.execute(action).wait();</span>
+        }).future()();
+    };
+    PlatformService.prototype.deployOnDevice = <span class="fstat-no" title="function not covered" >function (platform, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.installOnDevice(platform, buildConfig).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var action = <span class="fstat-no" title="function not covered" >function (device) {</span> <span class="cstat-no" title="statement not covered" >return device.applicationManager.startApplication(_this.$projectData.projectId); </span>};</span>
+<span class="cstat-no" title="statement not covered" >            _this.$devicesService.execute(action).wait();</span>
+        }).future()();
+    };
+    PlatformService.prototype.deployOnEmulator = <span class="fstat-no" title="function not covered" >function (platform, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var packageFile, logFilePath;</span>
+<span class="cstat-no" title="statement not covered" >            _this.ensurePlatformInstalled(platform).wait();</span>
+<span class="cstat-no" title="statement not covered" >            platform = platform.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >            var platformData = _this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >            var emulatorServices = platformData.emulatorServices;</span>
+<span class="cstat-no" title="statement not covered" >            emulatorServices.checkAvailability().wait();</span>
+<span class="cstat-no" title="statement not covered" >            emulatorServices.checkDependencies().wait();</span>
+<span class="cstat-no" title="statement not covered" >            var emulatorId = emulatorServices.getEmulatorId().wait();</span>
+<span class="cstat-no" title="statement not covered" >            platformData.platformProjectService.deploy(emulatorId).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$options.availableDevices) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.buildPlatform(platform, buildConfig).wait();</span>
+<span class="cstat-no" title="statement not covered" >                packageFile = _this.getLatestApplicationPackageForEmulator(platformData).wait().packageName;</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.out("Using ", packageFile);</span>
+<span class="cstat-no" title="statement not covered" >                logFilePath = path.join(platformData.projectRoot, _this.$projectData.projectName, "emulator.log");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            emulatorServices.startEmulator(packageFile, { stderrFilePath: logFilePath, stdoutFilePath: logFilePath, appId: _this.$projectData.projectId }).wait();</span>
+        }).future()();
+    };
+    PlatformService.prototype.validatePlatform = function (platform) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!platform) {
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("No platform specified.");</span>
+        }
+        platform = platform.split("@")[0].toLowerCase();
+        if (!this.isValidPlatform(platform)) {
+            this.$errors.fail("Invalid platform %s. Valid platforms are %s.", platform, helpers.formatListOfNames(this.$platformsData.platformsNames));
+        }
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.isPlatformSupportedForOS(platform)) {
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("Applications for platform %s can not be built on this OS - %s", platform, process.platform);</span>
+        }
+    };
+    PlatformService.prototype.validatePlatformInstalled = function (platform) {
+        this.validatePlatform(platform);
+        if (!this.isPlatformInstalled(platform).wait()) {
+            this.$errors.fail("The platform %s is not added to this project. Please use 'tns platform add &lt;platform&gt;'", platform);
+        }
+    };
+    PlatformService.prototype.addLibrary = <span class="fstat-no" title="function not covered" >function (platform, libraryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$fs.exists(libraryPath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The path %s does not exist", libraryPath);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                var platformData = _this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >                platformData.platformProjectService.addLibrary(libraryPath).wait();</span>
+            }
+        }).future()();
+    };
+    PlatformService.prototype.ensurePlatformInstalled = function (platform) {
+        var _this = this;
+        return (function () {
+            if (!_this.isPlatformInstalled(platform).wait()) {
+                _this.addPlatform(platform).wait();
+            }
+        }).future()();
+    };
+    PlatformService.prototype.isPlatformInstalled = function (platform) {
+        return this.$fs.exists(path.join(this.$projectData.platformsDir, platform.toLowerCase()));
+    };
+    PlatformService.prototype.isValidPlatform = function (platform) {
+        return this.$platformsData.getPlatformData(platform);
+    };
+    PlatformService.prototype.isPlatformSupportedForOS = function (platform) {
+        var targetedOS = this.$platformsData.getPlatformData(platform).targetedOS;
+        var res = !targetedOS || <span class="branch-1 cbranch-no" title="branch not covered" >targetedOS.indexOf("*") &gt;= 0 </span>|| <span class="branch-2 cbranch-no" title="branch not covered" >targetedOS.indexOf(process.platform) &gt;= 0;</span>
+        return res;
+    };
+    PlatformService.prototype.isPlatformPrepared = <span class="fstat-no" title="function not covered" >function (platform) {</span>
+<span class="cstat-no" title="statement not covered" >        var platformData = this.$platformsData.getPlatformData(platform);</span>
+<span class="cstat-no" title="statement not covered" >        return platformData.platformProjectService.isPlatformPrepared(platformData.projectRoot);</span>
+    };
+    PlatformService.prototype.getApplicationPackages = <span class="fstat-no" title="function not covered" >function (buildOutputPath, validPackageNames) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var candidates = _this.$fs.readDirectory(buildOutputPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var packages = _.filter(candidates, <span class="fstat-no" title="function not covered" >function (candidate) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return _.contains(validPackageNames, candidate);</span>
+            }).map(<span class="fstat-no" title="function not covered" >function (currentPackage) {</span>
+<span class="cstat-no" title="statement not covered" >                currentPackage = path.join(buildOutputPath, currentPackage);</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    packageName: currentPackage,
+                    time: _this.$fs.getFsStats(currentPackage).wait().mtime
+                };
+            });
+<span class="cstat-no" title="statement not covered" >            return packages;</span>
+        }).future()();
+    };
+    PlatformService.prototype.getLatestApplicationPackage = <span class="fstat-no" title="function not covered" >function (buildOutputPath, validPackageNames) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var packages = _this.getApplicationPackages(buildOutputPath, validPackageNames).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (packages.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >                var packageExtName = path.extname(validPackageNames[0]);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("No %s found in %s directory", packageExtName, buildOutputPath);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            packages = _.sortBy(packages, <span class="fstat-no" title="function not covered" >function (pkg) {</span> <span class="cstat-no" title="statement not covered" >return pkg.time; </span>}).reverse();</span>
+<span class="cstat-no" title="statement not covered" >            return packages[0];</span>
+        }).future()();
+    };
+    PlatformService.prototype.getLatestApplicationPackageForDevice = <span class="fstat-no" title="function not covered" >function (platformData) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.getLatestApplicationPackage(platformData.deviceBuildOutputPath, platformData.validPackageNamesForDevice);</span>
+    };
+    PlatformService.prototype.getLatestApplicationPackageForEmulator = <span class="fstat-no" title="function not covered" >function (platformData) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.getLatestApplicationPackage(platformData.emulatorBuildOutputPath || platformData.deviceBuildOutputPath, platformData.validPackageNamesForEmulator || platformData.validPackageNamesForDevice);</span>
+    };
+    PlatformService.prototype.updatePlatform = function (platform, version) {
+        var _this = this;
+        return (function () {
+            var platformData = _this.$platformsData.getPlatformData(platform);
+            _this.$projectDataService.initialize(_this.$projectData.projectDir);
+            var data = _this.$projectDataService.getValue(platformData.frameworkPackageName).wait();
+            var currentVersion = data &amp;&amp; data.version ? <span class="branch-0 cbranch-no" title="branch not covered" >data.version </span>: "0.2.0";
+            var newVersion = version || _this.$npmInstallationManager.getLatestVersion(platformData.frameworkPackageName).wait();
+            _this.ensurePackageIsCached(platformData.frameworkPackageName, newVersion).wait();
+<span class="cstat-no" title="statement not covered" >            var canUpdate = platformData.platformProjectService.canUpdatePlatform(currentVersion, newVersion).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (canUpdate) {</span>
+<span class="cstat-no" title="statement not covered" >                if (!semver.valid(newVersion)) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.fail("The version %s is not valid. The version should consists from 3 parts separated by dot.", newVersion);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (semver.gt(currentVersion, newVersion)) {</span>
+<span class="cstat-no" title="statement not covered" >                    var isUpdateConfirmed = _this.$prompter.confirm("You are going to downgrade to runtime v." + newVersion + ". Are you sure?", <span class="fstat-no" title="function not covered" >function () {</span> <span class="cstat-no" title="statement not covered" >return false; </span>}).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    if (isUpdateConfirmed) {</span>
+<span class="cstat-no" title="statement not covered" >                        _this.updatePlatformCore(platformData, currentVersion, newVersion, canUpdate).wait();</span>
+                    }
+                }
+                else <span class="cstat-no" title="statement not covered" >if (semver.eq(currentVersion, newVersion)) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.fail("Current and new version are the same.");</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    _this.updatePlatformCore(platformData, currentVersion, newVersion, canUpdate).wait();</span>
+                }
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.updatePlatformCore(platformData, currentVersion, newVersion, canUpdate).wait();</span>
+            }
+        }).future()();
+    };
+    PlatformService.prototype.updatePlatformCore = <span class="fstat-no" title="function not covered" >function (platformData, currentVersion, newVersion, canUpdate) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var update = platformData.platformProjectService.updatePlatform(currentVersion, newVersion, canUpdate, _this.addPlatform.bind(_this), _this.removePlatforms.bind(_this)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (update) {</span>
+<span class="cstat-no" title="statement not covered" >                var oldFrameworkData = _this.getFrameworkFiles(platformData, currentVersion).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _.each(oldFrameworkData.frameworkFiles, <span class="fstat-no" title="function not covered" >function (file) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var fileToDelete = path.join(platformData.projectRoot, file);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.trace("Deleting %s", fileToDelete);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.deleteFile(fileToDelete).wait();</span>
+                });
+<span class="cstat-no" title="statement not covered" >                _.each(oldFrameworkData.frameworkDirectories, <span class="fstat-no" title="function not covered" >function (dir) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var dirToDelete = path.join(platformData.projectRoot, dir);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.trace("Deleting %s", dirToDelete);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.deleteDirectory(dirToDelete).wait();</span>
+                });
+<span class="cstat-no" title="statement not covered" >                var newFrameworkData = _this.getFrameworkFiles(platformData, newVersion).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var cacheDirectoryPath = _this.$npmInstallationManager.getCachedPackagePath(platformData.frameworkPackageName, newVersion);</span>
+<span class="cstat-no" title="statement not covered" >                _.each(newFrameworkData.frameworkFiles, <span class="fstat-no" title="function not covered" >function (file) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var sourceFile = path.join(cacheDirectoryPath, constants.PROJECT_FRAMEWORK_FOLDER_NAME, file);</span>
+<span class="cstat-no" title="statement not covered" >                    var destinationFile = path.join(platformData.projectRoot, file);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.trace("Replacing %s with %s", sourceFile, destinationFile);</span>
+<span class="cstat-no" title="statement not covered" >                    shell.cp("-f", sourceFile, destinationFile);</span>
+                });
+<span class="cstat-no" title="statement not covered" >                _.each(newFrameworkData.frameworkDirectories, <span class="fstat-no" title="function not covered" >function (dir) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var sourceDirectory = path.join(cacheDirectoryPath, constants.PROJECT_FRAMEWORK_FOLDER_NAME, dir);</span>
+<span class="cstat-no" title="statement not covered" >                    var destinationDirectory = path.join(platformData.projectRoot, dir);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.trace("Copying %s to %s", sourceDirectory, destinationDirectory);</span>
+<span class="cstat-no" title="statement not covered" >                    shell.cp("-fR", path.join(sourceDirectory, "*"), destinationDirectory);</span>
+                });
+<span class="cstat-no" title="statement not covered" >                _this.$projectDataService.initialize(_this.$projectData.projectDir);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$projectDataService.setValue(platformData.frameworkPackageName, { version: newVersion }).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.out("Successfully updated to version ", newVersion);</span>
+            }
+        }).future()();
+    };
+    PlatformService.prototype.getFrameworkFiles = <span class="fstat-no" title="function not covered" >function (platformData, version) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var cachedPackagePath = _this.$npmInstallationManager.getCachedPackagePath(platformData.frameworkPackageName, version);</span>
+<span class="cstat-no" title="statement not covered" >            var allFiles = _this.$fs.enumerateFilesInDirectorySync(cachedPackagePath);</span>
+<span class="cstat-no" title="statement not covered" >            var filteredFiles = _.filter(allFiles, <span class="fstat-no" title="function not covered" >function (file) {</span> <span class="cstat-no" title="statement not covered" >return _.contains(platformData.frameworkFilesExtensions, path.extname(file)); </span>});</span>
+<span class="cstat-no" title="statement not covered" >            var allFrameworkDirectories = _.map(_this.$fs.readDirectory(path.join(cachedPackagePath, constants.PROJECT_FRAMEWORK_FOLDER_NAME)).wait(), <span class="fstat-no" title="function not covered" >function (dir) {</span> <span class="cstat-no" title="statement not covered" >return path.join(cachedPackagePath, constants.PROJECT_FRAMEWORK_FOLDER_NAME, dir); </span>});</span>
+<span class="cstat-no" title="statement not covered" >            var filteredFrameworkDirectories = _.filter(allFrameworkDirectories, <span class="fstat-no" title="function not covered" >function (dir) {</span> <span class="cstat-no" title="statement not covered" >return _this.$fs.getFsStats(dir).wait().isDirectory() &amp;&amp; (_.contains(platformData.frameworkFilesExtensions, path.extname(dir)) || _.contains(platformData.frameworkDirectoriesNames, path.basename(dir))); </span>});</span>
+<span class="cstat-no" title="statement not covered" >            return {</span>
+                frameworkFiles: _this.mapFrameworkFiles(cachedPackagePath, filteredFiles),
+                frameworkDirectories: _this.mapFrameworkFiles(cachedPackagePath, filteredFrameworkDirectories)
+            };
+        }).future()();
+    };
+    PlatformService.prototype.ensurePackageIsCached = function (packageName, version) {
+        var _this = this;
+        return (function () {
+            _this.$npmInstallationManager.addToCache(packageName, version).wait();
+<span class="cstat-no" title="statement not covered" >            var cachedPackagePath = _this.$npmInstallationManager.getCachedPackagePath(packageName, version);</span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$fs.exists(path.join(cachedPackagePath, constants.PROJECT_FRAMEWORK_FOLDER_NAME)).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$npmInstallationManager.addCleanCopyToCache(packageName, version).wait();</span>
+            }
+        }).future()();
+    };
+    PlatformService.prototype.mapFrameworkFiles = <span class="fstat-no" title="function not covered" >function (npmCacheDirectoryPath, files) {</span>
+<span class="cstat-no" title="statement not covered" >        return _.map(files, <span class="fstat-no" title="function not covered" >function (file) {</span> <span class="cstat-no" title="statement not covered" >return file.substr(npmCacheDirectoryPath.length + constants.PROJECT_FRAMEWORK_FOLDER_NAME.length + 1); </span>});</span>
+    };
+    PlatformService.TNS_MODULES_FOLDER_NAME = "tns_modules";
+    PlatformService.EXCLUDE_FILES_PATTERN = [
+        "**/*.js.map",
+        "**/*.ts"
+    ];
+    Object.defineProperty(PlatformService.prototype, "preparePlatformCore",
+        __decorate([
+            helpers.hook('prepare')
+        ], PlatformService.prototype, "preparePlatformCore", Object.getOwnPropertyDescriptor(PlatformService.prototype, "preparePlatformCore")));
+    return PlatformService;
+})();
+exports.PlatformService = PlatformService;
+$injector.register("platformService", PlatformService);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

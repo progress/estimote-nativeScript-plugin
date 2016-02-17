@@ -1,0 +1,4 @@
+#!/bin/sh
+
+SIM_DIR="`dirname \"$0\"`"
+node "$SIM_DIR/ios-sim-portable.js" $@

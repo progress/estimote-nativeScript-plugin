@@ -1,0 +1,82 @@
+{
+  "_args": [
+    [
+      "plistlib@0.2.1",
+      "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript"
+    ]
+  ],
+  "_from": "plistlib@0.2.1",
+  "_id": "plistlib@0.2.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/plistlib",
+  "_npmUser": {
+    "email": "dallin@dallinlauritzen.com",
+    "name": "dlauritzen"
+  },
+  "_npmVersion": "1.3.14",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "plistlib",
+    "raw": "plistlib@0.2.1",
+    "rawSpec": "0.2.1",
+    "scope": null,
+    "spec": "0.2.1",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/nativescript"
+  ],
+  "_resolved": "https://registry.npmjs.org/plistlib/-/plistlib-0.2.1.tgz",
+  "_shasum": "46e92cb0498a0a3aed3bee5b5c4d8829054da86c",
+  "_shrinkwrap": null,
+  "_spec": "plistlib@0.2.1",
+  "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript",
+  "author": {
+    "email": "dallin@dallinlauritzen.com",
+    "name": "Dallin Lauritzen"
+  },
+  "bugs": {
+    "url": "https://github.com/dlauritzen/plistlib/issues"
+  },
+  "dependencies": {
+    "async": "~0.2.9",
+    "moment": "~2.4.0",
+    "node-xml": "~1.0.2",
+    "underscore": "~1.5.2",
+    "xml": "~0.0.10"
+  },
+  "description": "Plist parser and writer.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "46e92cb0498a0a3aed3bee5b5c4d8829054da86c",
+    "tarball": "http://registry.npmjs.org/plistlib/-/plistlib-0.2.1.tgz"
+  },
+  "homepage": "https://github.com/dlauritzen/plistlib",
+  "keywords": [
+    "apple",
+    "ios",
+    "mac",
+    "parser",
+    "plist",
+    "writer",
+    "xml"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "dlauritzen",
+      "email": "dallin@dallinlauritzen.com"
+    }
+  ],
+  "name": "plistlib",
+  "optionalDependencies": {},
+  "readme": "\n# plistlib\n\nNode.js plist parser and writer. By Dallin Lauritzen.\n\n## Install\n\nInstall using NPM\n\n`npm install plistlib`\n\n## Parsed Objects\n\nThe object structure returned from the `load` methods and expected as the parameter\nfor `save` and `toString` is a tree structure made of \"type\"/\"value\" dictionary pairs.\n\nAll the supported plist value types are detailed below.\n\n### String\n\n``` xml\n<string>Hello</string>\n```\n\nbecomes\n\n``` javascript\n{ type: 'string', value: 'Hello' }\n```\n\n### Integer\n\n``` xml\n<integer>123</integer>\n```\n\nbecomes\n\n``` javascript\n{ type: 'integer', value: 123 }\n```\n\n### Array\n\n``` xml\n<array>\n\t<string>Cat</string>\n</array>\n```\n\nbecomes\n\n``` javascript\n{\n\ttype: 'array',\n\tvalue: [\n\t\t{ type: 'string', value: 'Cat' }\n\t]\n}\n```\n\n### Dict\n\n``` xml\n<dict>\n\t<key>A</key>\n\t<string>B</string>\n</dict>\n```\n\nbecomes\n\n``` javascript\n{\n\ttype: 'dict',\n\tvalue: {\n\t\tA: { type: 'string', value: 'B' }\n\t}\n}\n```\n\n### Nesting\n\nTypes can nest, so here's a fancier example.\n\n``` xml\n<dict>\n\t<key>Array Of Dicts</key>\n\t<array>\n\t\t<dict>\n\t\t\t<key>A</key>\n\t\t\t<string>B</string>\n\t\t\t<key>C</key>\n\t\t\t<integer>4</integer>\n\t\t</dict>\n\t</array>\n</dict>\n```\n\nbecomes\n\n``` javascript\n{\n\ttype: 'dict',\n\tvalue: {\n\t\t\"Array Of Dicts\": {\n\t\t\ttype: 'array',\n\t\t\tvalue: [\n\t\t\t\t{\n\t\t\t\t\ttype: 'dict',\n\t\t\t\t\tvalue: {\n\t\t\t\t\t\tA: { type: 'string', value: 'B' },\n\t\t\t\t\t\tC: { type: 'integer', value: 4 }\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}\n```\n\n### Data\n\nPlistlib supports base64-encoded data within `data` tags. The data will be parsed\nas a Buffer. When saving, the buffer will be re-encoded into base64 with a line-length\nof 60 characters and indented to be level with it's tags.\n\n``` xml\n<array>\n\t<data>\n\tR0lGODlhDwAPAPcAAAAAAP6dAP6eAP6hAP6hAf6iAf6jAf6iAv6jAv6kAf6n\n\tAf6mAv6rA/+qA/+rAv+uA/+tBP+uBP6xBP+xBP+zBP+zBf60BP63Bf+3Bf67\n\tBv68Bv69Bv69B/+8Bv7ECP/ECP/FCP7ICf7JCf/ICf7LCf/KCP/KCf7MCf/M\n\tCf7RCv7SCv7SC//SCv/SC/7YC/7ZDP/YDP/ZDP7bDf/bDP7dDf/dDP/dDf/l\n\tDv/mDv/mD//pD//wEP/wEf/1Ef/1Ev///wAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\tAAAAAAAAAAAAAAAAAP///yH5BAEAAP8ALAAAAAAPAA8AAAitAP8JFAigYMGB\n\tCP8VJCHiw4YKBxECUBFjxosVIzZMWABgIAAWNnTowFGjBYgLDAh0VOhCB48e\n\tO3DAMJEBAoKOAFDI0FHQh44ZBSMgCFDQxIscBXngcBH0AFEAIFLQuDGShooP\n\tGBwQeNohBIsYMmCwyIhhgYCnFjR4AHCixAcOFABsJapQwoUOBgsaCEBXoYIG\n\tDwI/IDC3r0ICBRIYGHCW70qPAPhKjphQYd6EAQEAOw==\n\t</data>\n</array>\n```\n\nbecomes\n\n``` javascript\n{\n\ttype: 'array',\n\tvalue: [\n\t\t{ type: 'data', value: <Buffer 47 49 46 38 39 61 0f 00 0f 00 ...> }\n\t]\n}\n```\n\n## API\n\n``` javascript\nvar plistlib = require('plistlib');\n\n// Load or save a file\nplistlib.load('in.plist', function(err, plist) {\n\t// plist is a JavaScript object.\n\n\tplistlib.save('out.plist', plist, function(err) {\n\t\t// The plist is now saved to out.plist\n\t});\n});\n\n// You can also parse in-memory buffers and strings\nplistlib.loadString(s, function(err, plist) { /* ... */ });\nplistlib.loadBuffer(b, function(err, plist) { /* ... */ });\n\n// Output to a string instead of a file. This method is synchronous\nvar content = plistlib.toString(plist);\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlauritzen/plistlib.git"
+  },
+  "version": "0.2.1"
+}

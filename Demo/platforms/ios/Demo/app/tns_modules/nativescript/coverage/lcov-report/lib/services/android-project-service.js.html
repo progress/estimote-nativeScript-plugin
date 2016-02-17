@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/services/android-project-service.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/services/android-project-service.js</span></h1>
+    <h2>
+        Statements: <span class="metric">27.53% <small>(79 / 287)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">10.11% <small>(9 / 89)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">9.23% <small>(6 / 65)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">27.4% <small>(77 / 281)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/services/</a> &#187; android-project-service.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../.d.ts"/&gt;
+"use strict";
+var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+    for (var p in b) <span class="missing-if-branch" title="if path not taken" >I</span>if (b.hasOwnProperty(p)) <span class="cstat-no" title="statement not covered" >d[p] = b[p];</span>
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.create(b) </span>: (__.prototype = b.prototype, new __());
+};
+var path = require("path");
+var shell = require("shelljs");
+var Future = require("fibers/future");
+var constants = require("../constants");
+var semver = require("semver");
+var projectServiceBaseLib = require("./platform-project-service-base");
+var androidDebugBridgePath = require("../common/mobile/android/android-debug-bridge");
+var AndroidProjectService = (function (_super) {
+    __extends(AndroidProjectService, _super);
+    function AndroidProjectService($androidEmulatorServices, $androidToolsInfo, $childProcess, $errors, $fs, $hostInfo, $logger, $options, $projectData, $projectDataService, $sysInfo, $mobileHelper, $injector) {
+        _super.call(this, $fs, $projectData, $projectDataService);
+        this.$androidEmulatorServices = $androidEmulatorServices;
+        this.$androidToolsInfo = $androidToolsInfo;
+        this.$childProcess = $childProcess;
+        this.$errors = $errors;
+        this.$hostInfo = $hostInfo;
+        this.$logger = $logger;
+        this.$options = $options;
+        this.$sysInfo = $sysInfo;
+        this.$mobileHelper = $mobileHelper;
+        this.$injector = $injector;
+        this._platformData = null;
+        this._androidProjectPropertiesManagers = Object.create(null);
+    }
+    Object.defineProperty(AndroidProjectService.prototype, "platformData", {
+        get: function () {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!this._platformData) {
+                var projectRoot = path.join(this.$projectData.platformsDir, "android");
+                var packageName = this.getProjectNameFromId();
+                this._platformData = {
+                    frameworkPackageName: "tns-android",
+                    normalizedPlatformName: "Android",
+                    appDestinationDirectoryPath: path.join(projectRoot, "src", "main", "assets"),
+                    platformProjectService: this,
+                    emulatorServices: this.$androidEmulatorServices,
+                    projectRoot: projectRoot,
+                    deviceBuildOutputPath: path.join(projectRoot, "build", "outputs", "apk"),
+                    validPackageNamesForDevice: [
+                        (packageName + "-debug.apk"),
+                        (packageName + "-release.apk"),
+                        (this.$projectData.projectName + "-debug.apk"),
+                        (this.$projectData.projectName + "-release.apk")
+                    ],
+                    frameworkFilesExtensions: [".jar", ".dat", ".so"],
+                    configurationFileName: "AndroidManifest.xml",
+                    configurationFilePath: path.join(projectRoot, "src", "main", "AndroidManifest.xml"),
+                    relativeToFrameworkConfigurationFilePath: path.join("src", "main", "AndroidManifest.xml"),
+                    mergeXmlConfig: [{ "nodename": "manifest", "attrname": "*" }, { "nodename": "application", "attrname": "*" }]
+                };
+            }
+            return this._platformData;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AndroidProjectService.prototype.getAppResourcesDestinationDirectoryPath = <span class="fstat-no" title="function not covered" >function (frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.canUseGradle(frameworkVersion).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                return path.join(_this.platformData.projectRoot, "src", "main", "res");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return path.join(_this.platformData.projectRoot, "res");</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.validate = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.validatePackageName(_this.$projectData.projectId);</span>
+<span class="cstat-no" title="statement not covered" >            _this.validateProjectName(_this.$projectData.projectName);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$androidToolsInfo.getPathToAndroidExecutable({ showWarningsAsErrors: true }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$androidToolsInfo.validateJavacVersion(_this.$sysInfo.getSysInfo(path.join(__dirname, "..", "..", "package.json")).wait().javacVersion, { showWarningsAsErrors: true }).wait();</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.createProject = <span class="fstat-no" title="function not covered" >function (frameworkDir, frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (semver.lt(frameworkVersion, AndroidProjectService.MIN_RUNTIME_VERSION_WITH_GRADLE)) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The NativeScript CLI requires Android runtime " + AndroidProjectService.MIN_RUNTIME_VERSION_WITH_GRADLE + " or later to work properly.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(_this.platformData.projectRoot).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$androidToolsInfo.validateInfo({ showWarningsAsErrors: true, validateTargetSdk: true }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var androidToolsInfo = _this.$androidToolsInfo.getToolsInfo().wait();</span>
+<span class="cstat-no" title="statement not covered" >            var targetSdkVersion = androidToolsInfo.targetSdkVersion;</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.trace("Using Android SDK '" + targetSdkVersion + "'.");</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.symlink) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.symlinkDirectory("build-tools", _this.platformData.projectRoot, frameworkDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.symlinkDirectory("libs", _this.platformData.projectRoot, frameworkDir).wait();</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.copy(_this.platformData.projectRoot, frameworkDir, "build-tools libs", "-R");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.copy(_this.platformData.projectRoot, frameworkDir, "src", "-R");</span>
+<span class="cstat-no" title="statement not covered" >            _this.copy(_this.platformData.projectRoot, frameworkDir, "build.gradle settings.gradle gradle.properties", "-f");</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.useGradleWrapper(frameworkDir)) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.copy(_this.platformData.projectRoot, frameworkDir, "gradle", "-R");</span>
+<span class="cstat-no" title="statement not covered" >                _this.copy(_this.platformData.projectRoot, frameworkDir, "gradlew gradlew.bat", "-f");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.cleanResValues(targetSdkVersion, frameworkVersion).wait();</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.useGradleWrapper = <span class="fstat-no" title="function not covered" >function (frameworkDir) {</span>
+<span class="cstat-no" title="statement not covered" >        var gradlew = path.join(frameworkDir, "gradlew");</span>
+<span class="cstat-no" title="statement not covered" >        return this.$fs.exists(gradlew).wait();</span>
+    };
+    AndroidProjectService.prototype.cleanResValues = <span class="fstat-no" title="function not covered" >function (targetSdkVersion, frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var resDestinationDir = _this.getAppResourcesDestinationDirectoryPath(frameworkVersion).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var directoriesInResFolder = _this.$fs.readDirectory(resDestinationDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var directoriesToClean = directoriesInResFolder</span>
+                .map(<span class="fstat-no" title="function not covered" >function (dir) {</span>
+<span class="cstat-no" title="statement not covered" >                return {</span>
+                    dirName: dir,
+                    sdkNum: parseInt(dir.substr(AndroidProjectService.VALUES_VERSION_DIRNAME_PREFIX.length))
+                };
+            })
+                .filter(<span class="fstat-no" title="function not covered" >function (dir) {</span> <span class="cstat-no" title="statement not covered" >return dir.dirName.match(AndroidProjectService.VALUES_VERSION_DIRNAME_PREFIX)</span>
+                &amp;&amp; dir.sdkNum
+                &amp;&amp; (!targetSdkVersion || (targetSdkVersion &lt; dir.sdkNum)); })
+                .map(<span class="fstat-no" title="function not covered" >function (dir) {</span> <span class="cstat-no" title="statement not covered" >return path.join(resDestinationDir, dir.dirName); </span>});
+<span class="cstat-no" title="statement not covered" >            _this.$logger.trace("Directories to clean:");</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.trace(directoriesToClean);</span>
+<span class="cstat-no" title="statement not covered" >            Future.wait(_.map(directoriesToClean, <span class="fstat-no" title="function not covered" >function (dir) {</span> <span class="cstat-no" title="statement not covered" >return _this.$fs.deleteDirectory(dir); </span>}));</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.interpolateData = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.interpolateConfigurationFile().wait();</span>
+<span class="cstat-no" title="statement not covered" >            var stringsFilePath = path.join(_this.getAppResourcesDestinationDirectoryPath().wait(), 'values', 'strings.xml');</span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', /__NAME__/, _this.$projectData.projectName, stringsFilePath);</span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', /__TITLE_ACTIVITY__/, _this.$projectData.projectName, stringsFilePath);</span>
+<span class="cstat-no" title="statement not covered" >            var gradleSettingsFilePath = path.join(_this.platformData.projectRoot, "settings.gradle");</span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', /__PROJECT_NAME__/, _this.getProjectNameFromId(), gradleSettingsFilePath);</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.interpolateConfigurationFile = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var manifestPath = _this.platformData.configurationFilePath;</span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', /__PACKAGE__/, _this.$projectData.projectId, manifestPath);</span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', /__APILEVEL__/, _this.$options.sdk || _this.$androidToolsInfo.getToolsInfo().wait().compileSdkVersion.toString(), manifestPath);</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.getProjectNameFromId = function () {
+        var id;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this.$projectData &amp;&amp; this.$projectData.projectId) {
+            id = this.$projectData.projectId.split(".")[2];
+        }
+        return id;
+    };
+    AndroidProjectService.prototype.afterCreateProject = <span class="fstat-no" title="function not covered" >function (projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult();</span>
+    };
+    AndroidProjectService.prototype.canUpdatePlatform = <span class="fstat-no" title="function not covered" >function (currentVersion, newVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult(true);</span>
+    };
+    AndroidProjectService.prototype.updatePlatform = <span class="fstat-no" title="function not covered" >function (currentVersion, newVersion, canUpdate, addPlatform, removePlatforms) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (semver.eq(newVersion, AndroidProjectService.MIN_RUNTIME_VERSION_WITH_GRADLE)) {</span>
+<span class="cstat-no" title="statement not covered" >                var platformLowercase = _this.platformData.normalizedPlatformName.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >                removePlatforms([platformLowercase.split("@")[0]]).wait();</span>
+<span class="cstat-no" title="statement not covered" >                addPlatform(platformLowercase).wait();</span>
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.buildProject = <span class="fstat-no" title="function not covered" >function (projectRoot, buildConfig) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.canUseGradle().wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$androidToolsInfo.validateInfo({ showWarningsAsErrors: true, validateTargetSdk: true }).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var androidToolsInfo = _this.$androidToolsInfo.getToolsInfo().wait();</span>
+<span class="cstat-no" title="statement not covered" >                var compileSdk = androidToolsInfo.compileSdkVersion;</span>
+<span class="cstat-no" title="statement not covered" >                var targetSdk = _this.getTargetFromAndroidManifest().wait() || compileSdk;</span>
+<span class="cstat-no" title="statement not covered" >                var buildToolsVersion = androidToolsInfo.buildToolsVersion;</span>
+<span class="cstat-no" title="statement not covered" >                var appCompatVersion = androidToolsInfo.supportRepositoryVersion;</span>
+<span class="cstat-no" title="statement not covered" >                var buildOptions = ["buildapk",</span>
+                    ("-PcompileSdk=android-" + compileSdk),
+                    ("-PtargetSdk=" + targetSdk),
+                    ("-PbuildToolsVersion=" + buildToolsVersion),
+                    ("-PsupportVersion=" + appCompatVersion),
+                ];
+<span class="cstat-no" title="statement not covered" >                if (_this.$options.release) {</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-Prelease");</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-PksPath=" + path.resolve(_this.$options.keyStorePath));</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-Palias=" + _this.$options.keyStoreAlias);</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-Ppassword=" + _this.$options.keyStoreAliasPassword);</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-PksPassword=" + _this.$options.keyStorePassword);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (buildConfig &amp;&amp; buildConfig.runSbGenerator) {</span>
+<span class="cstat-no" title="statement not covered" >                    buildOptions.push("-PrunSBGenerator");</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var gradleBin = _this.useGradleWrapper(projectRoot) ? path.join(projectRoot, "gradlew") : "gradle";</span>
+<span class="cstat-no" title="statement not covered" >                if (_this.$hostInfo.isWindows) {</span>
+<span class="cstat-no" title="statement not covered" >                    gradleBin += ".bat";</span>
+                }
+<span class="cstat-no" title="statement not covered" >                _this.spawn(gradleBin, buildOptions, { stdio: "inherit", cwd: _this.platformData.projectRoot }).wait();</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.checkAnt().wait();</span>
+<span class="cstat-no" title="statement not covered" >                var args = _this.getAntArgs(_this.$options.release ? "release" : "debug", projectRoot);</span>
+<span class="cstat-no" title="statement not covered" >                _this.spawn('ant', args).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.platformData.deviceBuildOutputPath = path.join(_this.platformData.projectRoot, "bin");</span>
+            }
+        }).future()();
+    };
+    AndroidProjectService.prototype.isPlatformPrepared = <span class="fstat-no" title="function not covered" >function (projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.$fs.exists(path.join(this.platformData.appDestinationDirectoryPath, constants.APP_FOLDER_NAME));</span>
+    };
+    AndroidProjectService.prototype.addLibrary = <span class="fstat-no" title="function not covered" >function (libraryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(path.join(libraryPath, "project.properties")).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Unable to add android library. You can use `library add` command only with path to folder containing one or more .jar files.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var name = path.basename(libraryPath);</span>
+<span class="cstat-no" title="statement not covered" >            var targetLibPath = _this.getLibraryPath(name);</span>
+<span class="cstat-no" title="statement not covered" >            var targetPath = path.dirname(targetLibPath);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(targetPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            shell.cp("-f", path.join(libraryPath, "*.jar"), targetPath);</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.getFrameworkFilesExtensions = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return [".jar", ".dat"];</span>
+    };
+    AndroidProjectService.prototype.prepareProject = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult();</span>
+    };
+    AndroidProjectService.prototype.prepareAppResources = <span class="fstat-no" title="function not covered" >function (appResourcesDirectoryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var resourcesDirPath = path.join(appResourcesDirectoryPath, _this.platformData.normalizedPlatformName);</span>
+<span class="cstat-no" title="statement not covered" >            var valuesDirRegExp = /^values/;</span>
+<span class="cstat-no" title="statement not covered" >            var resourcesDirs = _this.$fs.readDirectory(resourcesDirPath).wait().filter(<span class="fstat-no" title="function not covered" >function (resDir) {</span> <span class="cstat-no" title="statement not covered" >return !resDir.match(valuesDirRegExp); </span>});</span>
+<span class="cstat-no" title="statement not covered" >            _.each(resourcesDirs, <span class="fstat-no" title="function not covered" >function (resourceDir) {</span></span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(path.join(_this.getAppResourcesDestinationDirectoryPath().wait(), resourceDir)).wait();</span>
+            });
+        }).future()();
+    };
+    AndroidProjectService.prototype.preparePluginNativeCode = <span class="fstat-no" title="function not covered" >function (pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var pluginPlatformsFolderPath = _this.getPluginPlatformsFolderPath(pluginData, AndroidProjectService.ANDROID_PLATFORM_NAME);</span>
+<span class="cstat-no" title="statement not covered" >            _this.processResourcesFromPlugin(pluginData.name, pluginPlatformsFolderPath).wait();</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.processConfigurationFilesFromAppResources = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var manifestFilePath = path.join(_this.$projectData.appResourcesDirectoryPath, _this.platformData.normalizedPlatformName, _this.platformData.configurationFileName);</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(manifestFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.processResourcesFromPlugin("NativescriptAppResources", path.dirname(manifestFilePath)).wait();</span>
+            }
+        }).future()();
+    };
+    AndroidProjectService.prototype.processResourcesFromPlugin = <span class="fstat-no" title="function not covered" >function (pluginName, pluginPlatformsFolderPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var configurationsDirectoryPath = path.join(_this.platformData.projectRoot, "configurations");</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(configurationsDirectoryPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var pluginConfigurationDirectoryPath = path.join(configurationsDirectoryPath, pluginName);</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(pluginPlatformsFolderPath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.ensureDirectoryExists(pluginConfigurationDirectoryPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var resourcesDestinationDirectoryPath = path.join(_this.platformData.projectRoot, "src", pluginName);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.ensureDirectoryExists(resourcesDestinationDirectoryPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                shell.cp("-Rf", path.join(pluginPlatformsFolderPath, "*"), resourcesDestinationDirectoryPath);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var includeGradleFilePath = path.join(pluginPlatformsFolderPath, "include.gradle");</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(includeGradleFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                shell.cp("-f", includeGradleFilePath, pluginConfigurationDirectoryPath);</span>
+            }
+        }).future()();
+    };
+    AndroidProjectService.prototype.removePluginNativeCode = <span class="fstat-no" title="function not covered" >function (pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(path.join(_this.platformData.projectRoot, "configurations", pluginData.name)).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(path.join(_this.platformData.projectRoot, "src", pluginData.name)).wait();</span>
+            }
+            catch (e) {
+<span class="cstat-no" title="statement not covered" >                if (e.code === "ENOENT") {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.debug("No native code jars found: " + e.message);</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    throw e;</span>
+                }
+            }
+        }).future()();
+    };
+    AndroidProjectService.prototype.afterPrepareAllPlugins = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult();</span>
+    };
+    AndroidProjectService.prototype.deploy = <span class="fstat-no" title="function not covered" >function (deviceIdentifier) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var adb = _this.$injector.resolve(androidDebugBridgePath.AndroidDebugBridge, { identifier: deviceIdentifier });</span>
+<span class="cstat-no" title="statement not covered" >            var deviceRootPath = "/data/local/tmp/" + _this.$projectData.projectId;</span>
+<span class="cstat-no" title="statement not covered" >            adb.executeShellCommand(["rm", "-rf", _this.$mobileHelper.buildDevicePath(deviceRootPath, "fullsync"),</span>
+                _this.$mobileHelper.buildDevicePath(deviceRootPath, "sync"),
+                _this.$mobileHelper.buildDevicePath(deviceRootPath, "removedsync")]).wait();
+        }).future()();
+    };
+    AndroidProjectService.prototype.canUseGradle = <span class="fstat-no" title="function not covered" >function (frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!_this._canUseGradle) {</span>
+<span class="cstat-no" title="statement not covered" >                if (!frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$projectDataService.initialize(_this.$projectData.projectDir);</span>
+<span class="cstat-no" title="statement not covered" >                    frameworkVersion = _this.$projectDataService.getValue(_this.platformData.frameworkPackageName).wait().version;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                _this._canUseGradle = semver.gte(frameworkVersion, AndroidProjectService.MIN_RUNTIME_VERSION_WITH_GRADLE);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return _this._canUseGradle;</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.getLibraryPath = <span class="fstat-no" title="function not covered" >function (libraryName) {</span>
+<span class="cstat-no" title="statement not covered" >        return path.join(this.$projectData.projectDir, "lib", this.platformData.normalizedPlatformName, libraryName);</span>
+    };
+    AndroidProjectService.prototype.copy = <span class="fstat-no" title="function not covered" >function (projectRoot, frameworkDir, files, cpArg) {</span>
+<span class="cstat-no" title="statement not covered" >        var paths = files.split(' ').map(<span class="fstat-no" title="function not covered" >function (p) {</span> <span class="cstat-no" title="statement not covered" >return path.join(frameworkDir, p); </span>});</span>
+<span class="cstat-no" title="statement not covered" >        shell.cp(cpArg, paths, projectRoot);</span>
+    };
+    AndroidProjectService.prototype.spawn = <span class="fstat-no" title="function not covered" >function (command, args, opts) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.$childProcess.spawnFromEvent(command, args, "close", opts || { stdio: "inherit" });</span>
+    };
+    AndroidProjectService.prototype.getAntArgs = <span class="fstat-no" title="function not covered" >function (configuration, projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [configuration, "-f", path.join(projectRoot, "build.xml")];</span>
+<span class="cstat-no" title="statement not covered" >        if (configuration === "release") {</span>
+<span class="cstat-no" title="statement not covered" >            if (this.$options.keyStorePath) {</span>
+<span class="cstat-no" title="statement not covered" >                args = args.concat(["-Dkey.store", path.resolve(this.$options.keyStorePath)]);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (this.$options.keyStorePassword) {</span>
+<span class="cstat-no" title="statement not covered" >                args = args.concat(["-Dkey.store.password", this.$options.keyStorePassword]);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (this.$options.keyStoreAlias) {</span>
+<span class="cstat-no" title="statement not covered" >                args = args.concat(["-Dkey.alias", this.$options.keyStoreAlias]);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (this.$options.keyStoreAliasPassword) {</span>
+<span class="cstat-no" title="statement not covered" >                args = args.concat(["-Dkey.alias.password", this.$options.keyStoreAliasPassword]);</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        args = args.concat(["-Dns.resources", path.join(__dirname, "../../resources/tools")]);</span>
+<span class="cstat-no" title="statement not covered" >        return args;</span>
+    };
+    AndroidProjectService.prototype.validatePackageName = <span class="fstat-no" title="function not covered" >function (packageName) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!/^[a-zA-Z]+(\.[a-zA-Z0-9][a-zA-Z0-9_]*)+$/.test(packageName)) {</span>
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("Package name must look like: com.company.Name");</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (/\b[Cc]lass\b/.test(packageName)) {</span>
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("class is a reserved word");</span>
+        }
+    };
+    AndroidProjectService.prototype.validateProjectName = <span class="fstat-no" title="function not covered" >function (projectName) {</span>
+<span class="cstat-no" title="statement not covered" >        if (projectName === '') {</span>
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("Project name cannot be empty");</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (/^[0-9]/.test(projectName)) {</span>
+<span class="cstat-no" title="statement not covered" >            this.$errors.fail("Project name must not begin with a number");</span>
+        }
+    };
+    AndroidProjectService.prototype.getTargetFromAndroidManifest = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var versionInManifest;</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(_this.platformData.configurationFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                var targetFromAndroidManifest = _this.$fs.readText(_this.platformData.configurationFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                if (targetFromAndroidManifest) {</span>
+<span class="cstat-no" title="statement not covered" >                    var match = targetFromAndroidManifest.match(/.*?android:targetSdkVersion=\"(.*?)\"/);</span>
+<span class="cstat-no" title="statement not covered" >                    if (match &amp;&amp; match[1]) {</span>
+<span class="cstat-no" title="statement not covered" >                        versionInManifest = match[1];</span>
+                    }
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            return versionInManifest;</span>
+        }).future()();
+    };
+    AndroidProjectService.prototype.checkAnt = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$childProcess.exec("ant -version").wait();</span>
+            }
+            catch (error) {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("Error executing commands 'ant', make sure you have ant installed and added to your PATH.");</span>
+            }
+        }).future()();
+    };
+    AndroidProjectService.prototype.symlinkDirectory = <span class="fstat-no" title="function not covered" >function (directoryName, projectRoot, frameworkDir) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.createDirectory(path.join(projectRoot, directoryName)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var directoryContent = _this.$fs.readDirectory(path.join(frameworkDir, directoryName)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _.each(directoryContent, <span class="fstat-no" title="function not covered" >function (file) {</span></span>
+<span class="cstat-no" title="statement not covered" >                var sourceFilePath = path.join(frameworkDir, directoryName, file);</span>
+<span class="cstat-no" title="statement not covered" >                var destinationFilePath = path.join(projectRoot, directoryName, file);</span>
+<span class="cstat-no" title="statement not covered" >                if (_this.$fs.getFsStats(sourceFilePath).wait().isFile()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.symlink(sourceFilePath, destinationFilePath).wait();</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.symlink(sourceFilePath, destinationFilePath, "dir").wait();</span>
+                }
+            });
+        }).future()();
+    };
+    AndroidProjectService.VALUES_DIRNAME = "values";
+    AndroidProjectService.VALUES_VERSION_DIRNAME_PREFIX = AndroidProjectService.VALUES_DIRNAME + "-v";
+    AndroidProjectService.ANDROID_PLATFORM_NAME = "android";
+    AndroidProjectService.MIN_RUNTIME_VERSION_WITH_GRADLE = "1.3.0";
+    return AndroidProjectService;
+})(projectServiceBaseLib.PlatformProjectServiceBase);
+exports.AndroidProjectService = AndroidProjectService;
+$injector.register("androidProjectService", AndroidProjectService);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

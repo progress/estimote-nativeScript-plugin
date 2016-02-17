@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/common/project-helper.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">lib/common/project-helper.js</span></h1>
+    <h2>
+        Statements: <span class="metric">89.8% <small>(44 / 49)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">66.67% <small>(12 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">89.58% <small>(43 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/common/</a> &#187; project-helper.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-yes">30</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-yes">46</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1036</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path=".d.ts"/&gt;
+"use strict";
+var path = require("path");
+var ProjectHelper = (function () {
+    function ProjectHelper($logger, $fs, $staticConfig, $errors, $options) {
+        this.$logger = $logger;
+        this.$fs = $fs;
+        this.$staticConfig = $staticConfig;
+        this.$errors = $errors;
+        this.$options = $options;
+        this.cachedProjectDir = "";
+    }
+    Object.defineProperty(ProjectHelper.prototype, "projectDir", {
+        get: function () {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (this.cachedProjectDir !== "") {
+<span class="cstat-no" title="statement not covered" >                return this.cachedProjectDir;</span>
+            }
+            this.cachedProjectDir = null;
+            var projectDir = path.resolve(this.$options.path || <span class="branch-1 cbranch-no" title="branch not covered" >".")</span>;
+            while (true) {
+                this.$logger.trace("Looking for project in '%s'", projectDir);
+                var projectFilePath = path.join(projectDir, this.$staticConfig.PROJECT_FILE_NAME);
+                if (this.$fs.exists(projectFilePath).wait() &amp;&amp; this.isProjectFileCorrect(projectFilePath)) {
+                    this.$logger.debug("Project directory is '%s'.", projectDir);
+                    this.cachedProjectDir = projectDir;
+                    break;
+                }
+                var dir = path.dirname(projectDir);
+                if (dir === projectDir) {
+                    this.$logger.debug("No project found at or above '%s'.", this.$options.path || <span class="branch-1 cbranch-no" title="branch not covered" >path.resolve("."))</span>;
+                    break;
+                }
+                projectDir = dir;
+            }
+            return this.cachedProjectDir;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ProjectHelper.prototype.generateDefaultAppId = function (appName, baseAppId) {
+        var sanitizedName = this.sanitizeName(appName);
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (sanitizedName) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (/^\d+$/.test(sanitizedName)) {
+<span class="cstat-no" title="statement not covered" >                sanitizedName = "the" + sanitizedName;</span>
+            }
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            sanitizedName = "the";</span>
+        }
+        return baseAppId + "." + sanitizedName;
+    };
+    ProjectHelper.prototype.sanitizeName = function (appName) {
+        var sanitizedName = _.filter(appName.split(""), function (c) { return /[a-zA-Z0-9]/.test(c); }).join("");
+        return sanitizedName;
+    };
+    ProjectHelper.prototype.isProjectFileCorrect = function (projectFilePath) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (this.$staticConfig.CLIENT_NAME_KEY_IN_PROJECT_FILE) {
+            try {
+                var fileContent = this.$fs.readJson(projectFilePath).wait();
+                var clientSpecificData = fileContent[this.$staticConfig.CLIENT_NAME_KEY_IN_PROJECT_FILE];
+                return !!clientSpecificData;
+            }
+            catch (err) {
+<span class="cstat-no" title="statement not covered" >                this.$errors.failWithoutHelp("The project file is corrupted. Additional technical information: %s", err);</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    };
+    return ProjectHelper;
+})();
+exports.ProjectHelper = ProjectHelper;
+$injector.register("projectHelper", ProjectHelper);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

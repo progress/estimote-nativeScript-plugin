@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/tools/broccoli/node-modules-dest-copy.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../prettify.css">
+    <link rel="stylesheet" href="../../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">lib/tools/broccoli/node-modules-dest-copy.js</span></h1>
+    <h2>
+        Statements: <span class="metric">77.89% <small>(74 / 95)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">62.5% <small>(20 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">75% <small>(9 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">79.57% <small>(74 / 93)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../index.html">All files</a> &#187; <a href="index.html">lib/tools/broccoli/</a> &#187; node-modules-dest-copy.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../../.d.ts"/&gt;
+"use strict";
+var fs = require("fs");
+var path = require("path");
+var semver = require("semver");
+var shelljs = require("shelljs");
+var broccoli_plugin_wrapper_factory_1 = require('./broccoli-plugin-wrapper-factory');
+var constants = require("../../constants");
+var minimatch = require("minimatch");
+var Future = require("fibers/future");
+var DestCopy = (function () {
+    function DestCopy(inputPath, cachePath, outputRoot, projectDir, platform, $fs, $projectFilesManager, $pluginsService) {
+        this.inputPath = inputPath;
+        this.cachePath = cachePath;
+        this.outputRoot = outputRoot;
+        this.projectDir = projectDir;
+        this.platform = platform;
+        this.$fs = $fs;
+        this.$projectFilesManager = $projectFilesManager;
+        this.$pluginsService = $pluginsService;
+        this.dependencies = null;
+        this.devDependencies = null;
+        this.dependencies = Object.create(null);
+        this.devDependencies = this.getDevDependencies(projectDir);
+    }
+    DestCopy.prototype.rebuildChangedDirectories = function (changedDirectories, platform) {
+        var _this = this;
+        _.each(changedDirectories, function (changedDirectoryAbsolutePath) {
+            if (!_this.devDependencies[path.basename(changedDirectoryAbsolutePath)]) {
+                var pathToPackageJson = path.join(changedDirectoryAbsolutePath, constants.PACKAGE_JSON_FILE_NAME);
+                var packageJsonFiles = fs.existsSync(pathToPackageJson) ? [pathToPackageJson] : [];
+                var nodeModulesFolderPath = path.join(changedDirectoryAbsolutePath, constants.NODE_MODULES_FOLDER_NAME);
+                packageJsonFiles = packageJsonFiles.concat(_this.enumeratePackageJsonFilesSync(nodeModulesFolderPath));
+                _.each(packageJsonFiles, function (packageJsonFilePath) {
+                    var fileContent = require(packageJsonFilePath);
+                    <span class="missing-if-branch" title="else path not taken" >E</span>if (!_this.devDependencies[fileContent.name]) {
+                        var currentDependency = {
+                            name: fileContent.name,
+                            version: fileContent.version,
+                            directory: path.dirname(packageJsonFilePath),
+                            nativescript: fileContent.nativescript
+                        };
+                        var addedDependency = _this.dependencies[currentDependency.name];
+                        <span class="missing-if-branch" title="if path not taken" >I</span>if (addedDependency) {
+<span class="cstat-no" title="statement not covered" >                            if (semver.gt(currentDependency.version, addedDependency.version)) {</span>
+<span class="cstat-no" title="statement not covered" >                                var currentDependencyMajorVersion = semver.major(currentDependency.version);</span>
+<span class="cstat-no" title="statement not covered" >                                var addedDependencyMajorVersion = semver.major(addedDependency.version);</span>
+<span class="cstat-no" title="statement not covered" >                                var message = "The depedency located at " + addedDependency.directory + " with version  " + addedDependency.version + " will be replaced with dependency located at " + currentDependency.directory + " with version " + currentDependency.version;</span>
+<span class="cstat-no" title="statement not covered" >                                var logger = $injector.resolve("$logger");</span>
+<span class="cstat-no" title="statement not covered" >                                currentDependencyMajorVersion === addedDependencyMajorVersion ? logger.out(message) : logger.warn(message);</span>
+<span class="cstat-no" title="statement not covered" >                                _this.dependencies[currentDependency.name] = currentDependency;</span>
+                            }
+                        }
+                        else {
+                            _this.dependencies[currentDependency.name] = currentDependency;
+                        }
+                    }
+                });
+            }
+        });
+        _.each(this.dependencies, function (dependency) {
+            _this.copyDependencyDir(dependency);
+            var isPlugin = !!dependency.nativescript;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (isPlugin) {
+<span class="cstat-no" title="statement not covered" >                _this.$pluginsService.prepare(dependency, platform).wait();</span>
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (dependency.name === constants.TNS_CORE_MODULES_NAME) {
+<span class="cstat-no" title="statement not covered" >                var tnsCoreModulesResourcePath = path.join(_this.outputRoot, constants.TNS_CORE_MODULES_NAME);</span>
+<span class="cstat-no" title="statement not covered" >                var allFiles = _this.$fs.enumerateFilesInDirectorySync(tnsCoreModulesResourcePath);</span>
+<span class="cstat-no" title="statement not covered" >                var deleteFilesFutures = allFiles.filter(<span class="fstat-no" title="function not covered" >function (file) {</span> <span class="cstat-no" title="statement not covered" >return minimatch(file, "**/*.ts", { nocase: true }); </span>}).map(<span class="fstat-no" title="function not covered" >function (file) {</span> <span class="cstat-no" title="statement not covered" >return _this.$fs.deleteFile(file); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                Future.wait(deleteFilesFutures);</span>
+<span class="cstat-no" title="statement not covered" >                shelljs.cp("-Rf", path.join(tnsCoreModulesResourcePath, "*"), _this.outputRoot);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(tnsCoreModulesResourcePath).wait();</span>
+            }
+        });
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!_.isEmpty(this.dependencies)) {
+            this.$pluginsService.afterPrepareAllPlugins().wait();
+        }
+    };
+    DestCopy.prototype.copyDependencyDir = function (dependency) {
+        var dependencyDir = path.dirname(dependency.name || <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>;
+        var insideNpmScope = /^@/.test(dependencyDir);
+        var targetDir = this.outputRoot;
+        if (insideNpmScope) {
+            targetDir = path.join(this.outputRoot, dependencyDir);
+        }
+        shelljs.mkdir("-p", targetDir);
+        shelljs.cp("-Rf", dependency.directory, targetDir);
+        shelljs.rm("-rf", path.join(targetDir, dependency.name, "node_modules"));
+    };
+    DestCopy.prototype.rebuild = <span class="fstat-no" title="function not covered" >function (treeDiff) {</span>
+<span class="cstat-no" title="statement not covered" >        this.rebuildChangedDirectories(treeDiff.changedDirectories, "");</span>
+<span class="cstat-no" title="statement not covered" >        var projectFilePath = path.join(this.projectDir, constants.PACKAGE_JSON_FILE_NAME);</span>
+<span class="cstat-no" title="statement not covered" >        var projectFileContent = require(projectFilePath);</span>
+<span class="cstat-no" title="statement not covered" >        projectFileContent[constants.NATIVESCRIPT_KEY_NAME][constants.NODE_MODULE_CACHE_PATH_KEY_NAME] = this.inputPath;</span>
+<span class="cstat-no" title="statement not covered" >        fs.writeFileSync(projectFilePath, JSON.stringify(projectFileContent, null, "\t"), { encoding: "utf8" });</span>
+    };
+    DestCopy.prototype.getDevDependencies = function (projectDir) {
+        var projectFilePath = path.join(projectDir, constants.PACKAGE_JSON_FILE_NAME);
+        var projectFileContent = require(projectFilePath);
+        return projectFileContent.devDependencies || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+    };
+    DestCopy.prototype.enumeratePackageJsonFilesSync = function (nodeModulesDirectoryPath, foundFiles) {
+        foundFiles = foundFiles || [];
+        if (fs.existsSync(nodeModulesDirectoryPath)) {
+            var contents = fs.readdirSync(nodeModulesDirectoryPath);
+            for (var i = 0; i &lt; contents.length; ++i) {
+                var packageJsonFilePath = path.join(nodeModulesDirectoryPath, contents[i], constants.PACKAGE_JSON_FILE_NAME);
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (fs.existsSync(packageJsonFilePath)) {
+                    foundFiles.push(packageJsonFilePath);
+                }
+                var directoryPath = path.join(nodeModulesDirectoryPath, contents[i], constants.NODE_MODULES_FOLDER_NAME);
+                if (fs.existsSync(directoryPath)) {
+                    this.enumeratePackageJsonFilesSync(directoryPath, foundFiles);
+                }
+            }
+        }
+        return foundFiles;
+    };
+    return DestCopy;
+})();
+exports.DestCopy = DestCopy;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = broccoli_plugin_wrapper_factory_1.wrapBroccoliPlugin(DestCopy);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

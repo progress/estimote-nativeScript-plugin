@@ -1,0 +1,19 @@
+{
+  "name": "nativescript-estimote-sdk",
+  "version": "1.0.1",
+  "main": "estimote.js",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.3.0",
+      "android": "1.3.0"
+    }
+  },
+  "readme": "# Estimote Plugin for NativeScript\n\n- [Getting started](#getting-started)\n- [Troubleshooting](#troubleshooting)\n\n## Getting started\n\n### iOS\n\n## Troubleshooting\n",
+  "readmeFilename": "README.md",
+  "description": "- [Getting started](#getting-started) - [Troubleshooting](#troubleshooting)",
+  "_id": "nativescript-estimote-sdk@1.0.1",
+  "scripts": {},
+  "_shasum": "0c4a17bad6f6fa9b1804596c1ebf60d1c0c15329",
+  "_from": "../Plugin",
+  "_resolved": "file:../Plugin"
+}

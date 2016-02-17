@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/common/child-process.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">lib/common/child-process.js</span></h1>
+    <h2>
+        Statements: <span class="metric">58.02% <small>(47 / 81)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">28.57% <small>(12 / 42)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">50% <small>(9 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">57.5% <small>(46 / 80)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/common/</a> &#187; child-process.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path=".d.ts"/&gt;
+"use strict";
+var Future = require("fibers/future");
+var child_process = require("child_process");
+var ChildProcess = (function () {
+    function ChildProcess($logger, $errors) {
+        this.$logger = $logger;
+        this.$errors = $errors;
+    }
+    ChildProcess.prototype.exec = function (command, options, execOptions) {
+        var _this = this;
+        var future = new Future();
+        var callback = function (error, stdout, stderr) {
+            _this.$logger.trace("Exec %s \n stdout: %s \n stderr: %s", command, stdout.toString(), stderr.toString());
+            if (error) {
+                future.throw(error);
+            }
+            else {
+                var output = execOptions &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >execOptions.showStderr </span>? <span class="branch-0 cbranch-no" title="branch not covered" >{ stdout: stdout, stderr: stderr } </span>: stdout;
+                future.return(output);
+            }
+        };
+        if (options) {
+            child_process.exec(command, options, callback);
+        }
+        else {
+            child_process.exec(command, callback);
+        }
+        return future;
+    };
+    ChildProcess.prototype.execFile = <span class="fstat-no" title="function not covered" >function (command, args) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$logger.debug("execFile: %s %s", command, this.getArgumentsAsQuotedString(args));</span>
+<span class="cstat-no" title="statement not covered" >        var future = new Future();</span>
+<span class="cstat-no" title="statement not covered" >        child_process.execFile(command, args, <span class="fstat-no" title="function not covered" >function (error, stdout) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (error) {</span>
+<span class="cstat-no" title="statement not covered" >                future.throw(error);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                future.return(stdout);</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return future;</span>
+    };
+    ChildProcess.prototype.spawn = function (command, args, options) {
+        this.$logger.debug("spawn: %s %s", command, this.getArgumentsAsQuotedString(args));
+        return child_process.spawn(command, args, options);
+    };
+    ChildProcess.prototype.fork = <span class="fstat-no" title="function not covered" >function (modulePath, args, options) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$logger.debug("fork: %s %s", modulePath, this.getArgumentsAsQuotedString(args));</span>
+<span class="cstat-no" title="statement not covered" >        return child_process.fork(modulePath, args, options);</span>
+    };
+    ChildProcess.prototype.spawnFromEvent = function (command, args, event, options, spawnFromEventOptions) {
+        var future = new Future();
+        var childProcess = this.spawn(command, args, options);
+        var capturedOut = "";
+        var capturedErr = "";
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (childProcess.stdout) {
+<span class="cstat-no" title="statement not covered" >            childProcess.stdout.on("data", <span class="fstat-no" title="function not covered" >function (data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                capturedOut += data;</span>
+            });
+        }
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (childProcess.stderr) {
+<span class="cstat-no" title="statement not covered" >            childProcess.stderr.on("data", <span class="fstat-no" title="function not covered" >function (data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                capturedErr += data;</span>
+            });
+        }
+        childProcess.on(event, function (arg) {
+            var exitCode = typeof arg === "number" ? arg : <span class="branch-1 cbranch-no" title="branch not covered" >arg &amp;&amp; arg.code;</span>
+            var result = {
+                stdout: capturedOut,
+                stderr: capturedErr,
+                exitCode: exitCode
+            };
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (spawnFromEventOptions &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >spawnFromEventOptions.throwError === false)</span> {
+<span class="cstat-no" title="statement not covered" >                if (!future.isResolved()) {</span>
+<span class="cstat-no" title="statement not covered" >                    future.return(result);</span>
+                }
+            }
+            else {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (exitCode === 0) {
+                    future.return(result);
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    var errorMessage = "Command " + command + " failed with exit code " + exitCode;</span>
+<span class="cstat-no" title="statement not covered" >                    if (capturedErr) {</span>
+<span class="cstat-no" title="statement not covered" >                        errorMessage += " Error output: \n " + capturedErr;</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    if (!future.isResolved()) {</span>
+<span class="cstat-no" title="statement not covered" >                        future.throw(new Error(errorMessage));</span>
+                    }
+                }
+            }
+        });
+        childProcess.once("error", <span class="fstat-no" title="function not covered" >function (err) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!future.isResolved()) {</span>
+<span class="cstat-no" title="statement not covered" >                if (spawnFromEventOptions &amp;&amp; spawnFromEventOptions.throwError === false) {</span>
+<span class="cstat-no" title="statement not covered" >                    var result = {</span>
+                        stdout: capturedOut,
+                        stderr: err.message,
+                        exitCode: err.code
+                    };
+<span class="cstat-no" title="statement not covered" >                    future.return(result);</span>
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    future.throw(err);</span>
+                }
+            }
+        });
+        return future;
+    };
+    ChildProcess.prototype.tryExecuteApplication = <span class="fstat-no" title="function not covered" >function (command, args, event, errorMessage, condition) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var childProcess = _this.tryExecuteApplicationCore(command, args, event, errorMessage).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (condition &amp;&amp; condition(childProcess)) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail(errorMessage);</span>
+            }
+        }).future()();
+    };
+    ChildProcess.prototype.tryExecuteApplicationCore = <span class="fstat-no" title="function not covered" >function (command, args, event, errorMessage) {</span>
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            return this.spawnFromEvent(command, args, event, undefined, { throwError: false });</span>
+        }
+        catch (e) {
+<span class="cstat-no" title="statement not covered" >            var message = (e.code === "ENOENT") ? errorMessage : e.message;</span>
+<span class="cstat-no" title="statement not covered" >            this.$errors.failWithoutHelp(message);</span>
+        }
+    };
+    ChildProcess.prototype.getArgumentsAsQuotedString = function (args) {
+        return args.map(function (argument) { return ("\"" + argument + "\""); }).join(" ");
+    };
+    return ChildProcess;
+})();
+exports.ChildProcess = ChildProcess;
+$injector.register("childProcess", ChildProcess);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "_args": [
+    [
+      "tabtab@https://github.com/Icenium/node-tabtab/tarball/master",
+      "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript"
+    ]
+  ],
+  "_from": "https://github.com/Icenium/node-tabtab/tarball/master",
+  "_id": "tabtab@0.0.3",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/tabtab",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "tabtab",
+    "raw": "tabtab@https://github.com/Icenium/node-tabtab/tarball/master",
+    "rawSpec": "https://github.com/Icenium/node-tabtab/tarball/master",
+    "scope": null,
+    "spec": "https://github.com/Icenium/node-tabtab/tarball/master",
+    "type": "remote"
+  },
+  "_requiredBy": [
+    "/nativescript"
+  ],
+  "_resolved": "https://github.com/Icenium/node-tabtab/tarball/master",
+  "_shasum": "c6130ea1b14ac4c068f9ac854a2960bfd7044a49",
+  "_shrinkwrap": null,
+  "_spec": "tabtab@https://github.com/Icenium/node-tabtab/tarball/master",
+  "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript",
+  "author": {
+    "name": "mklabs"
+  },
+  "bugs": {
+    "url": "https://github.com/mklabs/node-tabtab/issues"
+  },
+  "dependencies": {},
+  "description": "tab completion helpers, for node cli programs. Inspired by npm completion.",
+  "devDependencies": {
+    "vows": "~0.8.1"
+  },
+  "engines": {
+    "node": "> 0.4"
+  },
+  "homepage": "https://github.com/mklabs/node-tabtab#readme",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mklabs/node-tabtab/blob/master/LICENSE"
+    }
+  ],
+  "main": "./lib/completion",
+  "name": "tabtab",
+  "optionalDependencies": {},
+  "readme": "## tabtab\n\n[![Build\nStatus](https://secure.travis-ci.org/mklabs/node-tabtab.png)](http://travis-ci.org/mklabs/node-tabtab)\n\nAn npm package to do some custom command line`<tab><tab>` completion for\nany system command, using the node api and JS to provide your own\ncompletion, for both bash/zsh shell.\n\nMade possible using the same technique as npm (whose completion is quite\nawesome) relying on a bash/zsh completion shell script bridge to do the\nactual completion from node's land.\n\n### Install\n\nLatest released version (when it'll get released)\n\n    npm install tabtab\n\nLatest dev code:\n\n    npm install https://github.com/mklabs/node-tabtab/tarball/master\n\n### Examples\n\nYou can add completion pretty easily in your node cli script:\n\n    #!/usr/bin/env node\n    var tabtab = require('tabtab');\n\n    if(process.argv.slice(2)[0] === 'completion') return tabtab.complete('pkgname', function(err, data) {\n      // simply return here if there's an error or data not provided.\n      // stderr not showing on completions\n      if(err || !data) return;\n\n      if(/^--\\w?/.test(data.last)) return tabtab.log(['help', 'version'], data, '--');\n      if(/^-\\w?/.test(data.last)) return tabtab.log(['n', 'o', 'd', 'e'], data, '-');\n\n      tabtab.log(['list', 'of', 'commands'], data);\n    });\n\n    // The rest of your script\n    ...\n\nSimply replace `pkgname` by the name of your package. The complete\ncallback get's called with data only in the context of a completion\ncommand.\n\nThe `data` object holds interesting value to drive the output of the\ncompletion:\n\n* `line`: full command being completed\n* `words`: number of word\n* `point`: cursor position\n* `partial`: tabing in the middle of a word: foo bar baz bar foobar<tab><tab>rrrrrr\n* `last`: last word of the line\n* `lastPartial`: last partial of the line\n* `prev`: the previous word\n\n#### completion install\n\nInstalling the completion for your cli app is done very much [like npm\ndoes](http://npmjs.org/doc/completion.html):\n\n    . <(pkgname completion)\n\nIt'll enables tab-completion for the `pkgname` executable. Adding it to\nyour ~/.bashrc or ~/.zshrc will make the completions available\neverywhere (not only the current shell).\n\n## API\n\n### complete\n\nMain completion method, has support for installation and actual completion.\n\n    tabtab.complete(completed, completer, callback);\n\n\n* completed: name of the command to complete\n* completer: *Optional* name of the command to call on completion (when\n  not set, completed and completer are the same)\n* callback: get called when a tab-completion command  happens.\n\ncompleted and completer are there only to set up and build the correct\nbash/zsh script, based on the `lib/completion.sh` template (which is\nbased on npm's completion shell script)\n\n### log\n\nHelper to return completion output and log to standard output.\n\n    tabtab.log(['list', 'of', 'values'], data, prefix);\n\n* values: Array of values to complete against.\n* data: the data object returned by the complete callback, used mainly\n  to filter results accordingly upon the text that is supplied by the\n  user.\n* prefix: *Optional* a prefix to add to the completion results, useful\n  for options to add dashes (eg. `-` or `--`).\n\n### parseOut\n\nHelper to return the list of short and long options, parsed from the\nusual `--help` output of a command (cake/rake -H, vagrant, commander -h,\noptimist.help(), ...)\n\n    var parsed = completion.parseOut(optimist.help());\n    console.log(parsed.shorts);\n    console.log(parsed.longs);\n\nUsing a spawned process:\n\n    exec('rake -H', function(err, stdout, stderr) {\n      if(err) return;\n      var parsed = parseOut(stdout);\n      if(/^--\\w?/.test(o.last)) return log(parsed.longs, data, '--');\n      if(/^-\\w?/.test(o.last)) return log(parsed.shorts, data, '-');\n    });\n\n### parseTasks\n\nsame purpose as parseOut, but for parsing tasks from an help command\n(cake/rake -T, vagrant, etc.)\n\n  exec('cake', function(err, stdout, stderr) {\n    if(err) return;\n    var parsed = tasks = parseTasks(stdout, 'cake');\n    log(tasks, o);\n  });\n\n* stdout: string of help output.\n* prefix: prefix used internally to build the RegExp that is used to\n  parse tasks from stdout.\n\n## Credits\n\nnpm does pretty amazing stuff with its completion feature. Bash and zsh\nprovides command tab-completion, which allow you to complete the names\nof commands in your $PATH.  Usually these functions means bash\nscripting, and in the case of npm, it is partially true.\n\nThere is a special `npm completion` command you may want to look around,\nit not already.\n\n    npm completion\n\nRunning this should dump [this\nscript](https://raw.github.com/isaacs/npm/caafb7323708e113d100e3e8145b949ed7a16c22/lib/utils/completion.sh)\nto the console. This script works with both bash/zsh and map the correct\ncompletion functions to the npm executable. These functions takes care\nof parsing the `COMP_*` variables available when hitting TAB to complete\na command, set them up as environment variables and run the `npm\ncompletion` command followed by `-- words` where words match value of\nthe command being completed.\n\nThis means that using this technique npm manage to perform bash/zsh\ncompletion using node and JavaScript. Actually, the comprehensiveness of npm\ncompletion is quite amazing.\n\nThis whole package/module is based entirely on npm's code and @isaacs\nwork.\n\n",
+  "readmeFilename": "readme.md",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mklabs/node-tabtab.git"
+  },
+  "scripts": {
+    "test": "node node_modules/vows/bin/vows test/*.js --spec --isolate"
+  },
+  "version": "0.0.3"
+}

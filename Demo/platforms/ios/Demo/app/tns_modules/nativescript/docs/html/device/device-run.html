@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <title>device-run</title>
+  <link rel="shortcut icon" type="image/ico" href="../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../index.html"><img class="logo" src="../../helpers/logo.png"></a>
+   <h1 id="device-run">device run</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td><code>$ tns device run &lt;Application ID&gt; [--device &lt;Device ID&gt;]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Runs the selected application on a connected Android or iOS device.</p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--device</code> - If multiple devices are connected, sets the device on which you want to run the app.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Application ID&gt;</code> is the application identifier as listed by <code>$ tns device list-applications</code> </li>
+<li><code>&lt;Device ID&gt;</code> is the device index or identifier as listed by run <code>$ tns device</code></li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before running your app on an iOS device, verify that your system and app meet the following requirements.</p>
+<ul>
+<li>You are running the NativeScript CLI on an OS X system.</li>
+<li>You have installed Xcode 5 or later.</li>
+<li>You have built your app with the debug build configuration.</li>
+</ul>
+<p>Before running your app on an Android device, verify that your app meets the following requirement.</p>
+<ul>
+<li>You have built your app with the debug build configuration.</li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You can run this command on one connected device at a time.</li>
+<li>You can run this command for iOS devices only on OS X systems.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="device.html">device</a></td>
+<td>Lists all recognized connected devices with serial number and index, grouped by platform.</td>
+</tr>
+<tr>
+<td><a href="device-android.html">device android</a></td>
+<td>Lists all recognized connected physical and running virtual devices with serial number and index.</td>
+</tr>
+<tr>
+<td><a href="device-ios.html">device ios</a></td>
+<td>Lists all recognized connected iOS devices with serial number and index.</td>
+</tr>
+<tr>
+<td><a href="device-list-applications.html">device list-applications</a></td>
+<td>Lists the installed applications on all connected Android and iOS devices.</td>
+</tr>
+<tr>
+<td><a href="device-log.html">device log</a></td>
+<td>Opens the device log stream for a selected connected device.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

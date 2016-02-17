@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/npm-installation-manager.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">lib/npm-installation-manager.js</span></h1>
+    <h2>
+        Statements: <span class="metric">69.17% <small>(92 / 133)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">39.02% <small>(16 / 41)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">76.67% <small>(23 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">69.17% <small>(92 / 133)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; npm-installation-manager.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path=".d.ts"/&gt;
+"use strict";
+var path = require("path");
+var semver = require("semver");
+var npm = require("npm");
+var constants = require("./constants");
+var NpmInstallationManager = (function () {
+    function NpmInstallationManager($npm, $logger, $lockfile, $errors, $options, $fs, $staticConfig) {
+        this.$npm = $npm;
+        this.$logger = $logger;
+        this.$lockfile = $lockfile;
+        this.$errors = $errors;
+        this.$options = $options;
+        this.$fs = $fs;
+        this.$staticConfig = $staticConfig;
+        this.packageSpecificDirectories = {
+            "tns-android": constants.PROJECT_FRAMEWORK_FOLDER_NAME,
+            "tns-ios": constants.PROJECT_FRAMEWORK_FOLDER_NAME,
+            "tns-template-hello-world": constants.APP_RESOURCES_FOLDER_NAME
+        };
+        this.versionsCache = {};
+        this.$npm.load().wait();
+    }
+    NpmInstallationManager.prototype.getCacheRootPath = function () {
+        return this.$npm.getCache();
+    };
+    NpmInstallationManager.prototype.getCachedPackagePath = function (packageName, version) {
+        return path.join(this.getCacheRootPath(), packageName, version, "package");
+    };
+    NpmInstallationManager.prototype.addToCache = function (packageName, version) {
+        var _this = this;
+        return (function () {
+            var cachedPackagePath = _this.getCachedPackagePath(packageName, version);
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!_this.$fs.exists(cachedPackagePath).wait() || <span class="branch-1 cbranch-no" title="branch not covered" >!_this.$fs.exists(path.join(cachedPackagePath, "framework")).wait())</span> {
+                _this.addToCacheCore(packageName, version).wait();
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.isShasumOfPackageCorrect(packageName, version).wait()) {
+<span class="cstat-no" title="statement not covered" >                _this.addCleanCopyToCache(packageName, version).wait();</span>
+            }
+        }).future()();
+    };
+    NpmInstallationManager.prototype.cacheUnpack = function (packageName, version, unpackTarget) {
+        unpackTarget = unpackTarget || path.join(npm.cache, packageName, version, "package");
+        return this.$npm.cacheUnpack(packageName, version, unpackTarget);
+    };
+    NpmInstallationManager.prototype.getLatestVersion = function (packageName) {
+        var _this = this;
+        return (function () {
+            var data = _this.$npm.view(packageName, "dist-tags").wait();
+            var latestVersion = _.first(_.keys(data));
+            _this.$logger.trace("Using version %s. ", latestVersion);
+            return latestVersion;
+        }).future()();
+    };
+    NpmInstallationManager.prototype.getLatestCompatibleVersion = function (packageName) {
+        var _this = this;
+        return (function () {
+            var latestVersion = _this.getLatestVersion(packageName).wait();
+            var data = _this.$npm.view(packageName, "versions").wait();
+            var versions = data[latestVersion].versions;
+            var versionData = _this.getVersionData(_this.$staticConfig.version);
+            var compatibleVersions = _(versions)
+                .map(function (ver) { return _this.getVersionData(ver); })
+                .filter(function (verData) { return versionData.major === verData.major &amp;&amp; versionData.minor === verData.minor; })
+                .sortBy(function (verData) { return verData.patch; })
+                .value();
+            var result = _.last(compatibleVersions) || _this.getVersionData(latestVersion);
+            var latestCompatibleVersion = result.major + "." + result.minor + "." + result.patch;
+            return latestCompatibleVersion;
+        }).future()();
+    };
+    NpmInstallationManager.prototype.install = <span class="fstat-no" title="function not covered" >function (packageName, opts) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$lockfile.lock().wait();</span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                var packageToInstall = packageName;</span>
+<span class="cstat-no" title="statement not covered" >                var pathToSave = (opts &amp;&amp; opts.pathToSave) || npm.cache;</span>
+<span class="cstat-no" title="statement not covered" >                var version = (opts &amp;&amp; opts.version) || null;</span>
+<span class="cstat-no" title="statement not covered" >                return _this.installCore(packageToInstall, pathToSave, version).wait();</span>
+            }
+            catch (error) {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.debug(error);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("%s. Error: %s", NpmInstallationManager.NPM_LOAD_FAILED, error);</span>
+            }
+            finally {
+<span class="cstat-no" title="statement not covered" >                _this.$lockfile.unlock().wait();</span>
+            }
+        }).future()();
+    };
+    NpmInstallationManager.prototype.addCleanCopyToCache = <span class="fstat-no" title="function not covered" >function (packageName, version) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var packagePath = path.join(_this.getCacheRootPath(), packageName, version);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$logger.trace("Deleting: " + packagePath + ".");</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.deleteDirectory(packagePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.addToCacheCore(packageName, version).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.isShasumOfPackageCorrect(packageName, version).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("Unable to add package " + packageName + " with version " + version + " to npm cache. Try cleaning your cache and execute the command again.");</span>
+            }
+        }).future()();
+    };
+    NpmInstallationManager.prototype.addToCacheCore = function (packageName, version) {
+        var _this = this;
+        return (function () {
+            _this.$npm.cache(packageName, version).wait();
+            var packagePath = path.join(_this.getCacheRootPath(), packageName, version, "package");
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!_this.isPackageUnpacked(packagePath, packageName).wait()) {
+                _this.cacheUnpack(packageName, version).wait();
+            }
+        }).future()();
+    };
+    NpmInstallationManager.prototype.isShasumOfPackageCorrect = function (packageName, version) {
+        var _this = this;
+        return (function () {
+            var shasumProperty = "dist.shasum";
+            var cachedPackagePath = _this.getCachedPackagePath(packageName, version);
+            var packageInfo = _this.$npm.view(packageName + "@" + version, shasumProperty).wait();
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_.isEmpty(packageInfo)) {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Checking shasum of package " + packageName + "@" + version + ": skipped because the package was not found in npmjs.org");</span>
+<span class="cstat-no" title="statement not covered" >                return true;</span>
+            }
+            var realShasum = packageInfo[version][shasumProperty];
+            var packageTgz = cachedPackagePath + ".tgz";
+            var currentShasum = "";
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.$fs.exists(packageTgz).wait()) {
+                currentShasum = _this.$fs.getFileShasum(packageTgz).wait();
+            }
+            _this.$logger.trace("Checking shasum of package " + packageName + "@" + version + ": expected " + realShasum + ", actual " + currentShasum + ".");
+            return realShasum === currentShasum;
+        }).future()();
+    };
+    NpmInstallationManager.prototype.installCore = <span class="fstat-no" title="function not covered" >function (packageName, pathToSave, version) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.frameworkPath) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.npmInstall(packageName, pathToSave, version).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var pathToNodeModules = path.join(pathToSave, "node_modules");</span>
+<span class="cstat-no" title="statement not covered" >                var folders = _this.$fs.readDirectory(pathToNodeModules).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var data = _this.$fs.readJson(path.join(pathToNodeModules, folders[0], "package.json")).wait();</span>
+<span class="cstat-no" title="statement not covered" >                if (!_this.isPackageUnpacked(_this.getCachedPackagePath(data.name, data.version), data.name).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.cacheUnpack(data.name, data.version).wait();</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return path.join(pathToNodeModules, folders[0]);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                version = version || _this.getLatestCompatibleVersion(packageName).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var packagePath = _this.getCachedPackagePath(packageName, version);</span>
+<span class="cstat-no" title="statement not covered" >                _this.addToCache(packageName, version).wait();</span>
+<span class="cstat-no" title="statement not covered" >                return packagePath;</span>
+            }
+        }).future()();
+    };
+    NpmInstallationManager.prototype.npmInstall = <span class="fstat-no" title="function not covered" >function (packageName, pathToSave, version) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$logger.out("Installing ", packageName);</span>
+<span class="cstat-no" title="statement not covered" >        var incrementedVersion = semver.inc(version, constants.ReleaseType.MINOR);</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.$options.frameworkPath &amp;&amp; packageName.indexOf("@") &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            packageName = packageName + "@&lt;" + incrementedVersion;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return this.$npm.install(packageName, pathToSave);</span>
+    };
+    NpmInstallationManager.prototype.isPackageUnpacked = function (packagePath, packageName) {
+        var _this = this;
+        return (function () {
+            var additionalDirectoryToCheck = _this.packageSpecificDirectories[packageName];
+            return _this.$fs.getFsStats(packagePath).wait().isDirectory() &amp;&amp;
+                (!additionalDirectoryToCheck || _this.hasFilesInDirectory(path.join(packagePath, additionalDirectoryToCheck)).wait());
+        }).future()();
+    };
+    NpmInstallationManager.prototype.hasFilesInDirectory = function (directory) {
+        var _this = this;
+        return (function () {
+            return _this.$fs.exists(directory).wait() &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >_this.$fs.enumerateFilesInDirectorySync(directory).length &gt; 0;</span>
+        }).future()();
+    };
+    NpmInstallationManager.prototype.getVersionData = function (version) {
+        var _a = version.split("."), major = _a[0], minor = _a[1], patch = _a[2];
+        return { major: major, minor: minor, patch: patch };
+    };
+    NpmInstallationManager.NPM_LOAD_FAILED = "Failed to retrieve data from npm. Please try again a little bit later.";
+    return NpmInstallationManager;
+})();
+exports.NpmInstallationManager = NpmInstallationManager;
+$injector.register("npmInstallationManager", NpmInstallationManager);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

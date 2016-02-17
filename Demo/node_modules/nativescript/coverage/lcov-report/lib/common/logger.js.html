@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/common/logger.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/common/logger.js</span></h1>
+    <h2>
+        Statements: <span class="metric">46.92% <small>(61 / 130)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">21.88% <small>(7 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">31.82% <small>(7 / 22)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">46.92% <small>(61 / 130)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/common/</a> &#187; logger.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path=".d.ts"/&gt;
+"use strict";
+var log4js = require("log4js");
+var util = require("util");
+var stream = require("stream");
+var Future = require("fibers/future");
+var marked = require("marked");
+var TerminalRenderer = require("marked-terminal");
+var chalk = require("chalk");
+var Logger = (function () {
+    function Logger($config, $options) {
+        this.$options = $options;
+        this.log4jsLogger = null;
+        this.encodeRequestPaths = ['/appbuilder/api/itmstransporter/applications?username='];
+        this.encodeBody = false;
+        this.passwordRegex = /[Pp]assword=(.*?)(['&amp;,]|$)|\"[Pp]assword\":\"(.*?)\"/;
+        this.requestBodyRegex = /^\"(.*?)\"$/;
+        var appenders = [];
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!$config.CI_LOGGER) {
+            appenders.push({
+                type: "console",
+                layout: {
+                    type: "messagePassThrough"
+                }
+            });
+        }
+        log4js.configure({ appenders: appenders });
+        this.log4jsLogger = log4js.getLogger();
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.$options.log) {
+<span class="cstat-no" title="statement not covered" >            this.log4jsLogger.setLevel(this.$options.log);</span>
+        }
+        else {
+            this.log4jsLogger.setLevel($config.DEBUG ? <span class="branch-0 cbranch-no" title="branch not covered" >"TRACE" </span>: "INFO");
+        }
+    }
+    Logger.prototype.setLevel = <span class="fstat-no" title="function not covered" >function (level) {</span>
+<span class="cstat-no" title="statement not covered" >        this.log4jsLogger.setLevel(level);</span>
+    };
+    Logger.prototype.getLevel = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return this.log4jsLogger.level.toString();</span>
+    };
+    Logger.prototype.fatal = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        this.log4jsLogger.fatal.apply(this.log4jsLogger, args);</span>
+    };
+    Logger.prototype.error = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var message = util.format.apply(null, args);</span>
+<span class="cstat-no" title="statement not covered" >        var colorizedMessage = message.red;</span>
+<span class="cstat-no" title="statement not covered" >        this.log4jsLogger.error.apply(this.log4jsLogger, [colorizedMessage]);</span>
+    };
+    Logger.prototype.warn = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var message = util.format.apply(null, args);</span>
+<span class="cstat-no" title="statement not covered" >        var colorizedMessage = message.yellow;</span>
+<span class="cstat-no" title="statement not covered" >        this.log4jsLogger.warn.apply(this.log4jsLogger, [colorizedMessage]);</span>
+    };
+    Logger.prototype.warnWithLabel = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var message = util.format.apply(util, args);</span>
+<span class="cstat-no" title="statement not covered" >        this.warn(Logger.LABEL + " " + message);</span>
+    };
+    Logger.prototype.info = function () {
+        var args = [];
+        for (var _i = 0; _i &lt; arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        this.log4jsLogger.info.apply(this.log4jsLogger, args);
+    };
+    Logger.prototype.debug = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var encodedArgs = this.getPasswordEncodedArguments(args);</span>
+<span class="cstat-no" title="statement not covered" >        this.log4jsLogger.debug.apply(this.log4jsLogger, encodedArgs);</span>
+    };
+    Logger.prototype.trace = function () {
+        var args = [];
+        for (var _i = 0; _i &lt; arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        var encodedArgs = this.getPasswordEncodedArguments(args);
+        this.log4jsLogger.trace.apply(this.log4jsLogger, encodedArgs);
+    };
+    Logger.prototype.out = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        console.log(util.format.apply(null, args));</span>
+    };
+    Logger.prototype.write = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        process.stdout.write(util.format.apply(null, args));</span>
+    };
+    Logger.prototype.prepare = <span class="fstat-no" title="function not covered" >function (item) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof item === "undefined" || item === null) {</span>
+<span class="cstat-no" title="statement not covered" >            return "[no content]";</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (typeof item === "string") {</span>
+<span class="cstat-no" title="statement not covered" >            return item;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (item instanceof stream.Readable) {</span>
+<span class="cstat-no" title="statement not covered" >            return "[ReadableStream]";</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return JSON.stringify(item);</span>
+    };
+    Logger.prototype.printInfoMessageOnSameLine = <span class="fstat-no" title="function not covered" >function (message) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.$options.log || this.$options.log === "info") {</span>
+<span class="cstat-no" title="statement not covered" >            this.write(message);</span>
+        }
+    };
+    Logger.prototype.printMsgWithTimeout = <span class="fstat-no" title="function not covered" >function (message, timeout) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var printMsgFuture = new Future();</span>
+<span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.printInfoMessageOnSameLine(message);</span>
+<span class="cstat-no" title="statement not covered" >            printMsgFuture.return();</span>
+        }, timeout);
+<span class="cstat-no" title="statement not covered" >        return printMsgFuture;</span>
+    };
+    Logger.prototype.printMarkdown = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var args = [];</span>
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0; _i &lt; arguments.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            args[_i - 0] = arguments[_i];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var opts = {</span>
+            unescape: true,
+            link: chalk.red,
+            tableOptions: {
+                chars: { 'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': '' },
+                style: {
+                    'padding-left': 1,
+                    'padding-right': 1,
+                    head: ['green', 'bold'],
+                    border: ['grey'],
+                    compact: false
+                }
+            }
+        };
+<span class="cstat-no" title="statement not covered" >        marked.setOptions({ renderer: new TerminalRenderer(opts) });</span>
+<span class="cstat-no" title="statement not covered" >        var formattedMessage = marked(util.format.apply(null, args));</span>
+<span class="cstat-no" title="statement not covered" >        this.write(formattedMessage);</span>
+    };
+    Logger.prototype.getPasswordEncodedArguments = function (args) {
+        var _this = this;
+        return _.map(args, function (argument) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof argument !== 'string') {
+<span class="cstat-no" title="statement not covered" >                return argument;</span>
+            }
+            var passwordMatch = _this.passwordRegex.exec(argument);
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (passwordMatch) {
+<span class="cstat-no" title="statement not covered" >                var password = passwordMatch[1] || passwordMatch[3];</span>
+<span class="cstat-no" title="statement not covered" >                return _this.getHiddenPassword(password, argument);</span>
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.encodeBody) {
+<span class="cstat-no" title="statement not covered" >                var bodyMatch = _this.requestBodyRegex.exec(argument);</span>
+<span class="cstat-no" title="statement not covered" >                if (bodyMatch) {</span>
+<span class="cstat-no" title="statement not covered" >                    return _this.getHiddenPassword(bodyMatch[1], argument);</span>
+                }
+            }
+            _.each(_this.encodeRequestPaths, function (path) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (argument.indexOf('path') &gt; -1) {
+<span class="cstat-no" title="statement not covered" >                    _this.encodeBody = argument.indexOf(path) &gt; -1;</span>
+<span class="cstat-no" title="statement not covered" >                    return false;</span>
+                }
+            });
+            return argument;
+        });
+    };
+    Logger.prototype.getHiddenPassword = <span class="fstat-no" title="function not covered" >function (password, originalString) {</span>
+<span class="cstat-no" title="statement not covered" >        password = password || '';</span>
+<span class="cstat-no" title="statement not covered" >        return originalString.replace(password, new Array(password.length + 1).join('*'));</span>
+    };
+    Logger.LABEL = "[WARNING]:";
+    return Logger;
+})();
+exports.Logger = Logger;
+$injector.register("logger", Logger);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

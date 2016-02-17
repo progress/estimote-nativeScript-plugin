@@ -1,0 +1,79 @@
+{
+  "_args": [
+    [
+      "heyutils@*",
+      "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/xmlmerge-js"
+    ]
+  ],
+  "_from": "heyutils@*",
+  "_id": "heyutils@0.5.12",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/heyutils",
+  "_nodeVersion": "0.10.35",
+  "_npmUser": {
+    "email": "51278370@qq.com",
+    "name": "heysdk"
+  },
+  "_npmVersion": "2.3.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "heyutils",
+    "raw": "heyutils@*",
+    "rawSpec": "*",
+    "scope": null,
+    "spec": "*",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/xmlmerge-js"
+  ],
+  "_resolved": "https://registry.npmjs.org/heyutils/-/heyutils-0.5.12.tgz",
+  "_shasum": "3d405c8a745ca7b175099e432bfd8bb551e69f4b",
+  "_shrinkwrap": null,
+  "_spec": "heyutils@*",
+  "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/xmlmerge-js",
+  "author": {
+    "name": "heysdk"
+  },
+  "bugs": {
+    "url": "https://github.com/heysdk/heyutils/issues"
+  },
+  "dependencies": {
+    "moment": "*",
+    "pretty-data": "*",
+    "xmldom": "*"
+  },
+  "description": "a useful toolkit for nodejs, like csv2obj filesystem etc",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "3d405c8a745ca7b175099e432bfd8bb551e69f4b",
+    "tarball": "http://registry.npmjs.org/heyutils/-/heyutils-0.5.12.tgz"
+  },
+  "homepage": "https://github.com/heysdk/heyutils",
+  "keywords": [
+    "array",
+    "csv2obj",
+    "exec",
+    "file",
+    "wildcard",
+    "xml"
+  ],
+  "license": "Apache",
+  "main": "./index.js",
+  "maintainers": [
+    {
+      "name": "heysdk",
+      "email": "51278370@qq.com"
+    }
+  ],
+  "name": "heyutils",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "url": "git://github.com/heysdk/heyutils.git"
+  },
+  "scripts": {},
+  "version": "0.5.12"
+}

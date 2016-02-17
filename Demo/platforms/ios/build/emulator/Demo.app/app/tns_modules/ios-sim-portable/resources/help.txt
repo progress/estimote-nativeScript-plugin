@@ -1,0 +1,74 @@
+--[]--
+
+Usage:
+    $ ios-sim-portable <command> [parameters] [--options <values>]
+    $ isim <command> [parameters] [--options <values>]
+
+General commands:
+    help <command>       Shows additional information about the commands in this list.
+    launch <full path>   Launches the application bundle (.app) at the specified path in the iOS Simulator.
+    device-types         Lists the available device types for the current Xcode version.
+    sdks                 Lists the available iOS SDK versions.
+    notify-post          Post a darwin notification on a device.
+
+General options:
+    --help               Prints help about the selected command.
+
+--[/]--
+
+--[help]--
+
+Usage:
+    $ ios-sim-portable help [<Command>]
+    $ isim help [<Command>]
+
+Lists the available commands or shows information about the selected command.
+<Command> is any of the available commands as listed by $ ios-sim-portable help.
+
+--[/]--
+
+--[launch]--
+
+Usage:
+    $ ios-sim-portable launch <Full Path> [--exit] [--device <Name>]
+    $ isim launch <Full Path> [--exit] [--device <Name>]
+
+Launches the application bundle (.app) located at the specified path in the iOS Simulator.
+<Full Path> is the absolute file path to the application bundle (.app) that you want to load in the iOS Simulator.
+<Name> is the name of an available device as listed by $ ios-sim-portable device-types.
+
+Options:
+    --exit - If set, releases the console after the iOS Simulator starts.
+    --device - If set, launches the app in the selected device. Otherwise, launches the app in the default device.
+
+--[/]--
+
+--[device-types]--
+
+Usage:
+    $ ios-sim-portable device-types
+    $ isim device-types
+
+Lists the available device types for the current Xcode version.
+
+--[/]--
+
+--[sdks]--
+
+Usage:
+    $ ios-sim-portable sdks
+    $ isim sdks
+
+Lists the available iOS SDK versions.
+
+--[/]--
+
+--[notify-post]--
+
+Usage:
+    $ ios-sim-portable notify-post <notification>
+    $ isim notify-post <notification>
+
+Posts a darwin notification on a device.
+
+--[/]--

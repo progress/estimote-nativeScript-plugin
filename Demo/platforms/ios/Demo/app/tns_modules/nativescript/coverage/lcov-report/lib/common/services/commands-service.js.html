@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/common/services/commands-service.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../prettify.css">
+    <link rel="stylesheet" href="../../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/common/services/commands-service.js</span></h1>
+    <h2>
+        Statements: <span class="metric">41.26% <small>(85 / 206)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">21.7% <small>(23 / 106)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">39.02% <small>(16 / 41)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">43.08% <small>(84 / 195)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../index.html">All files</a> &#187; <a href="index.html">lib/common/services/</a> &#187; commands-service.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../.d.ts"/&gt;
+"use strict";
+var jaroWinklerDistance = require("../vendor/jaro-winkler_distance");
+var helpers = require("../helpers");
+var os_1 = require("os");
+var CommandArgumentsValidationHelper = (function () {
+<span class="fstat-no" title="function not covered" >    function CommandArgumentsValidationHelper(isValid, _remainingArguments) {</span>
+<span class="cstat-no" title="statement not covered" >        this.isValid = isValid;</span>
+<span class="cstat-no" title="statement not covered" >        this.remainingArguments = _remainingArguments.slice();</span>
+    }
+    return CommandArgumentsValidationHelper;
+})();
+var CommandsService = (function () {
+    function CommandsService($commandsServiceProvider, $errors, $fs, $hooksService, $injector, $logger, $options, $resources, $staticConfig) {
+        this.$commandsServiceProvider = $commandsServiceProvider;
+        this.$errors = $errors;
+        this.$fs = $fs;
+        this.$hooksService = $hooksService;
+        this.$injector = $injector;
+        this.$logger = $logger;
+        this.$options = $options;
+        this.$resources = $resources;
+        this.$staticConfig = $staticConfig;
+        this.areDynamicSubcommandsRegistered = false;
+        this.cachedCommandHelp = null;
+    }
+    CommandsService.prototype.allCommands = <span class="fstat-no" title="function not covered" >function (opts) {</span>
+<span class="cstat-no" title="statement not covered" >        var commands = this.$injector.getRegisteredCommandsNames(opts.includeDevCommands);</span>
+<span class="cstat-no" title="statement not covered" >        return _.reject(commands, <span class="fstat-no" title="function not covered" >function (command) {</span> <span class="cstat-no" title="statement not covered" >return _.contains(command, '|'); </span>});</span>
+    };
+    CommandsService.prototype.executeCommandUnchecked = function (commandName, commandArguments) {
+        var _this = this;
+        return (function () {
+            var command = _this.$injector.resolveCommand(commandName);
+            if (command) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (!_this.$staticConfig.disableAnalytics &amp;&amp; !command.disableAnalytics) {
+                    var analyticsService = _this.$injector.resolve("analyticsService");
+                    <span class="missing-if-branch" title="else path not taken" >E</span>if (!command.disableAnalyticsConsentCheck) {
+                        analyticsService.checkConsent().wait();
+                    }
+                    analyticsService.trackFeature(commandName).wait();
+                }
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.$staticConfig.disableHooks &amp;&amp; (<span class="branch-1 cbranch-no" title="branch not covered" >command.enableHooks === undefined </span>|| <span class="branch-2 cbranch-no" title="branch not covered" >command.enableHooks === true)</span>) {
+<span class="cstat-no" title="statement not covered" >                    var hierarchicalCommandName = _this.$injector.buildHierarchicalCommand(commandName, commandArguments);</span>
+<span class="cstat-no" title="statement not covered" >                    if (hierarchicalCommandName) {</span>
+<span class="cstat-no" title="statement not covered" >                        commandName = helpers.stringReplaceAll(hierarchicalCommandName.commandName, CommandsService.HIERARCHICAL_COMMANDS_DEFAULT_COMMAND_DELIMITER, CommandsService.HOOKS_COMMANDS_DELIMITER);</span>
+<span class="cstat-no" title="statement not covered" >                        commandName = helpers.stringReplaceAll(commandName, CommandsService.HIERARCHICAL_COMMANDS_DELIMITER, CommandsService.HOOKS_COMMANDS_DELIMITER);</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    _this.$hooksService.executeBeforeHooks(commandName).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    command.execute(commandArguments).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$hooksService.executeAfterHooks(commandName).wait();</span>
+                }
+                else {
+                    command.execute(commandArguments).wait();
+                }
+                var commandHelp = _this.getCommandHelp().wait();
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (!command.disableCommandHelpSuggestion &amp;&amp; commandHelp &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >commandHelp[commandName])</span> {
+<span class="cstat-no" title="statement not covered" >                    var suggestionText = commandHelp[commandName];</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.printMarkdown(~suggestionText.indexOf('%s') ? require('util').format(suggestionText, commandArguments) : suggestionText);</span>
+                }
+                return true;
+            }
+            return false;
+        }).future()();
+    };
+    CommandsService.prototype.printHelp = function (commandName) {
+        this.$options.help = true;
+        return this.executeCommandUnchecked("help", [this.beautifyCommandName(commandName)]);
+    };
+    CommandsService.prototype.executeCommandAction = function (commandName, commandArguments, action) {
+        var _this = this;
+        return this.$errors.beginCommand(function () { return action.apply(_this, [commandName, commandArguments]); }, <span class="fstat-no" title="function not covered" >function () {</span> <span class="cstat-no" title="statement not covered" >return _this.printHelp(commandName); </span>});
+    };
+    CommandsService.prototype.tryExecuteCommandAction = function (commandName, commandArguments) {
+        var command = this.$injector.resolveCommand(commandName);
+        this.$options.validateOptions(command ? command.dashedOptions : <span class="branch-1 cbranch-no" title="branch not covered" >null)</span>;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!this.areDynamicSubcommandsRegistered) {
+            this.$commandsServiceProvider.registerDynamicSubCommands();
+            this.areDynamicSubcommandsRegistered = true;
+        }
+        return this.canExecuteCommand(commandName, commandArguments);
+    };
+    CommandsService.prototype.tryExecuteCommand = function (commandName, commandArguments) {
+        var _this = this;
+        return (function () {
+            if (_this.executeCommandAction(commandName, commandArguments, _this.tryExecuteCommandAction).wait()) {
+                _this.executeCommandAction(commandName, commandArguments, _this.executeCommandUnchecked).wait();
+            }
+            else {
+                var command = _this.$injector.resolveCommand(commandName);
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (command) {
+                    _this.printHelp(commandName).wait();
+                }
+            }
+        }).future()();
+    };
+    CommandsService.prototype.canExecuteCommand = function (commandName, commandArguments, isDynamicCommand) {
+        var _this = this;
+        return (function () {
+            var command = _this.$injector.resolveCommand(commandName);
+            var beautifiedName = helpers.stringReplaceAll(commandName, "|", " ");
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (command) {
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (command.isDisabled) {
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.failWithoutHelp("This command is not applicable to your environment.");</span>
+                }
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (command.canExecute) {
+                    return command.canExecute(commandArguments).wait();
+                }
+<span class="cstat-no" title="statement not covered" >                if (_this.$injector.isValidHierarchicalCommand(commandName, commandArguments)) {</span>
+<span class="cstat-no" title="statement not covered" >                    return true;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (_this.validateCommandArguments(command, commandArguments).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                    return true;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("Unable to execute command '%s'. Use '$ %s %s --help' for help.", beautifiedName, _this.$staticConfig.CLIENT_NAME.toLowerCase(), beautifiedName);</span>
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+            }
+            else <span class="cstat-no" title="statement not covered" >if (!isDynamicCommand &amp;&amp; _.startsWith(commandName, _this.$commandsServiceProvider.dynamicCommandsPrefix)) {</span>
+<span class="cstat-no" title="statement not covered" >                if (_.any(_this.$commandsServiceProvider.getDynamicCommands().wait())) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$commandsServiceProvider.generateDynamicCommands().wait();</span>
+<span class="cstat-no" title="statement not covered" >                    return _this.canExecuteCommand(commandName, commandArguments, true).wait();</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$logger.fatal("Unknown command '%s'. Use '%s help' for help.", beautifiedName, _this.$staticConfig.CLIENT_NAME.toLowerCase());</span>
+<span class="cstat-no" title="statement not covered" >            _this.tryMatchCommand(commandName);</span>
+<span class="cstat-no" title="statement not covered" >            return false;</span>
+        }).future()();
+    };
+    CommandsService.prototype.validateMandatoryParams = <span class="fstat-no" title="function not covered" >function (commandArguments, mandatoryParams) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var commandArgsHelper = new CommandArgumentsValidationHelper(true, commandArguments);</span>
+<span class="cstat-no" title="statement not covered" >            if (mandatoryParams.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                if (mandatoryParams.length &gt; commandArguments.length) {</span>
+<span class="cstat-no" title="statement not covered" >                    var customErrorMessages = _.map(mandatoryParams, <span class="fstat-no" title="function not covered" >function (mp) {</span> <span class="cstat-no" title="statement not covered" >return mp.errorMessage; </span>});</span>
+<span class="cstat-no" title="statement not covered" >                    customErrorMessages.splice(0, 0, "You need to provide all the required parameters.");</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.fail(customErrorMessages.join(os_1.EOL));</span>
+                }
+<span class="cstat-no" title="statement not covered" >                _.each(mandatoryParams, <span class="fstat-no" title="function not covered" >function (mandatoryParam) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var argument = _.find(commandArgsHelper.remainingArguments, <span class="fstat-no" title="function not covered" >function (c) {</span> <span class="cstat-no" title="statement not covered" >return mandatoryParam.validate(c).wait(); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                    if (argument) {</span>
+<span class="cstat-no" title="statement not covered" >                        helpers.remove(commandArgsHelper.remainingArguments, <span class="fstat-no" title="function not covered" >function (arg) {</span> <span class="cstat-no" title="statement not covered" >return arg === argument; </span>});</span>
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        _this.$errors.fail("Missing mandatory parameter.");</span>
+                    }
+                });
+            }
+<span class="cstat-no" title="statement not covered" >            return commandArgsHelper;</span>
+        }).future()();
+    };
+    CommandsService.prototype.validateCommandArguments = <span class="fstat-no" title="function not covered" >function (command, commandArguments) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var mandatoryParams = _.filter(command.allowedParameters, <span class="fstat-no" title="function not covered" >function (param) {</span> <span class="cstat-no" title="statement not covered" >return param.mandatory; </span>});</span>
+<span class="cstat-no" title="statement not covered" >            var commandArgsHelper = _this.validateMandatoryParams(commandArguments, mandatoryParams).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (!commandArgsHelper.isValid) {</span>
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (!command.allowedParameters || command.allowedParameters.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >                if (commandArguments.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.fail("This command doesn't accept parameters.");</span>
+                }
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                var unverifiedAllowedParams = command.allowedParameters.filter(<span class="fstat-no" title="function not covered" >function (param) {</span> <span class="cstat-no" title="statement not covered" >return !param.mandatory; </span>});</span>
+<span class="cstat-no" title="statement not covered" >                _.each(commandArgsHelper.remainingArguments, <span class="fstat-no" title="function not covered" >function (argument) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    var parameter = _.find(unverifiedAllowedParams, <span class="fstat-no" title="function not covered" >function (c) {</span> <span class="cstat-no" title="statement not covered" >return c.validate(argument).wait(); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                    if (parameter) {</span>
+<span class="cstat-no" title="statement not covered" >                        var index = unverifiedAllowedParams.indexOf(parameter);</span>
+<span class="cstat-no" title="statement not covered" >                        unverifiedAllowedParams.splice(index, 1);</span>
+                    }
+                    else {
+<span class="cstat-no" title="statement not covered" >                        _this.$errors.fail("The parameter %s is not valid for this command.", argument);</span>
+                    }
+                });
+            }
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }).future()();
+    };
+    CommandsService.prototype.tryMatchCommand = <span class="fstat-no" title="function not covered" >function (commandName) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var allCommands = this.allCommands({ includeDevCommands: false });</span>
+<span class="cstat-no" title="statement not covered" >        var similarCommands = [];</span>
+<span class="cstat-no" title="statement not covered" >        _.each(allCommands, <span class="fstat-no" title="function not covered" >function (command) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$injector.isDefaultCommand(command)) {</span>
+<span class="cstat-no" title="statement not covered" >                command = helpers.stringReplaceAll(command, "|", " ");</span>
+<span class="cstat-no" title="statement not covered" >                var distance = jaroWinklerDistance(commandName, command);</span>
+<span class="cstat-no" title="statement not covered" >                if (commandName.length &gt; 3 &amp;&amp; command.indexOf(commandName) !== -1) {</span>
+<span class="cstat-no" title="statement not covered" >                    similarCommands.push({ rating: 1, name: command });</span>
+                }
+                else <span class="cstat-no" title="statement not covered" >if (distance &gt;= 0.65) {</span>
+<span class="cstat-no" title="statement not covered" >                    similarCommands.push({ rating: distance, name: command });</span>
+                }
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        similarCommands = _.sortBy(similarCommands, <span class="fstat-no" title="function not covered" >function (command) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return -command.rating;</span>
+        }).slice(0, 5);
+<span class="cstat-no" title="statement not covered" >        if (similarCommands.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            var message = ["Did you mean?"];</span>
+<span class="cstat-no" title="statement not covered" >            _.each(similarCommands, <span class="fstat-no" title="function not covered" >function (command) {</span></span>
+<span class="cstat-no" title="statement not covered" >                message.push("\t" + command.name);</span>
+            });
+<span class="cstat-no" title="statement not covered" >            this.$logger.fatal(message.join("\n"));</span>
+        }
+    };
+    CommandsService.prototype.completeCommand = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var tabtab = require("tabtab");</span>
+<span class="cstat-no" title="statement not covered" >            var completeCallback = <span class="fstat-no" title="function not covered" >function (err, data) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (err || !data) {</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var splittedLine = data.line.split(/[ ]+/);</span>
+<span class="cstat-no" title="statement not covered" >                var line = _.filter(splittedLine, <span class="fstat-no" title="function not covered" >function (w) {</span> <span class="cstat-no" title="statement not covered" >return w !== ""; </span>});</span>
+<span class="cstat-no" title="statement not covered" >                var commandName = (line[line.length - 2]);</span>
+<span class="cstat-no" title="statement not covered" >                var childrenCommands = _this.$injector.getChildrenCommandsNames(commandName);</span>
+<span class="cstat-no" title="statement not covered" >                if (data.last &amp;&amp; _.startsWith(data.last, "--")) {</span>
+<span class="cstat-no" title="statement not covered" >                    return tabtab.log(_.keys(_this.$options.options), data, "--");</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (data.last &amp;&amp; _.startsWith(data.last, "-")) {</span>
+<span class="cstat-no" title="statement not covered" >                    return tabtab.log(_this.$options.shorthands, data, "-");</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (data.words === 1) {</span>
+<span class="cstat-no" title="statement not covered" >                    var allCommands = _this.allCommands({ includeDevCommands: false });</span>
+<span class="cstat-no" title="statement not covered" >                    if (_.startsWith(data.last, _this.$commandsServiceProvider.dynamicCommandsPrefix)) {</span>
+<span class="cstat-no" title="statement not covered" >                        allCommands = allCommands.concat(_this.$commandsServiceProvider.getDynamicCommands().wait());</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    return tabtab.log(allCommands, data);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (data.words &gt;= 3) {</span>
+<span class="cstat-no" title="statement not covered" >                    commandName = line[1] + "|" + line[2];</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var command = _this.$injector.resolveCommand(commandName);</span>
+<span class="cstat-no" title="statement not covered" >                if (command) {</span>
+<span class="cstat-no" title="statement not covered" >                    var completionData = command.completionData;</span>
+<span class="cstat-no" title="statement not covered" >                    if (completionData) {</span>
+<span class="cstat-no" title="statement not covered" >                        return tabtab.log(completionData, data);</span>
+                    }
+                }
+<span class="cstat-no" title="statement not covered" >                if (data.words === 2 &amp;&amp; childrenCommands) {</span>
+<span class="cstat-no" title="statement not covered" >                    return tabtab.log(_.reject(childrenCommands, <span class="fstat-no" title="function not covered" >function (children) {</span> <span class="cstat-no" title="statement not covered" >return children[0] === '*'; </span>}), data);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+            };
+<span class="cstat-no" title="statement not covered" >            tabtab.complete(_this.$staticConfig.CLIENT_NAME.toLowerCase(), completeCallback);</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$staticConfig.CLIENT_NAME_ALIAS) {</span>
+<span class="cstat-no" title="statement not covered" >                tabtab.complete(_this.$staticConfig.CLIENT_NAME_ALIAS.toLowerCase(), completeCallback);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }).future()();
+    };
+    CommandsService.prototype.getCommandHelp = function () {
+        var _this = this;
+        return (function () {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.cachedCommandHelp &amp;&amp; _this.$fs.exists(_this.$resources.resolvePath(_this.$staticConfig.COMMAND_HELP_FILE_NAME)).wait()) {
+<span class="cstat-no" title="statement not covered" >                _this.cachedCommandHelp = _this.$resources.readJson(_this.$staticConfig.COMMAND_HELP_FILE_NAME).wait();</span>
+            }
+            return _this.cachedCommandHelp;
+        }).future()();
+    };
+    CommandsService.prototype.beautifyCommandName = function (commandName) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (commandName.indexOf("*") &gt; 0) {
+<span class="cstat-no" title="statement not covered" >            return commandName.substr(0, commandName.indexOf("|"));</span>
+        }
+        return commandName;
+    };
+    CommandsService.HIERARCHICAL_COMMANDS_DELIMITER = "|";
+    CommandsService.HIERARCHICAL_COMMANDS_DEFAULT_COMMAND_DELIMITER = "|*";
+    CommandsService.HOOKS_COMMANDS_DELIMITER = "-";
+    return CommandsService;
+})();
+exports.CommandsService = CommandsService;
+$injector.register("commandsService", CommandsService);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

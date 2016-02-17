@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/services/project-service.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">lib/services/project-service.js</span></h1>
+    <h2>
+        Statements: <span class="metric">82.76% <small>(72 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">55.88% <small>(19 / 34)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">82.76% <small>(72 / 87)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/services/</a> &#187; project-service.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../.d.ts"/&gt;
+"use strict";
+var constants = require("../constants");
+var osenv = require("osenv");
+var path = require("path");
+var shell = require("shelljs");
+var ProjectService = (function () {
+    function ProjectService($npm, $errors, $fs, $logger, $projectDataService, $projectHelper, $projectNameValidator, $projectTemplatesService, $options) {
+        this.$npm = $npm;
+        this.$errors = $errors;
+        this.$fs = $fs;
+        this.$logger = $logger;
+        this.$projectDataService = $projectDataService;
+        this.$projectHelper = $projectHelper;
+        this.$projectNameValidator = $projectNameValidator;
+        this.$projectTemplatesService = $projectTemplatesService;
+        this.$options = $options;
+    }
+    ProjectService.prototype.createProject = function (projectName) {
+        var _this = this;
+        return (function () {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!projectName) {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("You must specify &lt;App name&gt; when creating a new project.");</span>
+            }
+            _this.$projectNameValidator.validate(projectName);
+            var projectId = _this.$options.appid || _this.$projectHelper.generateDefaultAppId(projectName, constants.DEFAULT_APP_IDENTIFIER_PREFIX);
+            var projectDir = path.join(path.resolve(_this.$options.path || <span class="branch-1 cbranch-no" title="branch not covered" >".")</span>, projectName);
+            _this.$fs.createDirectory(projectDir).wait();
+            var customAppPath = _this.getCustomAppPath();
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (customAppPath) {
+                customAppPath = path.resolve(customAppPath);
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (!_this.$fs.exists(customAppPath).wait()) {
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.failWithoutHelp("The specified path \"" + customAppPath + "\" doesn't exist. Check that you specified the path correctly and try again.");</span>
+                }
+                var customAppContents = _this.$fs.enumerateFilesInDirectorySync(customAppPath);
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (customAppContents.length === 0) {
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.failWithoutHelp("The specified path \"" + customAppPath + "\" is empty directory.");</span>
+                }
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$fs.exists(projectDir).wait() &amp;&amp; !_this.$fs.isEmptyDir(projectDir).wait()) {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("Path already exists and is not empty %s", projectDir);</span>
+            }
+            _this.$logger.trace("Creating a new NativeScript project with name %s and id %s at location %s", projectName, projectId, projectDir);
+            var appDirectory = path.join(projectDir, constants.APP_FOLDER_NAME);
+            var appPath = null;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (customAppPath) {
+                _this.$logger.trace("Using custom app from %s", customAppPath);
+                var relativePathFromSourceToTarget = path.relative(customAppPath, appDirectory);
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (relativePathFromSourceToTarget !== appDirectory) {
+                    var doesRelativePathGoUpAtLeastOneDir = relativePathFromSourceToTarget.split(path.sep)[0] === "..";
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (!doesRelativePathGoUpAtLeastOneDir) {
+<span class="cstat-no" title="statement not covered" >                        _this.$errors.fail("Project dir %s must not be created at/inside the template used to create the project %s.", projectDir, customAppPath);</span>
+                    }
+                }
+                _this.$logger.trace("Copying custom app into %s", appDirectory);
+                appPath = customAppPath;
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Using NativeScript hello world application");</span>
+<span class="cstat-no" title="statement not covered" >                var defaultTemplatePath = _this.$projectTemplatesService.defaultTemplatePath.wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Copying NativeScript hello world application into %s", appDirectory);</span>
+<span class="cstat-no" title="statement not covered" >                appPath = defaultTemplatePath;</span>
+            }
+            try {
+                _this.createProjectCore(projectDir, appPath, projectId).wait();
+            }
+            catch (err) {
+<span class="cstat-no" title="statement not covered" >                _this.$fs.deleteDirectory(projectDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >                throw err;</span>
+            }
+            _this.$logger.out("Project %s was successfully created", projectName);
+        }).future()();
+    };
+    ProjectService.prototype.createProjectCore = function (projectDir, appSourcePath, projectId) {
+        var _this = this;
+        return (function () {
+            _this.$fs.ensureDirectoryExists(projectDir).wait();
+            var appDestinationPath = path.join(projectDir, constants.APP_FOLDER_NAME);
+            _this.$fs.createDirectory(appDestinationPath).wait();
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (_this.$options.symlink) {
+<span class="cstat-no" title="statement not covered" >                _this.$fs.symlink(appSourcePath, appDestinationPath).wait();</span>
+            }
+            else {
+                shell.cp('-R', path.join(appSourcePath, "*"), appDestinationPath);
+            }
+            _this.createBasicProjectStructure(projectDir, projectId).wait();
+        }).future()();
+    };
+    ProjectService.prototype.createBasicProjectStructure = function (projectDir, projectId) {
+        var _this = this;
+        return (function () {
+            _this.$fs.createDirectory(path.join(projectDir, "platforms")).wait();
+            _this.$projectDataService.initialize(projectDir);
+            _this.$projectDataService.setValue("id", projectId).wait();
+            var tnsModulesVersion = _this.$options.tnsModulesVersion;
+            var packageName = constants.TNS_CORE_MODULES_NAME;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (tnsModulesVersion) {
+<span class="cstat-no" title="statement not covered" >                packageName = packageName + "@" + tnsModulesVersion;</span>
+            }
+            _this.$npm.executeNpmCommand("npm install " + packageName + " --save --save-exact", projectDir).wait();
+        }).future()();
+    };
+    ProjectService.prototype.getCustomAppPath = function () {
+        var customAppPath = this.$options.copyFrom || <span class="branch-1 cbranch-no" title="branch not covered" >this.$options.linkTo;</span>
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (customAppPath) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (customAppPath.indexOf("http://") === 0) {
+<span class="cstat-no" title="statement not covered" >                this.$errors.fail("Only local paths for custom app are supported.");</span>
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (customAppPath.substr(0, 1) === '~') {
+<span class="cstat-no" title="statement not covered" >                customAppPath = path.join(osenv.home(), customAppPath.substr(1));</span>
+            }
+        }
+        return customAppPath;
+    };
+    return ProjectService;
+})();
+exports.ProjectService = ProjectService;
+$injector.register("projectService", ProjectService);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

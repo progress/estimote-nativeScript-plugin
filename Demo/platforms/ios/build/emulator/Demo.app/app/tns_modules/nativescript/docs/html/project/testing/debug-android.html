@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+  <title>debug-android</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="debug-android">debug android</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deploy on device, run the app and stop at the first breakpoint</td>
+<td><code>$ tns debug android --debug-brk [--device &lt;Device ID&gt;] [--debug-port &lt;port&gt;] [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Deploy in the native emulator, run the app and stop at the first breakpoint</td>
+<td><code>$ tns debug android --debug-brk --emulator [&lt;Emulator Options&gt;] [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Deploy in Genymotion, run the app and stop at the first breakpoint</td>
+<td><code>$ tns debug android --debug-brk --geny &lt;Geny Name&gt; [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Attach the debug tools to a running app on device</td>
+<td><code>$ tns debug android --start [--device &lt;Device ID&gt;] [--debug-port &lt;port&gt;] [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Attach the debug tools to a running app in the native emulator</td>
+<td><code>$ tns debug android --start --emulator [&lt;Emulator Options&gt;] [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Attach the debug tools to a running app in Genymotion</td>
+<td><code>$ tns debug android --start --geny &lt;Geny Name&gt; [--print-app-output] [--timeout &lt;timeout&gt;]</code></td>
+</tr>
+<tr>
+<td>Retrieve the device port on which you are debugging</td>
+<td><code>$ tns debug android [--device &lt;Device ID&gt;] --get-port</code></td>
+</tr>
+<tr>
+<td>Detach the debug tools</td>
+<td><code>$ tns debug android --stop</code></td>
+</tr>
+</tbody>
+</table>
+<p>Debugs your project on a connected device, in a native emulator or in Genymotion.</p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--device</code> - Specifies a connected device on which to debug the app.</li>
+<li><code>--emulator</code> - Specifies that you want to debug the app in the native Android emulator from the Android SDK.</li>
+<li><code>--geny</code> - Specifies a Genymotion emulator on which you want to debug your app.</li>
+<li><code>--debug-brk</code> - Prepares, builds and deploys the application package on a device or in an emulator, launches the Chrome DevTools of your Chrome browser. </li>
+<li><code>--start</code> - Attaches the debug tools to a deployed and running app.</li>
+<li><code>--stop</code> - Detaches the debug tools.</li>
+<li><code>--get-port</code> - Retrieves the port on which you are debugging your application.</li>
+<li><code>--debug-port</code> - Sets a new port on which to attach the debug tools.</li>
+<li><code>--timeout</code> - Sets the number of seconds that the NativeScript CLI will wait for the debugger to boot. If not set, the default timeout is 90 seconds.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Device ID&gt;</code> is the index or name of the target device as listed by <code>$ tns device</code> </li>
+<li><code>&lt;Port&gt;</code> is an accessible port on the device to which you want to attach the debugging tools.</li>
+<li><code>&lt;Emulator Options&gt;</code> is any valid combination of options as listed by <code>$ tns help emulate android</code></li>
+<li><code>&lt;GenyName&gt;</code> is the name of the Genymotion virtual device that you want to use as listed by <code>$ genyshell -c &quot;devices list&quot;</code></li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>You must have Chrome installed on your system.<br/>If you are using a non-standard named Chrome app on an OS X system (for example, a nightly Canary update), you need to set this name in the <code>ANDROID_DEBUG_UI_MAC</code> setting in the NativeScript <a href="file:////Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript/config/config.json">config.json</a>.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="build-android.html">build android</a></td>
+<td>Builds the project for Android and produces an APK that you can manually deploy on device or in the native emulator.</td>
+</tr>
+<tr>
+<td><a href="build-ios.html">build ios</a></td>
+<td>Builds the project for iOS and produces an APP or IPA that you can manually deploy in the iOS Simulator or on device, respectively.</td>
+</tr>
+<tr>
+<td><a href="build.html">build</a></td>
+<td>Builds the project for the selected target platform and produces an application package that you can manually deploy on device or in the native emulator.</td>
+</tr>
+<tr>
+<td><a href="debug-ios.html">debug ios</a></td>
+<td>Debugs your project on a connected iOS device or in a native emulator.</td>
+</tr>
+<tr>
+<td><a href="debug.html">debug</a></td>
+<td>Debugs your project on a connected device or in a native emulator.</td>
+</tr>
+<tr>
+<td><a href="deploy.html">deploy</a></td>
+<td>Builds and deploys the project to a connected physical or virtual device.</td>
+</tr>
+<tr>
+<td><a href="emulate-android.html">emulate android</a></td>
+<td>Builds the specified project and runs it in a native Android emulator.</td>
+</tr>
+<tr>
+<td><a href="emulate-ios.html">emulate ios</a></td>
+<td>Builds the specified project and runs it in the native iOS Simulator.</td>
+</tr>
+<tr>
+<td><a href="emulate.html">emulate</a></td>
+<td>You must run the emulate command with a related command.</td>
+</tr>
+<tr>
+<td><a href="livesync.html">livesync</a></td>
+<td>Synchronizes the latest changes in your project to devices.</td>
+</tr>
+<tr>
+<td><a href="livesync-ios.html">livesync ios</a></td>
+<td>Synchronizes the latest changes in your project to iOS devices or the iOS Simulator.</td>
+</tr>
+<tr>
+<td><a href="livesync-android.html">livesync android</a></td>
+<td>Synchronizes the latest changes in your project to Android devices.</td>
+</tr>
+<tr>
+<td><a href="run-android.html">run android</a></td>
+<td>Runs your project on a connected Android device or in a native Android emulator, if configured.</td>
+</tr>
+<tr>
+<td><a href="run-ios.html">run ios</a></td>
+<td>Runs your project on a connected iOS device or in the iOS Simulator, if configured.</td>
+</tr>
+<tr>
+<td><a href="run.html">run</a></td>
+<td>Runs your project on a connected device or in the native emulator for the selected platform.</td>
+</tr>
+<tr>
+<td><a href="test-init.html">test init</a></td>
+<td>Configures your project for unit testing with a selected framework.</td>
+</tr>
+<tr>
+<td><a href="test-android.html">test android</a></td>
+<td>Runs the tests in your project on Android devices or native emulators. </td>
+</tr>
+<tr>
+<td><a href="test-ios.html">test ios</a></td>
+<td>Runs the tests in your project on iOS devices or the iOS Simulator.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

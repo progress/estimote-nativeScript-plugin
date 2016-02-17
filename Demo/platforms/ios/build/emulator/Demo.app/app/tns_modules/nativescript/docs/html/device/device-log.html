@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <title>device-log</title>
+  <link rel="shortcut icon" type="image/ico" href="../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../index.html"><img class="logo" src="../../helpers/logo.png"></a>
+   <h1 id="device-log">device log</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td><code>$ tns device log [--device &lt;Device ID&gt;]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Opens the device log stream for a selected connected Android or iOS device. </p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--device</code> - If multiple devices are connected, sets the device for which you want to stream the log in the console.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Device ID&gt;</code> is the device index or identifier as listed by <code>$ tns device</code></li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You cannot work with connected iOS devices on Linux systems.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="device.html">device</a></td>
+<td>Lists all recognized connected devices with serial number and index, grouped by platform.</td>
+</tr>
+<tr>
+<td><a href="device-android.html">device android</a></td>
+<td>Lists all recognized connected physical and running virtual devices with serial number and index.</td>
+</tr>
+<tr>
+<td><a href="device-ios.html">device ios</a></td>
+<td>Lists all recognized connected iOS devices with serial number and index.</td>
+</tr>
+<tr>
+<td><a href="device-list-applications.html">device list-applications</a></td>
+<td>Lists the installed applications on all connected Android and iOS devices.</td>
+</tr>
+<tr>
+<td><a href="device-run.html">device run</a></td>
+<td>Runs the selected application on a connected Android or iOS device.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <title>dev-test-android</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="test-android">test android</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run tests on all connected devices</td>
+<td><code>$ tns test android [--watch] [--debug-brk]</code></td>
+</tr>
+<tr>
+<td>Run tests on a selected device</td>
+<td><code>$ tns test android --device &lt;Device ID&gt; [--watch] [--debug-brk]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Runs the tests in your project on connected Android devices and running native emulators.</p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--watch</code> - If set, when you save changes to the project, changes are automatically synchronized to the connected device and tests are re-run.</li>
+<li><code>--device</code> - Specifies the serial number or the index of the connected device on which to run the tests. To list all connected devices, grouped by platform, run <code>$ tns device</code></li>
+<li><code>--debug-brk</code> - Runs the tests under the debugger. The debugger will break just before your tests are executed, so you have a chance to place breakpoints.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Device ID&gt;</code> is the device index or identifier as listed by <code>$ tns device</code></li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Verify that <a href="test-init.html">you have configured your project for unit testing</a>.</li>
+<li>Verify that <a href="http://docs.nativescript.org/testing">you have stored your unit tests in <code>app</code> &#8594; <code>tests</code></a>.</li>
+<li>Verify that <a href="http://docs.nativescript.org/testing">you have configured your system and devices properly</a>.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="test-init.html">test init</a></td>
+<td>Configures your project for unit testing with a selected framework.</td>
+</tr>
+<tr>
+<td><a href="test-ios.html">test ios</a></td>
+<td>Runs the tests in your project on iOS devices or the iOS Simulator.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

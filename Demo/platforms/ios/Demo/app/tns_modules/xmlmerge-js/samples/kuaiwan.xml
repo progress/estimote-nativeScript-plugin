@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest >
+	<application >
+		<activity
+			android:name="com.qvod.pay.ChargeActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize" >
+		</activity>
+		<activity
+			android:name="com.unionpay.uppay.PayActivityEx"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:excludeFromRecents="true"
+			android:label="@string/app_name"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="adjustResize" />
+	</application>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+</manifest> 

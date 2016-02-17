@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+  <title>emulate-android</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="emulate-android">emulate android</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run in the native emulator</td>
+<td><code>$ tns emulate android [--avd &lt;Name&gt;] [--path &lt;Directory&gt;] [--timeout &lt;Seconds&gt;] [--key-store-path &lt;File Path&gt; --key-store-password &lt;Password&gt; --key-store-alias &lt;Name&gt; --key-store-alias-password &lt;Password&gt;] [--release] [--justlaunch]</code></td>
+</tr>
+<tr>
+<td>Run in Genymotion</td>
+<td><code>$ tns emulate android --geny &lt;GenyName&gt; [--path &lt;Directory&gt;] [--timeout &lt;Seconds&gt;] [--key-store-path &lt;File Path&gt; --key-store-password &lt;Password&gt; --key-store-alias &lt;Name&gt; --key-store-alias-password &lt;Password&gt;] [--release] [--justlaunch]</code></td>
+</tr>
+<tr>
+<td>Run in the default Android virtual device or in a currently running emulator</td>
+<td><code>$ tns emulate android [--path &lt;Directory&gt;] [--timeout &lt;Seconds&gt;] [--key-store-path &lt;File Path&gt; --key-store-password &lt;Password&gt; --key-store-alias &lt;Name&gt; --key-store-alias-password &lt;Password&gt;] [--release] [--justlaunch]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Builds the specified project and runs it in the native emulator from the Android SDK or Genymotion. While your app is running, prints the output from the application in the console.If you do not select an Android virtual device (AVD) with the <code>--avd</code> option or a Genymotion virtual device with the <code>--geny</code> option, your app runs in the default AVD or a currently running emulator, if any.  </p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--path</code> - Specifies the directory that contains the project. If not specified, the project is searched for in the current directory and all directories above it.</li>
+<li><code>--avd</code> - Sets the Android virtual device on which you want to run your app. You can set only one device at a time. You cannot use <code>--avd</code> and <code>--geny</code> simultaneously.</li>
+<li><code>--geny</code> - Sets the Genymotion virtual device on which you want to run your app. You can set only one device at a time. You cannot use <code>--avd</code> and <code>--geny</code> simultaneously.      </li>
+<li><code>--timeout</code> - Sets the number of seconds that the NativeScript CLI will wait for the virtual device to boot before quitting the operation and releasing the console. If not set, the default timeout is 120 seconds. To wait indefinitely, set 0.</li>
+<li><code>--release</code> - If set, produces a release build. Otherwise, produces a debug build. When set, you must also specify the <code>--key-store-*</code> options.</li>
+<li><code>--key-store-path</code> - Specifies the file path to the keystore file (P12) which you want to use to code sign your APK. You can use the <code>--key-store-*</code> options along with <code>--release</code> to produce a signed release build. You need to specify all <code>--key-store-*</code> options.</li>
+<li><code>--key-store-password</code> - Provides the password for the keystore file specified with --key-store-path. You can use the <code>--key-store-*</code> options along with --release to produce a signed release build. You need to specify all <code>--key-store-*</code> options.</li>
+<li><code>--key-store-alias</code> - Provides the alias for the keystore file specified with <code>--key-store-path</code>. You can use the <code>--key-store-*</code> options along with <code>--release</code> to produce a signed release build. You need to specify all <code>--key-store-*</code> options.</li>
+<li><code>--key-store-alias-password</code> - Provides the password for the alias specified with <code>--key-store-alias-password</code>. You can use the <code>--key-store-*</code> options along with <code>--release</code> to produce a signed release build. You need to specify all <code>--key-store-*</code> options.</li>
+<li><code>--justlaunch</code> - If set, does not print the application output in the console.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;Name&gt;</code> is the name of the Android virtual device that you want to use as listed by <code>$ android list avd</code>  </li>
+<li><code>&lt;GenyName&gt;</code> is the name of the Genymotion virtual device that you want to use as listed by <code>$ genyshell -c &quot;devices list&quot;</code>  </li>
+</ul>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before running your app in the Android emulator from the Android SDK, verify that your system meets the following requirements.</p>
+<ul>
+<li>Verify that you have installed the Android SDK.</li>
+<li>Verify that you have added the following Android SDK directories to the <code>PATH</code> environment variable:<ul>
+<li><code>platform-tools</code></li>
+<li><code>tools</code></li>
+</ul>
+</li>
+<li>Before running your app in the Genymotion emulator, verify that your system meets the following requirements.<ul>
+<li>Verify that you have installed Genymotion.</li>
+<li>On Windows and Linux systems, verify that you have added the Genymotion installation directory to the <code>PATH</code> environment variable.</li>
+<li>On OS X systems, verify that you have added the following paths to the PATH environment variable.<ul>
+<li>For Genymotion earlier than 2.6:<ul>
+<li><code>/Applications/Genymotion.app/Contents/MacOS/</code></li>
+<li><code>/Applications/Genymotion Shell.app/Contents/MacOS/</code></li>
+</ul>
+</li>
+<li>For Genymotion 2.6:<ul>
+<li><code>/Applications/Genymotion.app/Contents/MacOS/player.app/Contents/MacOS</code></li>
+<li><code>/Applications/Genymotion Shell.app/Contents/MacOS/</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="command-limitations">Command Limitations</h3>
+<ul>
+<li>You can run this command for one virtual device at a time. To test your app on multiple Android virtual devices, run <code>$ tns emulate android --avd &lt;Name&gt;</code> or <code>$ tns emulate android --geny &lt;GenyName&gt;</code> for each virtual device. </li>
+<li>When the <code>--release</code> flag is set, you must also specify all <code>--key-store-*</code> options.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="build-android.html">build android</a></td>
+<td>Builds the project for Android and produces an APK that you can manually deploy on device or in the native emulator.</td>
+</tr>
+<tr>
+<td><a href="build-ios.html">build ios</a></td>
+<td>Builds the project for iOS and produces an APP or IPA that you can manually deploy in the iOS Simulator or on device, respectively.</td>
+</tr>
+<tr>
+<td><a href="build.html">build</a></td>
+<td>Builds the project for the selected target platform and produces an application package that you can manually deploy on device or in the native emulator.</td>
+</tr>
+<tr>
+<td><a href="debug-android.html">debug android</a></td>
+<td>Debugs your project on a connected Android device or in a native emulator.</td>
+</tr>
+<tr>
+<td><a href="debug-ios.html">debug ios</a></td>
+<td>Debugs your project on a connected iOS device or in a native emulator.</td>
+</tr>
+<tr>
+<td><a href="debug.html">debug</a></td>
+<td>Debugs your project on a connected device or in a native emulator.</td>
+</tr>
+<tr>
+<td><a href="deploy.html">deploy</a></td>
+<td>Builds and deploys the project to a connected physical or virtual device.</td>
+</tr>
+<tr>
+<td><a href="emulate-ios.html">emulate ios</a></td>
+<td>Builds the specified project and runs it in the native iOS Simulator.</td>
+</tr>
+<tr>
+<td><a href="emulate.html">emulate</a></td>
+<td>You must run the emulate command with a related command.</td>
+</tr>
+<tr>
+<td><a href="livesync.html">livesync</a></td>
+<td>Synchronizes the latest changes in your project to devices.</td>
+</tr>
+<tr>
+<td><a href="livesync-ios.html">livesync ios</a></td>
+<td>Synchronizes the latest changes in your project to iOS devices or the iOS Simulator.</td>
+</tr>
+<tr>
+<td><a href="livesync-android.html">livesync android</a></td>
+<td>Synchronizes the latest changes in your project to Android devices.</td>
+</tr>
+<tr>
+<td><a href="run-android.html">run android</a></td>
+<td>Runs your project on a connected Android device or in a native Android emulator, if configured.</td>
+</tr>
+<tr>
+<td><a href="run-ios.html">run ios</a></td>
+<td>Runs your project on a connected iOS device or in the iOS Simulator, if configured.</td>
+</tr>
+<tr>
+<td><a href="run.html">run</a></td>
+<td>Runs your project on a connected device or in the native emulator for the selected platform.</td>
+</tr>
+<tr>
+<td><a href="test-init.html">test init</a></td>
+<td>Configures your project for unit testing with a selected framework.</td>
+</tr>
+<tr>
+<td><a href="test-android.html">test android</a></td>
+<td>Runs the tests in your project on Android devices or native emulators. </td>
+</tr>
+<tr>
+<td><a href="test-ios.html">test ios</a></td>
+<td>Runs the tests in your project on iOS devices or the iOS Simulator.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

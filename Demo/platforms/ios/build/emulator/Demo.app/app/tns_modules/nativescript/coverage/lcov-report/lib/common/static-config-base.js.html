@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/common/static-config-base.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/common/static-config-base.js</span></h1>
+    <h2>
+        Statements: <span class="metric">45.61% <small>(26 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">16.67% <small>(2 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">45.61% <small>(26 / 57)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/common/</a> &#187; static-config-base.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-yes">72</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path=".d.ts"/&gt;
+"use strict";
+var path = require("path");
+var shelljs = require("shelljs");
+var os = require("os");
+var StaticConfigBase = (function () {
+    function StaticConfigBase($injector) {
+        this.$injector = $injector;
+        this.PROJECT_FILE_NAME = null;
+        this.CLIENT_NAME = null;
+        this.ANALYTICS_API_KEY = null;
+        this.ANALYTICS_INSTALLATION_ID_SETTING_NAME = null;
+        this.TRACK_FEATURE_USAGE_SETTING_NAME = null;
+        this.ERROR_REPORT_SETTING_NAME = null;
+        this.APP_RESOURCES_DIR_NAME = "App_Resources";
+        this.COMMAND_HELP_FILE_NAME = 'command-help.json';
+        this.RESOURCE_DIR_PATH = __dirname;
+        this.version = null;
+        this._adbFilePath = null;
+    }
+    Object.defineProperty(StaticConfigBase.prototype, "helpTextPath", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return null;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    StaticConfigBase.prototype.getAdbFilePath = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!_this._adbFilePath) {</span>
+<span class="cstat-no" title="statement not covered" >                _this._adbFilePath = _this.getAdbFilePathCore().wait();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return _this._adbFilePath;</span>
+        }).future()();
+    };
+    Object.defineProperty(StaticConfigBase.prototype, "MAN_PAGES_DIR", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(__dirname, "../../", "docs", "man_pages");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StaticConfigBase.prototype, "HTML_PAGES_DIR", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(__dirname, "../../", "docs", "html");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StaticConfigBase.prototype, "HTML_COMMON_HELPERS_DIR", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(__dirname, "docs", "helpers");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    StaticConfigBase.prototype.getAdbFilePathCore = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var $childProcess = _this.$injector.resolve("$childProcess");</span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                var proc = $childProcess.spawnFromEvent("adb", ["version"], "exit", undefined, { throwError: false }).wait();</span>
+<span class="cstat-no" title="statement not covered" >                if (proc.stderr) {</span>
+<span class="cstat-no" title="statement not covered" >                    return _this.spawnPrivateAdb().wait();</span>
+                }
+            }
+            catch (e) {
+<span class="cstat-no" title="statement not covered" >                if (e.code === "ENOENT") {</span>
+<span class="cstat-no" title="statement not covered" >                    return _this.spawnPrivateAdb().wait();</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            return "adb";</span>
+        }).future()();
+    };
+    StaticConfigBase.prototype.spawnPrivateAdb = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var $fs = _this.$injector.resolve("$fs");</span>
+<span class="cstat-no" title="statement not covered" >            var $childProcess = _this.$injector.resolve("$childProcess");</span>
+<span class="cstat-no" title="statement not covered" >            var defaultAdbDirPath = path.join(__dirname, "resources/platform-tools/android/" + process.platform);</span>
+<span class="cstat-no" title="statement not covered" >            var commonLibVersion = require(path.join(__dirname, "package.json")).version;</span>
+<span class="cstat-no" title="statement not covered" >            var tmpDir = path.join(os.tmpdir(), "telerik-common-lib-" + commonLibVersion);</span>
+<span class="cstat-no" title="statement not covered" >            $fs.createDirectory(tmpDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >            shelljs.cp(path.join(defaultAdbDirPath, "*"), tmpDir);</span>
+<span class="cstat-no" title="statement not covered" >            var targetAdb = path.join(tmpDir, "adb");</span>
+<span class="cstat-no" title="statement not covered" >            $childProcess.spawnFromEvent(targetAdb, ["start-server"], "exit", undefined, { throwError: false }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            return targetAdb;</span>
+        }).future()();
+    };
+    return StaticConfigBase;
+})();
+exports.StaticConfigBase = StaticConfigBase;
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

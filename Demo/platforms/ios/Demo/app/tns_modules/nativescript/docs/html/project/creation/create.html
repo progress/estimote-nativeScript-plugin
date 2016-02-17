@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <title>create</title>
+  <link rel="shortcut icon" type="image/ico" href="../../../helpers/favicon.ico"/>
+  <meta http-equiv="content-type" value="text/html;utf-8">
+  <link rel="stylesheet" type="text/css" href="../../../../lib/common/docs/helpers/styles.css"/>
+</head>
+  <body>
+  <a href="../../index.html"><img class="logo" src="../../../helpers/logo.png"></a>
+   <h1 id="create">create</h1>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Synopsis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>General</td>
+<td><code>$ tns create &lt;App Name&gt; [--path &lt;Directory&gt;] [--appid &lt;App ID&gt;] [--copy-from &lt;Directory&gt;]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Creates a new project for native development with NativeScript from the default template or from an existing NativeScript project.</p>
+<h3 id="options">Options</h3>
+<ul>
+<li><code>--path</code> - Specifies the directory where you want to create the project, if different from the current directory. The directory must be empty.</li>
+<li><code>--appid</code> - Sets the application identifier for your project. </li>
+<li><code>--copy-from</code> - Specifies a directory which contains an existing NativeScript project. If not set, the NativeScript CLI creates the project from the default hello-world template.</li>
+</ul>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>&lt;App Name&gt;</code> is the name of project. The specified name must meet the requirements of all platforms that you want to target. For projects that target Android, you can use uppercase or lowercase letters, numbers, and underscores. The name must start with a letter.<br>For projects that target iOS, you can use uppercase or lowercase letters, numbers, and hyphens.    </li>
+<li><code>&lt;App ID&gt;</code> is the application identifier for your project. It must be a domain name in reverse and must meet the requirements of all platforms that you want to target. If not specified, the application identifier is set to <code>org.nativescript.&lt;App name&gt;</code> For projects that target Android, you can use uppercase or lowercase letters, numbers, and underscores in the strings of the reversed domain name, separated by a dot. Strings must be separated by a dot and must start with a letter. For example: <code>com.nativescript.My_Andro1d_App</code><br>For projects that target iOS, you can use uppercase or lowercase letters, numbers, and hyphens in the strings of the reversed domain name. Strings must be separated by a dot. For example: <code>com.nativescript.My-i0s-App</code>.</li>
+</ul>
+<h3 id="related-commands">Related Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="init.html">init</a></td>
+<td>Initializes a project for development. The command prompts you to provide your project configuration interactively and uses the information to create a new package.json file or update the existing one.</td>
+</tr>
+<tr>
+<td><a href="/lib-management/install.html">install</a></td>
+<td>Installs all platforms and dependencies described in the <code>package.json</code> file in the current directory.</td>
+</tr>
+</tbody>
+</table>
+
+  </body>
+</html>
+

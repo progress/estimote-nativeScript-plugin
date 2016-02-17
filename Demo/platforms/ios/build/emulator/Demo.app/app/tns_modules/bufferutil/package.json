@@ -1,0 +1,65 @@
+{
+  "_args": [
+    [
+      "bufferutil@https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+      "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript"
+    ]
+  ],
+  "_from": "https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+  "_id": "bufferutil@1.0.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/bufferutil",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "bufferutil",
+    "raw": "bufferutil@https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+    "rawSpec": "https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+    "scope": null,
+    "spec": "https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+    "type": "remote"
+  },
+  "_requiredBy": [
+    "/nativescript",
+    "/ws"
+  ],
+  "_resolved": "https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+  "_shasum": "c4bd4bd62a37f80da8fee839a577c150142a7046",
+  "_shrinkwrap": null,
+  "_spec": "bufferutil@https://github.com/telerik/bufferutil/tarball/v1.0.1.1",
+  "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript",
+  "author": {
+    "email": "einaros@gmail.com",
+    "name": "Einar Otto Stangvik",
+    "url": "http://2x.io"
+  },
+  "bugs": {
+    "url": "https://github.com/websockets/bufferutil/issues"
+  },
+  "dependencies": {
+    "bindings": "1.2.x",
+    "nan": "^2.0.5",
+    "prebuilt": "https://github.com/tailsu/node-prebuilt/tarball/master"
+  },
+  "description": "WebSocket buffer utils",
+  "devDependencies": {},
+  "homepage": "https://github.com/websockets/bufferutil",
+  "keywords": [
+    "bufferutil"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "bufferutil",
+  "optionalDependencies": {},
+  "readme": "# bufferutil\n\n[![Build Status](https://travis-ci.org/websockets/bufferutil.svg?branch=master)](https://travis-ci.org/websockets/bufferutil)\n\nBuffer utils is one of the modules that makes `ws` fast. It's optimized for\ncertain buffer based operations such as merging buffers, generating WebSocket\nmasks and unmasking.\n\nAs the module consists of binary components, it should be used an\n`optionalDependency` so when installation fails, it doesn't halt the\ninstallation of your module. There are fallback files available in this\nrepository. See `fallback.js` for the suggest fallback implementation if\ninstallation fails. \n\n## Installation\n\n```\nnpm install bufferutil\n```\n\n## API\n\nIn all examples we assume that you've already required the BufferUtil as\nfollowed:\n\n```js\n'use strict';\n\nvar bu = require('bufferutil').BufferUtil;\n```\n\nThe module exposes 3 different functions:\n\n#### merge\n\nMerge multiple buffers in the first supplied buffer argument:\n\n```js\nbu.merge(buffer, [buffer1, buffer2]);\n```\n\nThis merges buffer1 and buffer2 which are in an array into buffer.\n\n#### mask\n\nApply a WebSocket mask on the given data.\n\n```js\nbu.mask(buffer, mask);\n```\n\n#### unmask\n\nRemove a WebSocket mask on the given data.;w\n\n```js\nbu.unmask(buffer, mask);\n```\n\n## License\n\nMIT\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/websockets/bufferutil.git"
+  },
+  "scripts": {
+    "install": "node ./build.js",
+    "test": "echo \"Only testing builds, test have to be extraced from `ws`\" && exit 0"
+  },
+  "version": "1.0.1"
+}

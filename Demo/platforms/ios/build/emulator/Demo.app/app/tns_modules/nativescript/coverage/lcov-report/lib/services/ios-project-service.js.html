@@ -1,0 +1,1902 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/services/ios-project-service.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">lib/services/ios-project-service.js</span></h1>
+    <h2>
+        Statements: <span class="metric">33.64% <small>(144 / 428)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">20.93% <small>(18 / 86)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">22.68% <small>(22 / 97)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">33.49% <small>(139 / 415)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">lib/services/</a> &#187; ios-project-service.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">///&lt;reference path="../.d.ts"/&gt;
+"use strict";
+var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+    for (var p in b) <span class="missing-if-branch" title="if path not taken" >I</span>if (b.hasOwnProperty(p)) <span class="cstat-no" title="statement not covered" >d[p] = b[p];</span>
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.create(b) </span>: (__.prototype = b.prototype, new __());
+};
+var path = require("path");
+var shell = require("shelljs");
+var util = require("util");
+var os = require("os");
+var semver = require("semver");
+var xcode = require("xcode");
+var constants = require("../constants");
+var helpers = require("../common/helpers");
+var projectServiceBaseLib = require("./platform-project-service-base");
+var Future = require("fibers/future");
+var IOSProjectService = (function (_super) {
+    __extends(IOSProjectService, _super);
+    function IOSProjectService($projectData, $fs, $childProcess, $errors, $logger, $iOSEmulatorServices, $options, $injector, $projectDataService, $prompter, $config) {
+        _super.call(this, $fs, $projectData, $projectDataService);
+        this.$childProcess = $childProcess;
+        this.$errors = $errors;
+        this.$logger = $logger;
+        this.$iOSEmulatorServices = $iOSEmulatorServices;
+        this.$options = $options;
+        this.$injector = $injector;
+        this.$prompter = $prompter;
+        this.$config = $config;
+    }
+    Object.defineProperty(IOSProjectService.prototype, "$npmInstallationManager", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this.$injector.resolve("npmInstallationManager");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(IOSProjectService.prototype, "platformData", {
+        get: function () {
+            var projectRoot = path.join(this.$projectData.platformsDir, "ios");
+            return {
+                frameworkPackageName: "tns-ios",
+                normalizedPlatformName: "iOS",
+                appDestinationDirectoryPath: path.join(projectRoot, this.$projectData.projectName),
+                platformProjectService: this,
+                emulatorServices: this.$iOSEmulatorServices,
+                projectRoot: projectRoot,
+                deviceBuildOutputPath: path.join(projectRoot, "build", "device"),
+                emulatorBuildOutputPath: path.join(projectRoot, "build", "emulator"),
+                validPackageNamesForDevice: [
+                    this.$projectData.projectName + ".ipa"
+                ],
+                validPackageNamesForEmulator: [
+                    this.$projectData.projectName + ".app"
+                ],
+                frameworkFilesExtensions: [".a", ".framework", ".bin"],
+                frameworkDirectoriesExtensions: [".framework"],
+                frameworkDirectoriesNames: ["Metadata", "metadataGenerator", "NativeScript", "internal"],
+                targetedOS: ['darwin'],
+                configurationFileName: "Info.plist",
+                configurationFilePath: path.join(projectRoot, this.$projectData.projectName, this.$projectData.projectName + "-Info.plist"),
+                relativeToFrameworkConfigurationFilePath: path.join("__PROJECT_NAME__", "__PROJECT_NAME__-Info.plist"),
+                mergeXmlConfig: [{ "nodename": "plist", "attrname": "*" }, { "nodename": "dict", "attrname": "*" }]
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    IOSProjectService.prototype.getAppResourcesDestinationDirectoryPath = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var frameworkVersion = _this.getFrameworkVersion(_this.platformData.frameworkPackageName).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (semver.lt(frameworkVersion, "1.3.0")) {</span>
+<span class="cstat-no" title="statement not covered" >                return path.join(_this.platformData.projectRoot, _this.$projectData.projectName, "Resources", "icons");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return path.join(_this.platformData.projectRoot, _this.$projectData.projectName, "Resources");</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.validate = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$childProcess.exec("which xcodebuild").wait();</span>
+            }
+            catch (error) {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("Xcode is not installed. Make sure you have Xcode installed and added to your PATH");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var xcodeBuildVersion = _this.$childProcess.exec("xcodebuild -version | head -n 1 | sed -e 's/Xcode //'").wait();</span>
+<span class="cstat-no" title="statement not covered" >            var splitedXcodeBuildVersion = xcodeBuildVersion.split(".");</span>
+<span class="cstat-no" title="statement not covered" >            if (splitedXcodeBuildVersion.length === 3) {</span>
+<span class="cstat-no" title="statement not covered" >                xcodeBuildVersion = util.format("%s.%s", splitedXcodeBuildVersion[0], splitedXcodeBuildVersion[1]);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            if (helpers.versionCompare(xcodeBuildVersion, IOSProjectService.XCODEBUILD_MIN_VERSION) &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.fail("NativeScript can only run in Xcode version %s or greater", IOSProjectService.XCODEBUILD_MIN_VERSION);</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.createProject = <span class="fstat-no" title="function not covered" >function (frameworkDir, frameworkVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(path.join(_this.platformData.projectRoot, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.symlink) {</span>
+<span class="cstat-no" title="statement not covered" >                var xcodeProjectName = util.format("%s.xcodeproj", IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER);</span>
+<span class="cstat-no" title="statement not covered" >                shell.cp("-R", path.join(frameworkDir, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER, "*"), path.join(_this.platformData.projectRoot, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER));</span>
+<span class="cstat-no" title="statement not covered" >                shell.cp("-R", path.join(frameworkDir, xcodeProjectName), _this.platformData.projectRoot);</span>
+<span class="cstat-no" title="statement not covered" >                var directoryContent = _this.$fs.readDirectory(frameworkDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >                var frameworkFiles = _.difference(directoryContent, [IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER, xcodeProjectName]);</span>
+<span class="cstat-no" title="statement not covered" >                _.each(frameworkFiles, <span class="fstat-no" title="function not covered" >function (file) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.symlink(path.join(frameworkDir, file), path.join(_this.platformData.projectRoot, file)).wait();</span>
+                });
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                shell.cp("-R", path.join(frameworkDir, "*"), _this.platformData.projectRoot);</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.interpolateData = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var infoPlistFilePath = path.join(_this.platformData.projectRoot, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER, util.format("%s-%s", IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER, "Info.plist"));</span>
+<span class="cstat-no" title="statement not covered" >            _this.interpolateConfigurationFile(infoPlistFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var projectRootFilePath = path.join(_this.platformData.projectRoot, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER);</span>
+<span class="cstat-no" title="statement not covered" >            _this.replaceFileName("-Info.plist", projectRootFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.replaceFileName("-Prefix.pch", projectRootFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.replaceFileName(IOSProjectService.XCODE_PROJECT_EXT_NAME, _this.platformData.projectRoot).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var pbxprojFilePath = path.join(_this.platformData.projectRoot, _this.$projectData.projectName + IOSProjectService.XCODE_PROJECT_EXT_NAME, "project.pbxproj");</span>
+<span class="cstat-no" title="statement not covered" >            _this.replaceFileContent(pbxprojFilePath).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.interpolateConfigurationFile = <span class="fstat-no" title="function not covered" >function (configurationFilePath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            shell.sed('-i', "__CFBUNDLEIDENTIFIER__", _this.$projectData.projectId, configurationFilePath || _this.platformData.configurationFilePath);</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.afterCreateProject = <span class="fstat-no" title="function not covered" >function (projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.rename(path.join(projectRoot, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER), path.join(projectRoot, _this.$projectData.projectName)).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.buildProject = <span class="fstat-no" title="function not covered" >function (projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var basicArgs = [</span>
+                "-configuration", _this.$options.release ? "Release" : "Debug",
+                "build",
+                'SHARED_PRECOMPS_DIR=' + path.join(projectRoot, 'build', 'sharedpch')
+            ];
+<span class="cstat-no" title="statement not covered" >            var xcworkspacePath = path.join(projectRoot, _this.$projectData.projectName + ".xcworkspace");</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(xcworkspacePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                basicArgs.push("-workspace", xcworkspacePath);</span>
+<span class="cstat-no" title="statement not covered" >                basicArgs.push("-scheme", _this.$projectData.projectName);</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                basicArgs.push("-project", path.join(projectRoot, _this.$projectData.projectName + ".xcodeproj"));</span>
+<span class="cstat-no" title="statement not covered" >                basicArgs.push("-target", _this.$projectData.projectName);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var frameworkVersion = _this.getFrameworkVersion(_this.platformData.frameworkPackageName).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (semver.lt(frameworkVersion, "1.4.0")) {</span>
+<span class="cstat-no" title="statement not covered" >                basicArgs.push("-xcconfig", path.join(projectRoot, _this.$projectData.projectName, "build.xcconfig"));</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var args = [];</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.forDevice) {</span>
+<span class="cstat-no" title="statement not covered" >                args = basicArgs.concat([</span>
+                    "-sdk", "iphoneos",
+                    'ARCHS=armv7 arm64',
+                    'VALID_ARCHS=armv7 arm64',
+                    "CONFIGURATION_BUILD_DIR=" + path.join(projectRoot, "build", "device")
+                ]);
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                args = basicArgs.concat([</span>
+                    "-sdk", "iphonesimulator",
+                    "-arch", "i386",
+                    "VALID_ARCHS=\"i386\"",
+                    "CONFIGURATION_BUILD_DIR=" + path.join(projectRoot, "build", "emulator")
+                ]);
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$childProcess.spawnFromEvent("xcodebuild", args, "exit", { cwd: _this.$options, stdio: 'inherit' }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$options.forDevice) {</span>
+<span class="cstat-no" title="statement not covered" >                var buildOutputPath = path.join(projectRoot, "build", "device");</span>
+<span class="cstat-no" title="statement not covered" >                var xcrunArgs = [</span>
+                    "-sdk", "iphoneos",
+                    "PackageApplication",
+                    "-v", path.join(buildOutputPath, _this.$projectData.projectName + ".app"),
+                    "-o", path.join(buildOutputPath, _this.$projectData.projectName + ".ipa")
+                ];
+<span class="cstat-no" title="statement not covered" >                _this.$childProcess.spawnFromEvent("xcrun", xcrunArgs, "exit", { cwd: _this.$options, stdio: 'inherit' }).wait();</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.isPlatformPrepared = <span class="fstat-no" title="function not covered" >function (projectRoot) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.$fs.exists(path.join(projectRoot, this.$projectData.projectName, constants.APP_FOLDER_NAME));</span>
+    };
+    IOSProjectService.prototype.addLibrary = <span class="fstat-no" title="function not covered" >function (libraryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var extension = path.extname(libraryPath);</span>
+<span class="cstat-no" title="statement not covered" >            if (extension === ".framework") {</span>
+<span class="cstat-no" title="statement not covered" >                _this.addDynamicFramework(libraryPath).wait();</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The bundle at " + libraryPath + " does not appear to be a dynamic framework package.");</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.deploy = <span class="fstat-no" title="function not covered" >function (deviceIdentifier) {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult();</span>
+    };
+    IOSProjectService.prototype.addDynamicFramework = <span class="fstat-no" title="function not covered" >function (frameworkPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.validateFramework(frameworkPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var targetPath = path.join("lib", _this.platformData.normalizedPlatformName);</span>
+<span class="cstat-no" title="statement not covered" >            var fullTargetPath = path.join(_this.$projectData.projectDir, targetPath);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(fullTargetPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            shell.cp("-R", frameworkPath, fullTargetPath);</span>
+<span class="cstat-no" title="statement not covered" >            var project = _this.createPbxProj();</span>
+<span class="cstat-no" title="statement not covered" >            var frameworkName = path.basename(frameworkPath, path.extname(frameworkPath));</span>
+<span class="cstat-no" title="statement not covered" >            var frameworkBinaryPath = path.join(frameworkPath, frameworkName);</span>
+<span class="cstat-no" title="statement not covered" >            var isDynamic = _.contains(_this.$childProcess.exec("otool -Vh " + frameworkBinaryPath).wait(), " DYLIB ");</span>
+<span class="cstat-no" title="statement not covered" >            var frameworkAddOptions = { customFramework: true };</span>
+<span class="cstat-no" title="statement not covered" >            if (isDynamic) {</span>
+<span class="cstat-no" title="statement not covered" >                frameworkAddOptions["embed"] = true;</span>
+<span class="cstat-no" title="statement not covered" >                project.updateBuildProperty("IPHONEOS_DEPLOYMENT_TARGET", "8.0");</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.info("The iOS Deployment Target is now 8.0 in order to support Cocoa Touch Frameworks.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var frameworkRelativePath = _this.getLibSubpathRelativeToProjectPath(path.basename(frameworkPath));</span>
+<span class="cstat-no" title="statement not covered" >            project.addFramework(frameworkRelativePath, frameworkAddOptions);</span>
+<span class="cstat-no" title="statement not covered" >            _this.savePbxProj(project).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.addStaticLibrary = <span class="fstat-no" title="function not covered" >function (staticLibPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.validateStaticLibrary(staticLibPath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var libraryName = path.basename(staticLibPath, ".a");</span>
+<span class="cstat-no" title="statement not covered" >            var libDestinationPath = path.join(_this.$projectData.projectDir, path.join("lib", _this.platformData.normalizedPlatformName));</span>
+<span class="cstat-no" title="statement not covered" >            var headersSubpath = path.join("include", libraryName);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.ensureDirectoryExists(path.join(libDestinationPath, headersSubpath)).wait();</span>
+<span class="cstat-no" title="statement not covered" >            shell.cp("-Rf", staticLibPath, libDestinationPath);</span>
+<span class="cstat-no" title="statement not covered" >            shell.cp("-Rf", path.join(path.dirname(staticLibPath), headersSubpath), path.join(libDestinationPath, "include"));</span>
+<span class="cstat-no" title="statement not covered" >            var project = _this.createPbxProj();</span>
+<span class="cstat-no" title="statement not covered" >            var relativeStaticLibPath = _this.getLibSubpathRelativeToProjectPath(path.basename(staticLibPath));</span>
+<span class="cstat-no" title="statement not covered" >            project.addFramework(relativeStaticLibPath);</span>
+<span class="cstat-no" title="statement not covered" >            var relativeHeaderSearchPath = path.join(_this.getLibSubpathRelativeToProjectPath(headersSubpath));</span>
+<span class="cstat-no" title="statement not covered" >            project.addToHeaderSearchPaths({ relativePath: relativeHeaderSearchPath });</span>
+<span class="cstat-no" title="statement not covered" >            _this.generateMobulemap(path.join(libDestinationPath, headersSubpath), libraryName);</span>
+<span class="cstat-no" title="statement not covered" >            _this.savePbxProj(project).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.canUpdatePlatform = <span class="fstat-no" title="function not covered" >function (currentVersion, newVersion) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var currentXcodeProjectFile = _this.buildPathToXcodeProjectFile(currentVersion);</span>
+<span class="cstat-no" title="statement not covered" >            var currentXcodeProjectFileContent = _this.$fs.readFile(currentXcodeProjectFile).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var newXcodeProjectFile = _this.buildPathToXcodeProjectFile(newVersion);</span>
+<span class="cstat-no" title="statement not covered" >            var newXcodeProjectFileContent = _this.$fs.readFile(newXcodeProjectFile).wait();</span>
+<span class="cstat-no" title="statement not covered" >            return currentXcodeProjectFileContent === newXcodeProjectFileContent;</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.updatePlatform = <span class="fstat-no" title="function not covered" >function (currentVersion, newVersion, canUpdate) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!canUpdate) {</span>
+<span class="cstat-no" title="statement not covered" >                var isUpdateConfirmed = _this.$prompter.confirm("We need to override xcodeproj file. The old one will be saved at " + _this.$options.profileDir + ". Are you sure?", <span class="fstat-no" title="function not covered" >function () {</span> <span class="cstat-no" title="statement not covered" >return true; </span>}).wait();</span>
+<span class="cstat-no" title="statement not covered" >                if (isUpdateConfirmed) {</span>
+<span class="cstat-no" title="statement not covered" >                    var sourceDir = path.join(_this.platformData.projectRoot, _this.$projectData.projectName + ".xcodeproj");</span>
+<span class="cstat-no" title="statement not covered" >                    var destinationDir = path.join(_this.$options.profileDir, "xcodeproj");</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.deleteDirectory(destinationDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    shell.cp("-R", path.join(sourceDir, "*"), destinationDir);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.info("Backup file " + sourceDir + " at location " + destinationDir);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.deleteDirectory(sourceDir).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    var cachedPackagePath = path.join(_this.$npmInstallationManager.getCachedPackagePath(_this.platformData.frameworkPackageName, newVersion), constants.PROJECT_FRAMEWORK_FOLDER_NAME, util.format("%s.xcodeproj", IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER));</span>
+<span class="cstat-no" title="statement not covered" >                    shell.cp("-R", path.join(cachedPackagePath, "*"), sourceDir);</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.info("Copied from " + cachedPackagePath + " at " + _this.platformData.projectRoot + ".");</span>
+<span class="cstat-no" title="statement not covered" >                    var pbxprojFilePath = path.join(_this.platformData.projectRoot, _this.$projectData.projectName + IOSProjectService.XCODE_PROJECT_EXT_NAME, "project.pbxproj");</span>
+<span class="cstat-no" title="statement not covered" >                    _this.replaceFileContent(pbxprojFilePath).wait();</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return isUpdateConfirmed;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return true;</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.prepareProject = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var project = _this.createPbxProj();</span>
+<span class="cstat-no" title="statement not covered" >            var resources = project.pbxGroupByName("Resources");</span>
+<span class="cstat-no" title="statement not covered" >            if (resources) {</span>
+<span class="cstat-no" title="statement not covered" >                var references = project.pbxFileReferenceSection();</span>
+<span class="cstat-no" title="statement not covered" >                var xcodeProjectImages = _.map(resources.children, <span class="fstat-no" title="function not covered" >function (resource) {</span> <span class="cstat-no" title="statement not covered" >return _this.replace(references[resource.value].name); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Images from Xcode project");</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace(xcodeProjectImages);</span>
+<span class="cstat-no" title="statement not covered" >                var appResourcesImages = _this.$fs.readDirectory(_this.getAppResourcesDestinationDirectoryPath().wait()).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Current images from App_Resources");</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace(appResourcesImages);</span>
+<span class="cstat-no" title="statement not covered" >                var imagesToAdd = _.difference(appResourcesImages, xcodeProjectImages);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("New images to add into xcode project: " + imagesToAdd.join(", "));</span>
+<span class="cstat-no" title="statement not covered" >                _.each(imagesToAdd, <span class="fstat-no" title="function not covered" >function (image) {</span> <span class="cstat-no" title="statement not covered" >return project.addResourceFile(path.relative(_this.platformData.projectRoot, path.join(_this.getAppResourcesDestinationDirectoryPath().wait(), image))); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                var imagesToRemove = _.difference(xcodeProjectImages, appResourcesImages);</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Images to remove from xcode project: " + imagesToRemove.join(", "));</span>
+<span class="cstat-no" title="statement not covered" >                _.each(imagesToRemove, <span class="fstat-no" title="function not covered" >function (image) {</span> <span class="cstat-no" title="statement not covered" >return project.removeResourceFile(path.join(_this.getAppResourcesDestinationDirectoryPath().wait(), image)); </span>});</span>
+<span class="cstat-no" title="statement not covered" >                _this.savePbxProj(project).wait();</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.prepareAppResources = <span class="fstat-no" title="function not covered" >function (appResourcesDirectoryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.deleteDirectory(_this.getAppResourcesDestinationDirectoryPath().wait()).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.processConfigurationFilesFromAppResources = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        return Future.fromResult();</span>
+    };
+    Object.defineProperty(IOSProjectService.prototype, "projectPodFilePath", {
+        get: function () {
+            return path.join(this.platformData.projectRoot, "Podfile");
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(IOSProjectService.prototype, "pluginsDebugXcconfigFilePath", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(this.platformData.projectRoot, "plugins-debug.xcconfig");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(IOSProjectService.prototype, "pluginsReleaseXcconfigFilePath", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(this.platformData.projectRoot, "plugins-release.xcconfig");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    IOSProjectService.prototype.replace = <span class="fstat-no" title="function not covered" >function (name) {</span>
+<span class="cstat-no" title="statement not covered" >        if (_.startsWith(name, '"')) {</span>
+<span class="cstat-no" title="statement not covered" >            name = name.substr(1, name.length - 2);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return name.replace(/\\\"/g, "\"");</span>
+    };
+    IOSProjectService.prototype.getLibSubpathRelativeToProjectPath = function (subPath) {
+        var targetPath = path.join("lib", this.platformData.normalizedPlatformName);
+        var frameworkPath = path.relative("platforms/ios", path.join(targetPath, subPath));
+        return frameworkPath;
+    };
+    Object.defineProperty(IOSProjectService.prototype, "pbxProjPath", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return path.join(this.platformData.projectRoot, this.$projectData.projectName + ".xcodeproj", "project.pbxproj");</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    IOSProjectService.prototype.createPbxProj = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var project = new xcode.project(this.pbxProjPath);</span>
+<span class="cstat-no" title="statement not covered" >        project.parseSync();</span>
+<span class="cstat-no" title="statement not covered" >        return project;</span>
+    };
+    IOSProjectService.prototype.savePbxProj = <span class="fstat-no" title="function not covered" >function (project) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.$fs.writeFile(this.pbxProjPath, project.writeSync());</span>
+    };
+    IOSProjectService.prototype.preparePluginNativeCode = function (pluginData, opts) {
+        var _this = this;
+        return (function () {
+            var pluginPlatformsFolderPath = pluginData.pluginPlatformsFolderPath(IOSProjectService.IOS_PLATFORM_NAME);
+            _this.prepareFrameworks(pluginPlatformsFolderPath, pluginData).wait();
+            _this.prepareStaticLibs(pluginPlatformsFolderPath, pluginData).wait();
+            _this.prepareCocoapods(pluginPlatformsFolderPath).wait();
+        }).future()();
+    };
+    IOSProjectService.prototype.removePluginNativeCode = function (pluginData) {
+        var _this = this;
+        return (function () {
+            var pluginPlatformsFolderPath = pluginData.pluginPlatformsFolderPath(IOSProjectService.IOS_PLATFORM_NAME);
+            _this.removeFrameworks(pluginPlatformsFolderPath, pluginData).wait();
+            _this.removeStaticLibs(pluginPlatformsFolderPath, pluginData).wait();
+            _this.removeCocoapods(pluginPlatformsFolderPath).wait();
+        }).future()();
+    };
+    IOSProjectService.prototype.afterPrepareAllPlugins = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(_this.projectPodFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                var projectPodfileContent = _this.$fs.readText(_this.projectPodFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace("Project Podfile content");</span>
+<span class="cstat-no" title="statement not covered" >                _this.$logger.trace(projectPodfileContent);</span>
+<span class="cstat-no" title="statement not covered" >                var firstPostInstallIndex = projectPodfileContent.indexOf(IOSProjectService.PODFILE_POST_INSTALL_SECTION_NAME);</span>
+<span class="cstat-no" title="statement not covered" >                if (firstPostInstallIndex !== -1 &amp;&amp; firstPostInstallIndex !== projectPodfileContent.lastIndexOf(IOSProjectService.PODFILE_POST_INSTALL_SECTION_NAME)) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.warn("Podfile contains more than one post_install sections. You need to open " + _this.projectPodFilePath + " file and manually resolve this issue.");</span>
+                }
+<span class="cstat-no" title="statement not covered" >                var pbxprojFilePath = path.join(_this.platformData.projectRoot, _this.$projectData.projectName + IOSProjectService.XCODE_PROJECT_EXT_NAME, "xcuserdata");</span>
+<span class="cstat-no" title="statement not covered" >                if (!_this.$fs.exists(pbxprojFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.info("Creating project scheme...");</span>
+<span class="cstat-no" title="statement not covered" >                    var createSchemeRubyScript = "ruby -e \"require 'xcodeproj'; xcproj = Xcodeproj::Project.open('" + _this.$projectData.projectName + ".xcodeproj'); xcproj.recreate_user_schemes; xcproj.save\"";</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$childProcess.exec(createSchemeRubyScript, { cwd: _this.platformData.projectRoot }).wait();</span>
+                }
+<span class="cstat-no" title="statement not covered" >                _this.executePodInstall().wait();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.regeneratePluginsXcconfigFile().wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.getAllLibsForPluginWithFileExtension = <span class="fstat-no" title="function not covered" >function (pluginData, fileExtension) {</span>
+<span class="cstat-no" title="statement not covered" >        var filterCallback = <span class="fstat-no" title="function not covered" >function (fileName, pluginPlatformsFolderPath) {</span> <span class="cstat-no" title="statement not covered" >return path.extname(fileName) === fileExtension; </span>};</span>
+<span class="cstat-no" title="statement not covered" >        return this.getAllNativeLibrariesForPlugin(pluginData, IOSProjectService.IOS_PLATFORM_NAME, filterCallback);</span>
+    };
+    ;
+    IOSProjectService.prototype.buildPathToXcodeProjectFile = <span class="fstat-no" title="function not covered" >function (version) {</span>
+<span class="cstat-no" title="statement not covered" >        return path.join(this.$npmInstallationManager.getCachedPackagePath(this.platformData.frameworkPackageName, version), constants.PROJECT_FRAMEWORK_FOLDER_NAME, util.format("%s.xcodeproj", IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER), "project.pbxproj");</span>
+    };
+    IOSProjectService.prototype.validateFramework = <span class="fstat-no" title="function not covered" >function (libraryPath) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var infoPlistPath = path.join(libraryPath, "Info.plist");</span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$fs.exists(infoPlistPath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The bundle at %s does not contain an Info.plist file.", libraryPath);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var packageType = _this.$childProcess.exec("/usr/libexec/PlistBuddy -c \"Print :CFBundlePackageType\" \"" + infoPlistPath + "\"").wait().trim();</span>
+<span class="cstat-no" title="statement not covered" >            if (packageType !== "FMWK") {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The bundle at %s does not appear to be a dynamic framework.", libraryPath);</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.validateStaticLibrary = function (libraryPath) {
+        var _this = this;
+        return (function () {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (path.extname(libraryPath) !== ".a") {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("The bundle at " + libraryPath + " does not contain a valid static library in the '.a' file format.");</span>
+            }
+            var expectedArchs = ["armv7", "arm64", "i386"];
+            var archsInTheFatFile = _this.$childProcess.exec("lipo -i " + libraryPath).wait();
+<span class="cstat-no" title="statement not covered" >            expectedArchs.forEach(<span class="fstat-no" title="function not covered" >function (expectedArch) {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (archsInTheFatFile.indexOf(expectedArch) &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.failWithoutHelp("The static library at " + libraryPath + " is not built for one or more of the following required architectures: " + expectedArchs.join(", ") + ". The static library must be built for all required architectures.");</span>
+                }
+            });
+        }).future()();
+    };
+    IOSProjectService.prototype.replaceFileContent = <span class="fstat-no" title="function not covered" >function (file) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var fileContent = _this.$fs.readText(file).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var replacedContent = helpers.stringReplaceAll(fileContent, IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER, _this.$projectData.projectName);</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.writeFile(file, replacedContent).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.replaceFileName = <span class="fstat-no" title="function not covered" >function (fileNamePart, fileRootLocation) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var oldFileName = IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER + fileNamePart;</span>
+<span class="cstat-no" title="statement not covered" >            var newFileName = _this.$projectData.projectName + fileNamePart;</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.rename(path.join(fileRootLocation, oldFileName), path.join(fileRootLocation, newFileName)).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.executePodInstall = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            try {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$childProcess.exec("gem which cocoapods").wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.$childProcess.exec("gem which xcodeproj").wait();</span>
+            }
+            catch (e) {
+<span class="cstat-no" title="statement not covered" >                _this.$errors.failWithoutHelp("CocoaPods or ruby gem 'xcodeproj' is not installed. Run `sudo gem install cocoapods` and try again.");</span>
+            }
+<span class="cstat-no" title="statement not covered" >            _this.$logger.info("Installing pods...");</span>
+<span class="cstat-no" title="statement not covered" >            var podTool = _this.$config.USE_POD_SANDBOX ? "sandbox-pod" : "pod";</span>
+<span class="cstat-no" title="statement not covered" >            var childProcess = _this.$childProcess.spawnFromEvent(podTool, ["install"], "close", { cwd: _this.platformData.projectRoot, stdio: ['pipe', process.stdout, 'pipe'] }).wait();</span>
+<span class="cstat-no" title="statement not covered" >            if (childProcess.stderr) {</span>
+<span class="cstat-no" title="statement not covered" >                var warnings = childProcess.stderr.match(/(\u001b\[(?:\d*;){0,5}\d*m[\s\S]+?\u001b\[(?:\d*;){0,5}\d*m)|(\[!\].*?\n)|(.*?warning.*)/gi);</span>
+<span class="cstat-no" title="statement not covered" >                _.each(warnings, <span class="fstat-no" title="function not covered" >function (warning) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    _this.$logger.warnWithLabel(warning.replace("\n", ""));</span>
+                });
+<span class="cstat-no" title="statement not covered" >                var errors = childProcess.stderr;</span>
+<span class="cstat-no" title="statement not covered" >                _.each(warnings, <span class="fstat-no" title="function not covered" >function (warning) {</span></span>
+<span class="cstat-no" title="statement not covered" >                    errors = errors.replace(warning, "");</span>
+                });
+<span class="cstat-no" title="statement not covered" >                if (errors.trim()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.$errors.failWithoutHelp("Pod install command failed. Error output: " + errors);</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            return childProcess;</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.prepareFrameworks = <span class="fstat-no" title="function not covered" >function (pluginPlatformsFolderPath, pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _.each(_this.getAllLibsForPluginWithFileExtension(pluginData, ".framework").wait(), <span class="fstat-no" title="function not covered" >function (fileName) {</span> <span class="cstat-no" title="statement not covered" >return _this.addDynamicFramework(path.join(pluginPlatformsFolderPath, fileName)).wait(); </span>});</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.prepareStaticLibs = <span class="fstat-no" title="function not covered" >function (pluginPlatformsFolderPath, pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _.each(_this.getAllLibsForPluginWithFileExtension(pluginData, ".a").wait(), <span class="fstat-no" title="function not covered" >function (fileName) {</span> <span class="cstat-no" title="statement not covered" >return _this.addStaticLibrary(path.join(pluginPlatformsFolderPath, fileName)).wait(); </span>});</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.prepareCocoapods = function (pluginPlatformsFolderPath, opts) {
+        var _this = this;
+        return (function () {
+            var pluginPodFilePath = path.join(pluginPlatformsFolderPath, "Podfile");
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.$fs.exists(pluginPodFilePath).wait()) {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (!_this.$fs.exists(_this.projectPodFilePath).wait()) {
+                    _this.$fs.writeFile(_this.projectPodFilePath, "use_frameworks!\n").wait();
+                }
+                var pluginPodFileContent = _this.$fs.readText(pluginPodFilePath).wait();
+                var contentToWrite = _this.buildPodfileContent(pluginPodFilePath, pluginPodFileContent);
+                _this.$fs.appendFile(_this.projectPodFilePath, contentToWrite).wait();
+                var project = _this.createPbxProj();
+                project.updateBuildProperty("IPHONEOS_DEPLOYMENT_TARGET", "8.0");
+                _this.$logger.info("The iOS Deployment Target is now 8.0 in order to support Cocoa Touch Frameworks in CocoaPods.");
+                _this.savePbxProj(project).wait();
+            }
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (opts &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >opts.executePodInstall </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >_this.$fs.exists(pluginPodFilePath).wait())</span> {
+<span class="cstat-no" title="statement not covered" >                _this.executePodInstall().wait();</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.removeFrameworks = <span class="fstat-no" title="function not covered" >function (pluginPlatformsFolderPath, pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var project = _this.createPbxProj();</span>
+<span class="cstat-no" title="statement not covered" >            _.each(_this.getAllLibsForPluginWithFileExtension(pluginData, ".framework").wait(), <span class="fstat-no" title="function not covered" >function (fileName) {</span></span>
+<span class="cstat-no" title="statement not covered" >                var relativeFrameworkPath = _this.getLibSubpathRelativeToProjectPath(fileName);</span>
+<span class="cstat-no" title="statement not covered" >                project.removeFramework(relativeFrameworkPath, { customFramework: true, embed: true });</span>
+            });
+<span class="cstat-no" title="statement not covered" >            _this.savePbxProj(project).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.removeStaticLibs = <span class="fstat-no" title="function not covered" >function (pluginPlatformsFolderPath, pluginData) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            var project = _this.createPbxProj();</span>
+<span class="cstat-no" title="statement not covered" >            _.each(_this.getAllLibsForPluginWithFileExtension(pluginData, ".a").wait(), <span class="fstat-no" title="function not covered" >function (fileName) {</span></span>
+<span class="cstat-no" title="statement not covered" >                var staticLibPath = path.join(pluginPlatformsFolderPath, fileName);</span>
+<span class="cstat-no" title="statement not covered" >                var relativeStaticLibPath = _this.getLibSubpathRelativeToProjectPath(path.basename(staticLibPath));</span>
+<span class="cstat-no" title="statement not covered" >                project.removeFramework(relativeStaticLibPath);</span>
+<span class="cstat-no" title="statement not covered" >                var headersSubpath = path.join("include", path.basename(staticLibPath, ".a"));</span>
+<span class="cstat-no" title="statement not covered" >                var relativeHeaderSearchPath = path.join(_this.getLibSubpathRelativeToProjectPath(headersSubpath));</span>
+<span class="cstat-no" title="statement not covered" >                project.removeFromHeaderSearchPaths({ relativePath: relativeHeaderSearchPath });</span>
+            });
+<span class="cstat-no" title="statement not covered" >            _this.savePbxProj(project).wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.removeCocoapods = function (pluginPlatformsFolderPath) {
+        var _this = this;
+        return (function () {
+            var pluginPodFilePath = path.join(pluginPlatformsFolderPath, "Podfile");
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (_this.$fs.exists(pluginPodFilePath).wait() &amp;&amp; _this.$fs.exists(_this.projectPodFilePath).wait()) {
+                var pluginPodFileContent = _this.$fs.readText(pluginPodFilePath).wait();
+                var projectPodFileContent = _this.$fs.readText(_this.projectPodFilePath).wait();
+                var contentToRemove = _this.buildPodfileContent(pluginPodFilePath, pluginPodFileContent);
+                projectPodFileContent = helpers.stringReplaceAll(projectPodFileContent, contentToRemove, "");
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (projectPodFileContent.trim() === "use_frameworks!") {
+                    _this.$fs.deleteFile(_this.projectPodFilePath).wait();
+                }
+                else {
+<span class="cstat-no" title="statement not covered" >                    _this.$fs.writeFile(_this.projectPodFilePath, projectPodFileContent).wait();</span>
+                }
+            }
+        }).future()();
+    };
+    IOSProjectService.prototype.buildPodfileContent = function (pluginPodFilePath, pluginPodFileContent) {
+        return "# Begin Podfile - " + pluginPodFilePath + " " + os.EOL + " " + pluginPodFileContent + " " + os.EOL + " # End Podfile " + os.EOL;
+    };
+    IOSProjectService.prototype.generateMobulemap = function (headersFolderPath, libraryName) {
+        var _this = this;
+        var headersFilter = function (fileName, containingFolderPath) { return (path.extname(fileName) === ".h" &amp;&amp; _this.$fs.getFsStats(path.join(containingFolderPath, fileName)).wait().isFile()); };
+        var headersFolderContents = this.$fs.readDirectory(headersFolderPath).wait();
+        var headers = _(headersFolderContents).filter(function (item) { return headersFilter(item, headersFolderPath); }).value();
+        if (!headers.length) {
+            this.$fs.deleteFile(path.join(headersFolderPath, "module.modulemap")).wait();
+            return;
+        }
+        headers = _.map(headers, function (value) { return ("header \"" + value + "\""); });
+        var modulemap = "module " + libraryName + " { explicit module " + libraryName + " { " + headers.join(" ") + " } }";
+        this.$fs.writeFile(path.join(headersFolderPath, "module.modulemap"), modulemap).wait();
+    };
+    IOSProjectService.prototype.mergeXcconfigFiles = <span class="fstat-no" title="function not covered" >function (pluginFile, projectFile) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (!_this.$fs.exists(projectFile).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.$fs.writeFile(projectFile, "").wait();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            var mergeScript = "require 'xcodeproj'; Xcodeproj::Config.new('" + projectFile + "').merge(Xcodeproj::Config.new('" + pluginFile + "')).save_as(Pathname.new('" + projectFile + "'))";</span>
+<span class="cstat-no" title="statement not covered" >            _this.$childProcess.exec("ruby -e \"" + mergeScript + "\"").wait();</span>
+        }).future()();
+    };
+    IOSProjectService.prototype.regeneratePluginsXcconfigFile = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return (<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.deleteFile(_this.pluginsDebugXcconfigFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            _this.$fs.deleteFile(_this.pluginsReleaseXcconfigFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >            var allPlugins = _this.$injector.resolve("pluginsService").getAllInstalledPlugins().wait();</span>
+<span class="cstat-no" title="statement not covered" >            for (var _i = 0; _i &lt; allPlugins.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >                var plugin = allPlugins[_i];</span>
+<span class="cstat-no" title="statement not covered" >                var pluginPlatformsFolderPath = plugin.pluginPlatformsFolderPath(IOSProjectService.IOS_PLATFORM_NAME);</span>
+<span class="cstat-no" title="statement not covered" >                var pluginXcconfigFilePath = path.join(pluginPlatformsFolderPath, "build.xcconfig");</span>
+<span class="cstat-no" title="statement not covered" >                if (_this.$fs.exists(pluginXcconfigFilePath).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                    _this.mergeXcconfigFiles(pluginXcconfigFilePath, _this.pluginsDebugXcconfigFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                    _this.mergeXcconfigFiles(pluginXcconfigFilePath, _this.pluginsReleaseXcconfigFilePath).wait();</span>
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            var podFolder = path.join(_this.platformData.projectRoot, "Pods/Target Support Files/Pods/");</span>
+<span class="cstat-no" title="statement not covered" >            if (_this.$fs.exists(podFolder).wait()) {</span>
+<span class="cstat-no" title="statement not covered" >                _this.mergeXcconfigFiles(path.join(_this.platformData.projectRoot, "Pods/Target Support Files/Pods/Pods.debug.xcconfig"), _this.pluginsDebugXcconfigFilePath).wait();</span>
+<span class="cstat-no" title="statement not covered" >                _this.mergeXcconfigFiles(path.join(_this.platformData.projectRoot, "Pods/Target Support Files/Pods/Pods.release.xcconfig"), _this.pluginsReleaseXcconfigFilePath).wait();</span>
+            }
+        }).future()();
+    };
+    IOSProjectService.XCODE_PROJECT_EXT_NAME = ".xcodeproj";
+    IOSProjectService.XCODEBUILD_MIN_VERSION = "6.0";
+    IOSProjectService.IOS_PROJECT_NAME_PLACEHOLDER = "__PROJECT_NAME__";
+    IOSProjectService.IOS_PLATFORM_NAME = "ios";
+    IOSProjectService.PODFILE_POST_INSTALL_SECTION_NAME = "post_install";
+    return IOSProjectService;
+})(projectServiceBaseLib.PlatformProjectServiceBase);
+exports.IOSProjectService = IOSProjectService;
+$injector.register("iOSProjectService", IOSProjectService);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 14 2015 14:06:13 GMT+0200 (EET)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
