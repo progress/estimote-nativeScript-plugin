@@ -1,0 +1,1 @@
+# estimote-nativeScript-plugin
