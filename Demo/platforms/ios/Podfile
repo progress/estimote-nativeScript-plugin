@@ -1,0 +1,16 @@
+use_frameworks!
+# Begin Podfile - /Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript-estimote-sdk/platforms/ios/Podfile 
+ use_frameworks!
+pod 'EstimoteSDK', '~> 3.8'
+ 
+ # End Podfile 
+# Begin Podfile - /Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript-estimote-sdk/platforms/ios/Podfile 
+ use_frameworks!
+pod 'EstimoteSDK', '~> 3.8'
+ 
+ # End Podfile 
+# Begin Podfile - /Users/mehfuz/Source/Telerik/Beacon/Demo/node_modules/nativescript-estimote-sdk/platforms/ios/Podfile 
+ use_frameworks!
+pod 'EstimoteSDK', '~> 3.8'
+ 
+ # End Podfile 

@@ -1,5 +1,0 @@
-nodename,attrname
-manifest,*
-application,*
-activity,android:name
-uses-permission,android:name

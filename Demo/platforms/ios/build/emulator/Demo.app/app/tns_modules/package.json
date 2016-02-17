@@ -2,7 +2,7 @@
   "_args": [
     [
       "tns-core-modules",
-      "/Users/mehfuz/Source/Telerik/Becon/Demo"
+      "/Users/mehfuz/Source/Telerik/Beacon/Demo2"
     ]
   ],
   "_from": "tns-core-modules@*",
@@ -32,7 +32,7 @@
   "_shasum": "2cd0ad96868d9f37ae751c285879e3eb6ee47644",
   "_shrinkwrap": null,
   "_spec": "tns-core-modules",
-  "_where": "/Users/mehfuz/Source/Telerik/Becon/Demo",
+  "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo2",
   "dependencies": {},
   "description": "Telerik NativeScript Core Modules",
   "devDependencies": {
