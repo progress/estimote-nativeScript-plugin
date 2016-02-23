@@ -153,7 +153,7 @@ static dispatch_source_t TNSCreateInspectorServer(
   return listenSource;
 }
 
-static void TNSObjectiveCUncaughtExceptionHandler(NSException *exception) {
+static void TNSInspectorUncaughtExceptionHandler(NSException *exception) {
   JSStringRef exceptionMessage =
       JSStringCreateWithUTF8CString(exception.description.UTF8String);
 
@@ -211,7 +211,7 @@ static void TNSEnableRemoteInspector(int argc, char **argv) {
 
       inspector = [runtime attachInspectorWithHandler:sendMessageToFrontend];
 
-      NSSetUncaughtExceptionHandler(&TNSObjectiveCUncaughtExceptionHandler);
+      NSSetUncaughtExceptionHandler(&TNSInspectorUncaughtExceptionHandler);
 
       if (isWaitingForDebugger) {
         isWaitingForDebugger = NO;
@@ -226,7 +226,6 @@ static void TNSEnableRemoteInspector(int argc, char **argv) {
             [inspector pause];
         });
         CFRunLoopWakeUp(runloop);
-        CFRunLoopStop(runloop);
       }
 
       NSArray *inspectorRunloopModes =
@@ -257,9 +256,13 @@ static void TNSEnableRemoteInspector(int argc, char **argv) {
                            dispatch_get_main_queue(), ^(int token) {
       isWaitingForDebugger = YES;
       NSLog(@"NativeScript waiting for debugger.");
-      CFRunLoopPerformBlock(CFRunLoopGetCurrent(), kCFRunLoopDefaultMode, ^{
-          CFRunLoopRunInMode(kCFRunLoopDefaultMode, 30, false);
+
+      CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopDefaultMode, ^{
+          do {
+              CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+          } while (isWaitingForDebugger);
       });
+      CFRunLoopWakeUp(CFRunLoopGetMain());
   });
 
   int attachRequestSubscription;
@@ -280,6 +283,8 @@ static void TNSEnableRemoteInspector(int argc, char **argv) {
             dispatch_source_cancel(listenSource);
             listenSource = nil;
           }
+
+          isWaitingForDebugger = NO;
       });
   });
 

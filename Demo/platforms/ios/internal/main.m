@@ -5,8 +5,9 @@
 #include <Foundation/Foundation.h>
 #include <JavaScriptCore/JavaScriptCore.h>
 #include <NativeScript.h>
+#include <TNSExceptionHandler.h>
 
-#ifndef NDEBUG
+#if DEBUG
 #include <TNSDebugging.h>
 #endif
 
@@ -17,12 +18,14 @@ int main(int argc, char *argv[]) {
   @autoreleasepool {
     NSString *applicationPath = [[NSBundle mainBundle] bundlePath];
 
-#ifndef NDEBUG
+#if DEBUG
     NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(
         NSLibraryDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *liveSyncPath =
-        [NSString pathWithComponents:
-                      @[ libraryPath, @"Application Support", @"LiveSync" ]];
+    NSString *liveSyncPath = [NSString pathWithComponents:@[
+      libraryPath,
+      @"Application Support",
+      @"LiveSync"
+    ]];
     NSString *appFolderPath =
         [NSString pathWithComponents:@[ liveSyncPath, @"app" ]];
 
@@ -35,11 +38,13 @@ int main(int argc, char *argv[]) {
 #endif
 
     [TNSRuntime initializeMetadata:&startOfMetadataSection];
+    TNSInstallExceptionHandler();
+
     runtime = [[TNSRuntime alloc] initWithApplicationPath:applicationPath];
     [runtime scheduleInRunLoop:[NSRunLoop currentRunLoop]
                        forMode:NSRunLoopCommonModes];
 
-#ifndef NDEBUG
+#if DEBUG
     [TNSRuntimeInspector setLogsToSystemConsole:YES];
     TNSEnableRemoteInspector(argc, argv);
 #endif

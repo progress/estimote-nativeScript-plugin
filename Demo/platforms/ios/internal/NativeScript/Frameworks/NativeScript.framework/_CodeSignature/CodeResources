@@ -6,7 +6,11 @@
 	<dict>
 		<key>Headers/NativeScript.h</key>
 		<data>
-		0Laa+EwtG1A5BWLUV0DDdjthLng=
+		caPC+2LmOWEUENrFIVgwqLYH7EI=
+		</data>
+		<key>Headers/TNSRuntime+Diagnostics.h</key>
+		<data>
+		pxZz27DWb3JKM6NZnxYPRECRzP8=
 		</data>
 		<key>Headers/TNSRuntime+Inspector.h</key>
 		<data>
@@ -14,18 +18,22 @@
 		</data>
 		<key>Headers/TNSRuntime.h</key>
 		<data>
-		zGMC8B7HG8ljvAx2miE4TKFeU7g=
+		mfEAHx0Pr69o2KYAlFWlEgf9TQY=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		L0JohL7+jZNJneREhSExjUN7ZMI=
+		qhLe6/wuh0lgqK3RobqtK2jyu+k=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
 		<key>Headers/NativeScript.h</key>
 		<data>
-		0Laa+EwtG1A5BWLUV0DDdjthLng=
+		caPC+2LmOWEUENrFIVgwqLYH7EI=
+		</data>
+		<key>Headers/TNSRuntime+Diagnostics.h</key>
+		<data>
+		pxZz27DWb3JKM6NZnxYPRECRzP8=
 		</data>
 		<key>Headers/TNSRuntime+Inspector.h</key>
 		<data>
@@ -33,7 +41,7 @@
 		</data>
 		<key>Headers/TNSRuntime.h</key>
 		<data>
-		zGMC8B7HG8ljvAx2miE4TKFeU7g=
+		mfEAHx0Pr69o2KYAlFWlEgf9TQY=
 		</data>
 	</dict>
 	<key>rules</key>

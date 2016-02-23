@@ -53,3 +53,75 @@ ignoring duplicate directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms
  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/usr/include
  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/System/Library/Frameworks (framework directory)
 End of search list.
+In file included from umbrella.h:781:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/EstimoteSDK.h:31:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconConnection.h:17:
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:41:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable city;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:41:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:42:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable country;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:42:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:43:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable formattedAddress;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:43:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:44:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable stateName;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:44:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:45:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable stateCode;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:45:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:46:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable streetName;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:46:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:47:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable streetNumber;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:47:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:48:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable zipCode;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:48:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:50:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable indoorLocationIdentifier;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:50:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:51:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString * _Nullable indoorLocationName;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTBeaconVO.h:51:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+In file included from umbrella.h:781:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/EstimoteSDK.h:57:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTTriggerManager.h:14:
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTDateRule.h:51:43: error: expected ';' after method prototype
++ (instancetype)hourBetween:(int)firstHour and:(int)secondHour;
+                                          ^
+                                          ;
+In file included from umbrella.h:781:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/EstimoteSDK.h:57:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTTriggerManager.h:17:
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTTemperatureRule.h:27:52: error: expected ';' after method prototype
++ (instancetype)temperatureBetween:(double)minValue and:(double)maxValue forNearableIdentifier:(NSString *)identifier;
+                                                   ^
+                                                   ;
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTTemperatureRule.h:31:52: error: expected ';' after method prototype
++ (instancetype)temperatureBetween:(double)minValue and:(double)maxValue forNearableType:(ESTNearableType)type;
+                                                   ^
+                                                   ;
+In file included from umbrella.h:781:
+In file included from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/EstimoteSDK.h:95:
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTNearableVO.h:26:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString *hardware;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTNearableVO.h:26:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTNearableVO.h:27:1: warning: no 'assign', 'retain', or 'copy' attribute is specified - 'assign' is assumed [-Wobjc-property-no-attribute]
+@property (nonatomic) NSString *firmware;
+^
+/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK/EstimoteSDK.framework/Headers/ESTNearableVO.h:27:1: warning: default property attribute 'assign' not appropriate for non-GC object [-Wobjc-property-no-attribute]
+24 warnings and 3 errors generated.
