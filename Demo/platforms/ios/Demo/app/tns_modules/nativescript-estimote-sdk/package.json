@@ -13,7 +13,7 @@
   "description": "- [Getting started](#getting-started) - [Troubleshooting](#troubleshooting)",
   "_id": "nativescript-estimote-sdk@1.0.1",
   "scripts": {},
-  "_shasum": "6fdcc3d143ba47ceb8f626d74d4a3fa567fbcd02",
+  "_shasum": "a77525bbcc062897796fe4896d507d54632c6f35",
   "_from": "../Plugin",
   "_resolved": "file:../Plugin"
 }

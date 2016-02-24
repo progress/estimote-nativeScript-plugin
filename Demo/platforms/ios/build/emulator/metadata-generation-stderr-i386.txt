@@ -6,6 +6,7 @@ clang Invocation:
 
 ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/build/emulator/include"
 ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/EstimoteSDK"
+ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/../../lib/iOS"
 ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/usr/local/include"
 ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Library/Frameworks"
 ignoring duplicate directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public"
@@ -18,7 +19,6 @@ ignoring duplicate directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/internal/NativeScript/include
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/build/emulator (framework directory)
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK (framework directory)
- /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/../../lib/iOS (framework directory)
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public/EstimoteSDK
  ../lib/clang/3.7.0/include
@@ -34,6 +34,7 @@ clang Invocation:
 clang -cc1 version 3.7.0 based upon LLVM 3.7.0 default target x86_64-apple-darwin15.3.0
 ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/build/emulator/include"
 ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/EstimoteSDK"
+ignoring nonexistent directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/../../lib/iOS"
 ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/usr/local/include"
 ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/Library/Frameworks"
 ignoring duplicate directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public"
@@ -46,7 +47,6 @@ ignoring duplicate directory "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/internal/NativeScript/include
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/build/emulator (framework directory)
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/EstimoteSDK/EstimoteSDK (framework directory)
- /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/../../lib/iOS (framework directory)
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public
  /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Pods/Headers/Public/EstimoteSDK
  ../lib/clang/3.7.0/include

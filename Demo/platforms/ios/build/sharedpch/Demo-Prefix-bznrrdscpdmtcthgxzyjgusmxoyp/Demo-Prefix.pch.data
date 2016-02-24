@@ -6,9 +6,9 @@ Environment  LANG=en_US.US-ASCII PATH=/Applications/Xcode.app/Contents/Developer
 BuilderIdent ProcessPCH\ /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/build/sharedpch/Demo-Prefix-bznrrdscpdmtcthgxzyjgusmxoyp/Demo-Prefix.pch.pch\ Demo/Demo-Prefix.pch\ normal\ i386\ objective-c\ com.apple.compilers.llvm.clang.1_0.compiler
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/SDKSettings.plist 0 1447712964 1640 33204
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/System/Library/CoreServices/SystemVersion.plist 0 1447466390 413 33188
-InputFile    /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Demo/Demo-Prefix.pch 0 1455859674 236 33188
+InputFile    /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Demo/Demo-Prefix.pch 0 1456276002 236 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/SDKSettings.plist 0 1447712964 1640 33204
-InputFile    /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Demo/Demo-Prefix.pch 0 1455859674 236 33188
+InputFile    /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/ios/Demo/Demo-Prefix.pch 0 1456276002 236 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/usr/include/Availability.h 0 1445984442 12837 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/usr/include/AvailabilityInternal.h 0 1445984439 1536850 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator9.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.h 0 1446518268 6208 33188

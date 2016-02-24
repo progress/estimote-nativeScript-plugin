@@ -1,0 +1,6 @@
+framework module EstimoteSDK {
+  umbrella header "EstimoteSDK.h"
+
+  export *
+  module * { export * }
+}
