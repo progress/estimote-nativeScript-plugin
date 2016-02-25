@@ -7,6 +7,8 @@ function pageLoaded(args) {
     var page = args.object;
     page.bindingContext = vmModule.mainViewModel;
 
+    console.log("monitoring beacons");
+
     var options = {
         callback : function(beacons){
           for (var i = 0; i < beacons.count; i++) {
