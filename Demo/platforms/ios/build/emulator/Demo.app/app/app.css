@@ -1,7 +1,7 @@
 ﻿.title {
-    font-size: 30;
-    horizontal-align: center;
-    margin: 20;
+    font-size: 21;
+    horizontal-align: left;
+    padding: 5;
 }
 
 button {
@@ -10,7 +10,15 @@ button {
 }
 
 .message {
-    font-size: 20;
+    font-size: 15;
     color: #284848;
-    horizontal-align: center;
+    padding: 5;
+}
+
+ListView {
+  margin: 5;
+}
+
+Image {
+  margin : 5;
 }
