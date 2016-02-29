@@ -36,15 +36,15 @@ var BeaconManagerDelegateImpl = (function (_super) {
 var Estimote = (function(){
 
   function Estimote(options){
-      this._identifer = ESTIMOTE_REGION_NAME;
+      this._regionName = ESTIMOTE_REGION_NAME;
 
-      if (typeof options.identifier !== 'undefined'){
-            this.__identifer = identifier;
+      if (typeof options.region !== 'undefined'){
+            this._regionName = region;
       }
 
       this.beaconManager = ESTBeaconManager.alloc().init();;
       this.beaconManager.avoidUnknownStateBeacons = true;
-      this._region = CLBeaconRegion.alloc().initWithProximityUUIDIdentifier(ESTIMOTE_PROXIMITY_UUID, this._identifer);
+      this._region = CLBeaconRegion.alloc().initWithProximityUUIDIdentifier(ESTIMOTE_PROXIMITY_UUID, this._regionName);
       // delegate
       this.beaconManager.delegate = BeaconManagerDelegateImpl.new().initWithRegion(this._region, options.callback);
   }
