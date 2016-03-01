@@ -52,7 +52,7 @@ function pageLoaded(args) {
                 if (beacon.proximity === CLProximity.Near){
                     distance = "Near";
                 }
-                else if (beacon.proximity === CLProximity.Near){
+                else if (beacon.proximity === CLProximity.Far){
                    distance = "Far";
                 }
 

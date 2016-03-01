@@ -44,7 +44,7 @@ You can initialize the plugin for a region in the following way:
                 if (beacon.proximity === CLProximity.Near){
                     distance = "Near";
                 }
-                else if (beacon.proximity === CLProximity.Near){
+                else if (beacon.proximity === CLProximity.Far){
                    distance = "Far";
                 }
 
@@ -81,5 +81,5 @@ The method stops the estimote beacon manager for monitoring beacons.
 
 ## Platform
 
-- iOS (Nativescript 1.5+)
-- Android - Coming soon
+- iOS (NativeScript 1.5+)
+- Android (Coming soon)
