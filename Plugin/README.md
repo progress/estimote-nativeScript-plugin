@@ -32,7 +32,7 @@ You can initialize the plugin for a region in the following way:
     var options = {
       region : 'Progress', // optional
       callback : function(beacons){
-        /* This is called every-time a beacon is discovered or proximity changes
+        /* This is called everytime beacons are discovered or proximity changes
 
           for (var i = 0; i < beacons.count; i++) {
              var beacon = beacons[i];
