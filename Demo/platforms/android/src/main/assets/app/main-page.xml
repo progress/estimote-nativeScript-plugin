@@ -1,0 +1,14 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded">
+    <ListView items="{{ beacons }}" >
+      <ListView.itemTemplate>
+        <GridLayout columns="auto,auto" rows="auto">
+            <Image src="~/images/beacon_linear.png" stretch ="none" col="0" />
+            <StackLayout col="1">
+              <Label text="{{ identifier }}" textWrap="true" class="title"/>
+              <Label text="{{ rssi }}" class="message"/>
+              <Label text="{{ distance }}" class="message"/>
+            </StackLayout>
+        </GridLayout>
+      </ListView.itemTemplate>
+  </ListView>
+</Page>

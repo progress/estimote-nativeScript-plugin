@@ -1,0 +1,130 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:2:1-40:12
+	package
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:3:2-33
+	android:versionName
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:5:2-27
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+	android:versionCode
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:4:2-25
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:2:11-69
+supports-screens
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:7:2-11:33
+	android:largeScreens
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:10:3-30
+	android:smallScreens
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:8:3-30
+	android:normalScreens
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:9:3-31
+	android:xlargeScreens
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:11:3-31
+uses-sdk
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:13:2-15:34
+MERGED from [com.android.support:support-v4:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:7:5-43
+MERGED from [:widgets-release:] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/widgets-release/AndroidManifest.xml:7:5-9:41
+	android:targetSdkVersion
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:15:3-32
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:14:3-29
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:17:2-76
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:17:19-74
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:18:2-77
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:18:19-75
+uses-permission#android.permission.INTERNET
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:19:2-63
+MERGED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:15:5-67
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:19:19-61
+application
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:21:2-39:16
+MERGED from [com.android.support:support-v4:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
+MERGED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:22:5-32:19
+MERGED from [:widgets-release:] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/widgets-release/AndroidManifest.xml:11:5-12:19
+	android:label
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:25:3-35
+	android:allowBackup
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:23:3-29
+	android:icon
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:24:3-32
+	android:theme
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:26:3-34
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:22:3-49
+activity#com.tns.NativeScriptActivity
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:27:3-37:14
+	android:label
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:29:4-49
+	android:configChanges
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:30:4-65
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:28:4-47
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:32:5-36:20
+action#android.intent.action.MAIN
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:33:5-57
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:33:13-54
+category#android.intent.category.LAUNCHER
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:35:5-65
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:35:15-62
+activity#com.tns.ErrorReportActivity
+ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:38:3-57
+	android:name
+		ADDED from /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/src/main/AndroidManifest.xml:38:13-55
+uses-permission#android.permission.BLUETOOTH
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:10:5-68
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:10:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:11:5-74
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:11:22-71
+uses-permission-sdk-23
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:13:5-88
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:13:29-85
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:16:5-79
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:16:22-76
+uses-feature#android.hardware.bluetooth_le
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:18:5-20:36
+	android:required
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:20:9-33
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:19:9-53
+service#com.estimote.sdk.service.BeaconService
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:23:9-25:40
+	android:exported
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:24:13-66
+activity#com.estimote.sdk.DefaultRequirementsCheckerCallback$Activity
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:27:9-29:56
+	android:theme
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:29:13-53
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:28:13-88
+receiver#com.estimote.sdk.service.BeaconService$ScanAlarmBroadcastReceiver
+ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:31:9-102
+	android:name
+		ADDED from [com.estimote:sdk:0.9.4] /Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.estimote/sdk/0.9.4/AndroidManifest.xml:31:19-99
