@@ -13,7 +13,7 @@
   "description": "Estimote Beacon is a super small device. It has a powerful 32-bit ARM® Cortex M0 CPU with 256kB flash memory, accelerometer, temperature sensor and most importantly – a 2.4 GHz Bluetooth 4.0 Smart (also known as BLE or Bluetooth low energy) bidirectional radio.",
   "_id": "nativescript-estimote-sdk@1.0.1",
   "scripts": {},
-  "_shasum": "7f8e7311bbd72aa772047bed236b3a4eaeaa8c3a",
+  "_shasum": "bb1c51d125827b41ba14c9481a1aa8484f70b87a",
   "_from": "../Plugin",
   "_resolved": "file:../Plugin"
 }
