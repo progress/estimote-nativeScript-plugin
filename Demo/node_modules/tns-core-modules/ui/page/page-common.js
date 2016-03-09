@@ -1,13 +1,22 @@
 var content_view_1 = require("ui/content-view");
 var view = require("ui/core/view");
-var frame = require("ui/frame");
-var styleModule = require("../styling/style");
 var styleScope = require("../styling/style-scope");
-var fs = require("file-system");
-var frameCommon = require("../frame/frame-common");
 var action_bar_1 = require("ui/action-bar");
 var dependency_observable_1 = require("ui/core/dependency-observable");
+var style = require("../styling/style");
 var proxy = require("ui/core/proxy");
+var fs;
+function ensureFS() {
+    if (!fs) {
+        fs = require("file-system");
+    }
+}
+var frame;
+function ensureFrame() {
+    if (!frame) {
+        frame = require("ui/frame");
+    }
+}
 var AffectsLayout = global.android ? dependency_observable_1.PropertyMetadataSettings.None : dependency_observable_1.PropertyMetadataSettings.AffectsLayout;
 var backgroundSpanUnderStatusBarProperty = new dependency_observable_1.Property("backgroundSpanUnderStatusBar", "Page", new proxy.PropertyMetadata(false, AffectsLayout));
 var actionBarHiddenProperty = new dependency_observable_1.Property("actionBarHidden", "Page", new proxy.PropertyMetadata(undefined, AffectsLayout));
@@ -27,7 +36,7 @@ var Page = (function (_super) {
         this.actionBar = new action_bar_1.ActionBar();
     }
     Page.prototype.onLoaded = function () {
-        this.style._setValue(styleModule.backgroundColorProperty, "white", dependency_observable_1.ValueSource.Inherited);
+        this.style._setValue(style.backgroundColorProperty, "white", dependency_observable_1.ValueSource.Inherited);
         this._applyCss();
         if (this.actionBarHidden !== undefined) {
             this._updateActionBar(this.actionBarHidden);
@@ -122,6 +131,7 @@ var Page = (function (_super) {
         this._refreshCss();
     };
     Page.prototype.addCssFile = function (cssFileName) {
+        ensureFS();
         if (cssFileName.indexOf("~/") === 0) {
             cssFileName = fs.path.join(fs.knownFolders.currentApp().path, cssFileName.replace("~/", ""));
         }
@@ -166,6 +176,7 @@ var Page = (function (_super) {
         this._navigationContext = undefined;
     };
     Page.prototype.showModal = function () {
+        ensureFrame();
         if (arguments.length === 0) {
             this._showNativeModalView(frame.topmost().currentPage, undefined, undefined, true);
         }
@@ -174,7 +185,7 @@ var Page = (function (_super) {
             var context = arguments[1];
             var closeCallback = arguments[2];
             var fullscreen = arguments[3];
-            var page = frameCommon.resolvePageFromEntry({ moduleName: moduleName });
+            var page = frame.resolvePageFromEntry({ moduleName: moduleName });
             page._showNativeModalView(this, context, closeCallback, fullscreen);
         }
     };
@@ -222,6 +233,12 @@ var Page = (function (_super) {
             closeCallback: this._closeModalCallback
         });
     };
+    Page.prototype._raiseShowingModallyEvent = function () {
+        this.notify({
+            eventName: Page.showingModallyEvent,
+            object: this
+        });
+    };
     Page.prototype._getStyleScope = function () {
         return this._styleScope;
     };
@@ -229,6 +246,13 @@ var Page = (function (_super) {
         _super.prototype._eachChildView.call(this, callback);
         callback(this.actionBar);
     };
+    Object.defineProperty(Page.prototype, "_childrenCount", {
+        get: function () {
+            return (this.content ? 1 : 0) + (this.actionBar ? 1 : 0);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Page.prototype._applyCss = function () {
         if (this._cssApplied) {
             return;
@@ -258,6 +282,7 @@ var Page = (function (_super) {
     Page.navigatingFromEvent = "navigatingFrom";
     Page.navigatedFromEvent = "navigatedFrom";
     Page.shownModallyEvent = "shownModally";
+    Page.showingModallyEvent = "showingModally";
     return Page;
 })(content_view_1.ContentView);
 exports.Page = Page;

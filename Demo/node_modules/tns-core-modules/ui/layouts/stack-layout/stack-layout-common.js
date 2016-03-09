@@ -1,11 +1,11 @@
-var layouts = require("ui/layouts/layout-base");
-var dependencyObservable = require("ui/core/dependency-observable");
-var enums = require("ui/enums");
-var proxy = require("ui/core/proxy");
 var platform = require("platform");
-var AffectsLayout = platform.device.os === platform.platformNames.android ? dependencyObservable.PropertyMetadataSettings.None : dependencyObservable.PropertyMetadataSettings.AffectsLayout;
+var layout_base_1 = require("ui/layouts/layout-base");
+var enums_1 = require("ui/enums");
+var proxy_1 = require("ui/core/proxy");
+var dependency_observable_1 = require("ui/core/dependency-observable");
+var AffectsLayout = platform.device.os === platform.platformNames.android ? dependency_observable_1.PropertyMetadataSettings.None : dependency_observable_1.PropertyMetadataSettings.AffectsLayout;
 function validateOrientation(value) {
-    return value === enums.Orientation.vertical || value === enums.Orientation.horizontal;
+    return value === enums_1.Orientation.vertical || value === enums_1.Orientation.horizontal;
 }
 var StackLayout = (function (_super) {
     __extends(StackLayout, _super);
@@ -22,7 +22,7 @@ var StackLayout = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    StackLayout.orientationProperty = new dependencyObservable.Property("orientation", "StackLayout", new proxy.PropertyMetadata(enums.Orientation.vertical, AffectsLayout, undefined, validateOrientation));
+    StackLayout.orientationProperty = new dependency_observable_1.Property("orientation", "StackLayout", new proxy_1.PropertyMetadata(enums_1.Orientation.vertical, AffectsLayout, undefined, validateOrientation));
     return StackLayout;
-})(layouts.LayoutBase);
+})(layout_base_1.LayoutBase);
 exports.StackLayout = StackLayout;

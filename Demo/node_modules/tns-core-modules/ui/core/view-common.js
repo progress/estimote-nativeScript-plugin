@@ -1,17 +1,28 @@
 var types = require("utils/types");
-var proxy = require("ui/core/proxy");
 var style = require("../styling/style");
 var styling = require("ui/styling");
-var visualStateConstants = require("ui/styling/visual-state-constants");
 var trace = require("trace");
-var dependencyObservable = require("ui/core/dependency-observable");
 var gestures = require("ui/gestures");
-var bindable = require("ui/core/bindable");
 var styleScope = require("../styling/style-scope");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
-var animationModule = require("ui/animation");
+var proxy_1 = require("ui/core/proxy");
+var dependency_observable_1 = require("ui/core/dependency-observable");
 var special_properties_1 = require("ui/builder/special-properties");
+var style_1 = require("ui/styling/style");
+var visualStateConstants = require("ui/styling/visual-state-constants");
+var bindable;
+function ensureBindable() {
+    if (!bindable) {
+        bindable = require("ui/core/bindable");
+    }
+}
+var visualState;
+function ensureVisualState() {
+    if (!visualState) {
+        visualState = require("../styling/visual-state");
+    }
+}
 special_properties_1.registerSpecialProperty("class", function (instance, propertyValue) {
     instance.className = propertyValue;
 });
@@ -88,18 +99,19 @@ function onCssClassPropertyChanged(data) {
         view._cssClasses.length = 0;
     }
 }
-var idProperty = new dependencyObservable.Property("id", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle));
-var cssClassProperty = new dependencyObservable.Property("cssClass", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
-var classNameProperty = new dependencyObservable.Property("className", "View", new proxy.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
-var translateXProperty = new dependencyObservable.Property("translateX", "View", new proxy.PropertyMetadata(0));
-var translateYProperty = new dependencyObservable.Property("translateY", "View", new proxy.PropertyMetadata(0));
-var scaleXProperty = new dependencyObservable.Property("scaleX", "View", new proxy.PropertyMetadata(1));
-var scaleYProperty = new dependencyObservable.Property("scaleY", "View", new proxy.PropertyMetadata(1));
-var originXProperty = new dependencyObservable.Property("originX", "View", new proxy.PropertyMetadata(0.5));
-var originYProperty = new dependencyObservable.Property("originY", "View", new proxy.PropertyMetadata(0.5));
-var rotateProperty = new dependencyObservable.Property("rotate", "View", new proxy.PropertyMetadata(0));
-var isEnabledProperty = new dependencyObservable.Property("isEnabled", "View", new proxy.PropertyMetadata(true));
-var isUserInteractionEnabledProperty = new dependencyObservable.Property("isUserInteractionEnabled", "View", new proxy.PropertyMetadata(true));
+var cssClassProperty = new dependency_observable_1.Property("cssClass", "View", new proxy_1.PropertyMetadata(undefined, dependency_observable_1.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
+var classNameProperty = new dependency_observable_1.Property("className", "View", new proxy_1.PropertyMetadata(undefined, dependency_observable_1.PropertyMetadataSettings.AffectsStyle, onCssClassPropertyChanged));
+var idProperty = new dependency_observable_1.Property("id", "View", new proxy_1.PropertyMetadata(undefined, dependency_observable_1.PropertyMetadataSettings.AffectsStyle));
+var automationTextProperty = new dependency_observable_1.Property("automationText", "View", new proxy_1.PropertyMetadata(undefined));
+var translateXProperty = new dependency_observable_1.Property("translateX", "View", new proxy_1.PropertyMetadata(0));
+var translateYProperty = new dependency_observable_1.Property("translateY", "View", new proxy_1.PropertyMetadata(0));
+var scaleXProperty = new dependency_observable_1.Property("scaleX", "View", new proxy_1.PropertyMetadata(1));
+var scaleYProperty = new dependency_observable_1.Property("scaleY", "View", new proxy_1.PropertyMetadata(1));
+var originXProperty = new dependency_observable_1.Property("originX", "View", new proxy_1.PropertyMetadata(0.5));
+var originYProperty = new dependency_observable_1.Property("originY", "View", new proxy_1.PropertyMetadata(0.5));
+var rotateProperty = new dependency_observable_1.Property("rotate", "View", new proxy_1.PropertyMetadata(0));
+var isEnabledProperty = new dependency_observable_1.Property("isEnabled", "View", new proxy_1.PropertyMetadata(true));
+var isUserInteractionEnabledProperty = new dependency_observable_1.Property("isUserInteractionEnabled", "View", new proxy_1.PropertyMetadata(true));
 var View = (function (_super) {
     __extends(View, _super);
     function View(options) {
@@ -204,6 +216,16 @@ var View = (function (_super) {
     View.prototype.getViewById = function (id) {
         return getViewById(this, id);
     };
+    Object.defineProperty(View.prototype, "automationText", {
+        get: function () {
+            return this._getValue(View.automationTextProperty);
+        },
+        set: function (value) {
+            this._setValue(View.automationTextProperty, value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(View.prototype, "borderRadius", {
         get: function () {
             return this.style.borderRadius;
@@ -609,7 +631,7 @@ var View = (function (_super) {
             var that = this;
             if (shouldUpdateInheritableProps) {
                 var notifyEachChild = function (child) {
-                    child._setValue(property, that._getValue(property), dependencyObservable.ValueSource.Inherited);
+                    child._setValue(property, that._getValue(property), dependency_observable_1.ValueSource.Inherited);
                     return true;
                 };
                 this._updatingInheritedProperties = true;
@@ -690,35 +712,40 @@ var View = (function (_super) {
             return;
         }
         var density = utils.layout.getDisplayDensity();
+        var lp = child.style._getValue(style_1.nativeLayoutParamsProperty);
         var childTop;
         var childLeft;
         var childWidth = child.getMeasuredWidth();
         var childHeight = child.getMeasuredHeight();
         var vAlignment;
-        if (!isNaN(child.height) && child.verticalAlignment === enums.VerticalAlignment.stretch) {
+        if (lp.height >= 0 && child.verticalAlignment === enums.VerticalAlignment.stretch) {
             vAlignment = enums.VerticalAlignment.center;
         }
         else {
             vAlignment = child.verticalAlignment;
         }
+        var marginTop = lp.topMargin;
+        var marginBottom = lp.bottomMargin;
+        var marginLeft = lp.leftMargin;
+        var marginRight = lp.rightMargin;
         switch (vAlignment) {
             case enums.VerticalAlignment.top:
-                childTop = top + child.marginTop * density;
+                childTop = top + marginTop * density;
                 break;
             case enums.VerticalAlignment.center || enums.VerticalAlignment.middle:
-                childTop = top + (bottom - top - childHeight + (child.marginTop - child.marginBottom) * density) / 2;
+                childTop = top + (bottom - top - childHeight + (marginTop - marginBottom) * density) / 2;
                 break;
             case enums.VerticalAlignment.bottom:
-                childTop = bottom - childHeight - (child.marginBottom * density);
+                childTop = bottom - childHeight - (marginBottom * density);
                 break;
             case enums.VerticalAlignment.stretch:
             default:
-                childTop = top + child.marginTop * density;
-                childHeight = bottom - top - (child.marginTop + child.marginBottom) * density;
+                childTop = top + marginTop * density;
+                childHeight = bottom - top - (marginTop + marginBottom) * density;
                 break;
         }
         var hAlignment;
-        if (!isNaN(child.width) && child.horizontalAlignment === enums.HorizontalAlignment.stretch) {
+        if (lp.width >= 0 && child.horizontalAlignment === enums.HorizontalAlignment.stretch) {
             hAlignment = enums.HorizontalAlignment.center;
         }
         else {
@@ -726,25 +753,25 @@ var View = (function (_super) {
         }
         switch (hAlignment) {
             case enums.HorizontalAlignment.left:
-                childLeft = left + child.marginLeft * density;
+                childLeft = left + marginLeft * density;
                 break;
             case enums.HorizontalAlignment.center:
-                childLeft = left + (right - left - childWidth + (child.marginLeft - child.marginRight) * density) / 2;
+                childLeft = left + (right - left - childWidth + (marginLeft - marginRight) * density) / 2;
                 break;
             case enums.HorizontalAlignment.right:
-                childLeft = right - childWidth - child.marginRight * density;
+                childLeft = right - childWidth - (marginRight * density);
                 break;
             case enums.HorizontalAlignment.stretch:
             default:
-                childLeft = left + child.marginLeft * density;
-                childWidth = right - left - (child.marginLeft + child.marginRight) * density;
+                childLeft = left + marginLeft * density;
+                childWidth = right - left - (marginLeft + marginRight) * density;
                 break;
         }
         var childRight = Math.round(childLeft + childWidth);
         var childBottom = Math.round(childTop + childHeight);
         childLeft = Math.round(childLeft);
         childTop = Math.round(childTop);
-        trace.write(parent + " :layoutChild: " + child + " " + childLeft + ", " + childTop + ", " + childRight + ", " + childBottom, trace.categories.Layout);
+        trace.write(child.parent + " :layoutChild: " + child + " " + childLeft + ", " + childTop + ", " + childRight + ", " + childBottom, trace.categories.Layout);
         child.layout(childLeft, childTop, childRight, childBottom);
     };
     View.measureChild = function (parent, child, widthMeasureSpec, heightMeasureSpec) {
@@ -755,27 +782,29 @@ var View = (function (_super) {
             var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
             var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
             var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
-            trace.write(parent + " :measureChild: " + child + " " + utils.layout.getMode(widthMode) + " " + width + ", " + utils.layout.getMode(heightMode) + " " + height, trace.categories.Layout);
             var childWidthMeasureSpec = View.getMeasureSpec(child, width, widthMode, true);
             var childHeightMeasureSpec = View.getMeasureSpec(child, height, heightMode, false);
+            trace.write(child.parent + " :measureChild: " + child + " " + utils.layout.measureSpecToString(childWidthMeasureSpec) + ", " + utils.layout.measureSpecToString(childHeightMeasureSpec), trace.categories.Layout);
             child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             measureWidth = child.getMeasuredWidth();
             measureHeight = child.getMeasuredHeight();
             var density = utils.layout.getDisplayDensity();
-            measureWidth = Math.round(measureWidth + (child.marginLeft + child.marginRight) * density);
-            measureHeight = Math.round(measureHeight + (child.marginTop + child.marginBottom) * density);
+            var lp = child.style._getValue(style.nativeLayoutParamsProperty);
+            measureWidth = Math.round(measureWidth + (lp.leftMargin + lp.rightMargin) * density);
+            measureHeight = Math.round(measureHeight + (lp.topMargin + lp.bottomMargin) * density);
         }
         return { measuredWidth: measureWidth, measuredHeight: measureHeight };
     };
     View.getMeasureSpec = function (view, parentLength, parentSpecMode, horizontal) {
+        var lp = view.style._getValue(style.nativeLayoutParamsProperty);
         var density = utils.layout.getDisplayDensity();
-        var margins = horizontal ? view.marginLeft + view.marginRight : view.marginTop + view.marginBottom;
-        margins = Math.floor(margins * density);
+        var margins = horizontal ? lp.leftMargin + lp.rightMargin : lp.topMargin + lp.bottomMargin;
+        margins = Math.round(margins * density);
         var resultSize = 0;
         var resultMode = 0;
         var measureLength = Math.max(0, parentLength - margins);
-        var childLength = Math.floor((horizontal ? view.width : view.height) * density);
-        if (!isNaN(childLength)) {
+        var childLength = Math.round((horizontal ? lp.width : lp.height) * density);
+        if (childLength >= 0) {
             if (parentSpecMode !== utils.layout.UNSPECIFIED) {
                 resultSize = Math.min(parentLength, childLength);
             }
@@ -858,6 +887,20 @@ var View = (function (_super) {
     });
     View.prototype._eachChildView = function (callback) {
     };
+    View.prototype._childIndexToNativeChildIndex = function (index) {
+        return index;
+    };
+    View.prototype._getNativeViewsCount = function () {
+        return this._isAddedToNativeVisualTree ? 1 : 0;
+    };
+    View.prototype._eachLayoutView = function (callback) {
+        return callback(this);
+    };
+    View.prototype._addToSuperview = function (superview, index) {
+        return false;
+    };
+    View.prototype._removeFromSuperview = function () {
+    };
     View.prototype._addView = function (view, atIndex) {
         if (!view) {
             throw new Error("Expecting a valid View instance.");
@@ -867,13 +910,15 @@ var View = (function (_super) {
         }
         view._parent = this;
         this._addViewCore(view, atIndex);
+        view._parentChanged(null);
         trace.write("called _addView on view " + this._domId + " for a child " + view._domId, trace.categories.ViewHierarchy);
     };
     View.prototype._addViewCore = function (view, atIndex) {
         this._propagateInheritableProperties(view);
         view.style._inheritStyleProperties();
         if (!view._isAddedToNativeVisualTree) {
-            view._isAddedToNativeVisualTree = this._addViewToNativeVisualTree(view, atIndex);
+            var nativeIndex = this._childIndexToNativeChildIndex(atIndex);
+            view._isAddedToNativeVisualTree = this._addViewToNativeVisualTree(view, nativeIndex);
         }
         if (this._isLoaded) {
             view.onLoaded();
@@ -890,7 +935,7 @@ var View = (function (_super) {
             }
             if (property.metadata && property.metadata.inheritable) {
                 var baseValue = parentView._getValue(property);
-                that._setValue(property, baseValue, dependencyObservable.ValueSource.Inherited);
+                that._setValue(property, baseValue, dependency_observable_1.ValueSource.Inherited);
             }
             return true;
         };
@@ -902,6 +947,7 @@ var View = (function (_super) {
         }
         this._removeViewCore(view);
         view._parent = undefined;
+        view._parentChanged(this);
         trace.write("called _removeView on view " + this._domId + " for a child " + view._domId, trace.categories.ViewHierarchy);
     };
     View.prototype._removeViewCore = function (view) {
@@ -909,17 +955,20 @@ var View = (function (_super) {
         if (view.isLoaded) {
             view.onUnloaded();
         }
-        view._setValue(bindable.Bindable.bindingContextProperty, undefined, dependencyObservable.ValueSource.Inherited);
+        ensureBindable();
+        view._setValue(bindable.Bindable.bindingContextProperty, undefined, dependency_observable_1.ValueSource.Inherited);
         var inheritablePropertiesSetCallback = function (property) {
             if (property instanceof styling.Property) {
                 return true;
             }
             if (property.metadata && property.metadata.inheritable) {
-                view._resetValue(property, dependencyObservable.ValueSource.Inherited);
+                view._resetValue(property, dependency_observable_1.ValueSource.Inherited);
             }
             return true;
         };
         view._eachSetProperty(inheritablePropertiesSetCallback);
+    };
+    View.prototype._parentChanged = function (oldParent) {
     };
     View.prototype._addViewToNativeVisualTree = function (view, atIndex) {
         if (view._isAddedToNativeVisualTree) {
@@ -939,8 +988,8 @@ var View = (function (_super) {
         if (state === this._visualState || this._requestedVisualState === state) {
             return;
         }
-        var vsm = require("ui/styling/visual-state");
-        this._visualState = vsm.goToState(this, state);
+        ensureVisualState();
+        this._visualState = visualState.goToState(this, state);
         this._requestedVisualState = state;
     };
     View.prototype._applyXmlAttribute = function (attribute, value) {
@@ -982,6 +1031,7 @@ var View = (function (_super) {
         return this.createAnimation(animation).play();
     };
     View.prototype.createAnimation = function (animation) {
+        var animationModule = require("ui/animation");
         var that = this;
         animation.target = that;
         return new animationModule.Animation([animation]);
@@ -996,6 +1046,7 @@ var View = (function (_super) {
     };
     View.loadedEvent = "loaded";
     View.unloadedEvent = "unloaded";
+    View.automationTextProperty = automationTextProperty;
     View.idProperty = idProperty;
     View.cssClassProperty = cssClassProperty;
     View.classNameProperty = classNameProperty;
@@ -1009,5 +1060,5 @@ var View = (function (_super) {
     View.isEnabledProperty = isEnabledProperty;
     View.isUserInteractionEnabledProperty = isUserInteractionEnabledProperty;
     return View;
-})(proxy.ProxyObject);
+})(proxy_1.ProxyObject);
 exports.View = View;

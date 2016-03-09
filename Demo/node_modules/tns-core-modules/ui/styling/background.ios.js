@@ -1,12 +1,18 @@
-var style = require("./style");
 var common = require("./background-common");
 global.moduleMerge(common, exports);
+var style;
+function ensureStyle() {
+    if (!style) {
+        style = require("./style");
+    }
+}
 var ios;
 (function (ios) {
     function createBackgroundUIColor(view, flip) {
         if (!view._nativeView) {
             return undefined;
         }
+        ensureStyle();
         var background = view.style._getValue(style.backgroundInternalProperty);
         if (!background || background.isEmpty()) {
             return undefined;

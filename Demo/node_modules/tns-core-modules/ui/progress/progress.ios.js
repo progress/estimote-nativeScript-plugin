@@ -1,4 +1,5 @@
 var common = require("./progress-common");
+var style = require("ui/styling/style");
 function onValuePropertyChanged(data) {
     var progress = data.object;
     progress.ios.progress = data.newValue / progress.maxValue;
@@ -26,3 +27,38 @@ var Progress = (function (_super) {
     return Progress;
 })(common.Progress);
 exports.Progress = Progress;
+var ProgressStyler = (function () {
+    function ProgressStyler() {
+    }
+    ProgressStyler.setColorProperty = function (view, newValue) {
+        var bar = view.ios;
+        bar.progressTintColor = newValue;
+    };
+    ProgressStyler.resetColorProperty = function (view, nativeValue) {
+        var bar = view.ios;
+        bar.progressTintColor = nativeValue;
+    };
+    ProgressStyler.getNativeColorValue = function (view) {
+        var bar = view.ios;
+        return bar.progressTintColor;
+    };
+    ProgressStyler.setBackgroundColorProperty = function (view, newValue) {
+        var bar = view.ios;
+        bar.trackTintColor = newValue;
+    };
+    ProgressStyler.resetBackgroundColorProperty = function (view, nativeValue) {
+        var bar = view.ios;
+        bar.trackTintColor = nativeValue;
+    };
+    ProgressStyler.getBackgroundColorProperty = function (view) {
+        var bar = view.ios;
+        return bar.trackTintColor;
+    };
+    ProgressStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(ProgressStyler.setColorProperty, ProgressStyler.resetColorProperty, ProgressStyler.getNativeColorValue), "Progress");
+        style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(ProgressStyler.setBackgroundColorProperty, ProgressStyler.resetBackgroundColorProperty, ProgressStyler.getBackgroundColorProperty), "Progress");
+    };
+    return ProgressStyler;
+})();
+exports.ProgressStyler = ProgressStyler;
+ProgressStyler.registerHandlers();

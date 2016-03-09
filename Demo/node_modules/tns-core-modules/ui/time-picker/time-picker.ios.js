@@ -1,4 +1,5 @@
 var common = require("./time-picker-common");
+var style = require("ui/styling/style");
 function getDate(hour, minute) {
     var comps = NSDateComponents.alloc().init();
     comps.hour = hour;
@@ -79,3 +80,25 @@ var UITimePickerChangeHandlerImpl = (function (_super) {
     };
     return UITimePickerChangeHandlerImpl;
 })(NSObject);
+var TimePickerStyler = (function () {
+    function TimePickerStyler() {
+    }
+    TimePickerStyler.setColorProperty = function (view, newValue) {
+        var picker = view._nativeView;
+        picker.setValueForKey(newValue, "textColor");
+    };
+    TimePickerStyler.resetColorProperty = function (view, nativeValue) {
+        var picker = view._nativeView;
+        picker.setValueForKey(nativeValue, "textColor");
+    };
+    TimePickerStyler.getColorProperty = function (view) {
+        var picker = view._nativeView;
+        return picker.valueForKey("textColor");
+    };
+    TimePickerStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(TimePickerStyler.setColorProperty, TimePickerStyler.resetColorProperty, TimePickerStyler.getColorProperty), "TimePicker");
+    };
+    return TimePickerStyler;
+})();
+exports.TimePickerStyler = TimePickerStyler;
+TimePickerStyler.registerHandlers();

@@ -6,16 +6,20 @@
     ]
   ],
   "_from": "tns-core-modules@*",
-  "_id": "tns-core-modules@1.5.2",
+  "_id": "tns-core-modules@1.6.2",
   "_inCache": true,
   "_installable": true,
   "_location": "/tns-core-modules",
-  "_nodeVersion": "4.2.2",
-  "_npmUser": {
-    "email": "vladimir.enchev@gmail.com",
-    "name": "enchev"
+  "_nodeVersion": "5.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-9-west.internal.npmjs.com",
+    "tmp": "tmp/tns-core-modules-1.6.2.tgz_1456230220993_0.6211725694593042"
   },
-  "_npmVersion": "2.14.7",
+  "_npmUser": {
+    "email": "hristo@deshev.com",
+    "name": "hdeshev"
+  },
+  "_npmVersion": "3.7.1",
   "_phantomChildren": {},
   "_requested": {
     "name": "tns-core-modules",
@@ -28,12 +32,14 @@
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-1.5.2.tgz",
-  "_shasum": "2cd0ad96868d9f37ae751c285879e3eb6ee47644",
+  "_resolved": "https://registry.npmjs.org/tns-core-modules/-/tns-core-modules-1.6.2.tgz",
+  "_shasum": "05bbf174813448b1cb0f76b1897c72573927fbec",
   "_shrinkwrap": null,
   "_spec": "tns-core-modules",
   "_where": "/Users/mehfuz/Source/Telerik/Beacon/Demo2",
-  "dependencies": {},
+  "dependencies": {
+    "tns-core-modules-widgets": "1.6.1"
+  },
   "description": "Telerik NativeScript Core Modules",
   "devDependencies": {
     "chai": "3.2.0",
@@ -46,19 +52,20 @@
     "grunt-multi-dest": "1.0.0",
     "grunt-shell": "1.1.2",
     "grunt-simple-mocha": "0.4.0",
-    "grunt-ts": "5.0.0-beta.5",
+    "grunt-ts": "5.3.2",
     "grunt-tslint": "3.0.0",
     "grunt-typedoc": "0.2.3",
     "grunt-untar": "0.0.1",
     "mocha": "2.2.5",
     "shelljs": "0.5.3",
-    "tslint": "3.1.1",
-    "typescript": "1.7.3"
+    "time-grunt": "^1.3.0",
+    "tslint": "3.3.0",
+    "typescript": "1.7.5"
   },
   "directories": {},
   "dist": {
-    "shasum": "2cd0ad96868d9f37ae751c285879e3eb6ee47644",
-    "tarball": "http://registry.npmjs.org/tns-core-modules/-/tns-core-modules-1.5.2.tgz"
+    "shasum": "05bbf174813448b1cb0f76b1897c72573927fbec",
+    "tarball": "http://registry.npmjs.org/tns-core-modules/-/tns-core-modules-1.6.2.tgz"
   },
   "files": [
     "!.baseDir.*",
@@ -67,6 +74,7 @@
     "**/*",
     "**/*.*"
   ],
+  "homepage": "https://www.nativescript.org",
   "license": "Apache-2.0",
   "maintainers": [
     {
@@ -103,13 +111,19 @@
     }
   ],
   "name": "tns-core-modules",
+  "nativescript": {
+    "platforms": {
+      "android": "1.6.0",
+      "ios": "1.6.0"
+    }
+  },
   "optionalDependencies": {},
   "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NativeScript/NativeScript/commit/70728c4442d9bc78a88c43493e8b3522d0cbb141"
+    "url": "https://github.com/NativeScript/NativeScript/commit/a3b688a3b9000497a1ab153d45df3f06b0ba3bc5"
   },
   "scripts": {},
   "typings": "tns-core-modules.d.ts",
-  "version": "1.5.2"
+  "version": "1.6.2"
 }

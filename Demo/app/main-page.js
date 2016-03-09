@@ -1,10 +1,6 @@
-var vmModule = require("./main-view-model");
-var view = require("ui/core/view");
-var listViewModule = require("ui/list-view");
-var frameModule = require('ui/frame');
-
 var observableModule = require("data/observable");
 var observableArrayModule = require("data/observable-array");
+var frameModule = require('ui/frame');
 
 var Estimote = require('nativescript-estimote-sdk');
 
@@ -12,8 +8,8 @@ var data = new observableModule.Observable();
 
 function pageLoaded(args) {
     var page = args.object;
-
     if (page.ios) {
+
       var controller = frameModule.topmost().ios.controller;
 
       // show the navbar

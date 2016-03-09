@@ -1,7 +1,12 @@
 var common = require("./list-view-common");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
-var color = require("color");
+var color;
+function ensureColor() {
+    if (!color) {
+        color = require("color");
+    }
+}
 var CELLIDENTIFIER = "cell";
 var ITEMLOADING = common.ListView.itemLoadingEvent;
 var LOADMOREITEMS = common.ListView.loadMoreItemsEvent;
@@ -155,6 +160,7 @@ function onSeparatorColorPropertyChanged(data) {
     if (!bar.ios) {
         return;
     }
+    ensureColor();
     if (data.newValue instanceof color.Color) {
         bar.ios.separatorColor = data.newValue.ios;
     }

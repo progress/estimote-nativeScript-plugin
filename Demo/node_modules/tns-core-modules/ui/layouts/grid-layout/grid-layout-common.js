@@ -1,12 +1,16 @@
-var layouts = require("ui/layouts/layout-base");
-var definition = require("ui/layouts/grid-layout");
-var dependencyObservable = require("ui/core/dependency-observable");
-var view = require("ui/core/view");
-var bindable = require("ui/core/bindable");
-var types = require("utils/types");
-var numberUtils = require("../../../utils/number-utils");
-var proxy = require("ui/core/proxy");
+var layout_base_1 = require("ui/layouts/layout-base");
+var view_1 = require("ui/core/view");
+var bindable_1 = require("ui/core/bindable");
+var proxy_1 = require("ui/core/proxy");
+var dependency_observable_1 = require("ui/core/dependency-observable");
 var special_properties_1 = require("ui/builder/special-properties");
+var numberUtils = require("../../../utils/number-utils");
+var types;
+function ensureTypes() {
+    if (!types) {
+        types = require("utils/types");
+    }
+}
 function validateArgs(element) {
     if (!element) {
         throw new Error("element cannot be null or undefinied.");
@@ -41,6 +45,7 @@ var ItemSpec = (function (_super) {
             this._unitType = GridUnitType.star;
         }
         else if (arguments.length === 2) {
+            ensureTypes();
             if (types.isNumber(arguments[0]) && types.isString(arguments[1])) {
                 if (arguments[0] < 0 || (arguments[1] !== GridUnitType.auto && arguments[1] !== GridUnitType.star && arguments[1] !== GridUnitType.pixel)) {
                     throw new Error("Invalid values.");
@@ -57,6 +62,12 @@ var ItemSpec = (function (_super) {
         }
         this.index = -1;
     }
+    ItemSpec.create = function (value, type) {
+        var spec = new ItemSpec();
+        spec._value = value;
+        spec._unitType = type;
+        return spec;
+    };
     Object.defineProperty(ItemSpec.prototype, "actualLength", {
         get: function () {
             return this._actualLength;
@@ -106,18 +117,14 @@ var ItemSpec = (function (_super) {
         configurable: true
     });
     return ItemSpec;
-})(bindable.Bindable);
+})(bindable_1.Bindable);
 exports.ItemSpec = ItemSpec;
 var GridLayout = (function (_super) {
     __extends(GridLayout, _super);
     function GridLayout() {
-        _super.call(this);
+        _super.apply(this, arguments);
         this._rows = new Array();
         this._cols = new Array();
-        this._singleRow = new ItemSpec();
-        this._singleColumn = new ItemSpec();
-        this._singleRow.index = 0;
-        this._singleColumn.index = 0;
     }
     GridLayout.getColumn = function (element) {
         return validateArgs(element)._getValue(GridLayout.columnProperty);
@@ -148,12 +155,14 @@ var GridLayout = (function (_super) {
         itemSpec.owner = this;
         this._rows.push(itemSpec);
         this.onRowAdded(itemSpec);
+        this.invalidate();
     };
     GridLayout.prototype.addColumn = function (itemSpec) {
         GridLayout.validateItemSpec(itemSpec);
         itemSpec.owner = this;
         this._cols.push(itemSpec);
         this.onColumnAdded(itemSpec);
+        this.invalidate();
     };
     GridLayout.prototype.removeRow = function (itemSpec) {
         if (!itemSpec) {
@@ -166,6 +175,7 @@ var GridLayout = (function (_super) {
         itemSpec.index = -1;
         this._rows.splice(index, 1);
         this.onRowRemoved(itemSpec, index);
+        this.invalidate();
     };
     GridLayout.prototype.removeColumn = function (itemSpec) {
         if (!itemSpec) {
@@ -178,6 +188,7 @@ var GridLayout = (function (_super) {
         itemSpec.index = -1;
         this._cols.splice(index, 1);
         this.onColumnRemoved(itemSpec, index);
+        this.invalidate();
     };
     GridLayout.prototype.removeColumns = function () {
         for (var i = 0; i < this._cols.length; i++) {
@@ -194,12 +205,16 @@ var GridLayout = (function (_super) {
         this.invalidate();
     };
     GridLayout.prototype.onRowChanged = function (element, oldValue, newValue) {
+        this.invalidate();
     };
     GridLayout.prototype.onRowSpanChanged = function (element, oldValue, newValue) {
+        this.invalidate();
     };
     GridLayout.prototype.onColumnChanged = function (element, oldValue, newValue) {
+        this.invalidate();
     };
     GridLayout.prototype.onColumnSpanChanged = function (element, oldValue, newValue) {
+        this.invalidate();
     };
     GridLayout.prototype.onRowAdded = function (itemSpec) {
     };
@@ -215,33 +230,22 @@ var GridLayout = (function (_super) {
     GridLayout.prototype.getRows = function () {
         return this._rows.slice();
     };
-    GridLayout.prototype.getColumn = function (view) {
-        if (this._cols.length === 0) {
-            return this._singleColumn;
-        }
-        var columnIndex = Math.min(GridLayout.getColumn(view), this._cols.length - 1);
-        return this._cols[columnIndex];
-    };
-    GridLayout.prototype.getRow = function (view) {
-        if (this._rows.length === 0) {
-            return this._singleRow;
-        }
-        var columnIndex = Math.min(GridLayout.getRow(view), this._rows.length - 1);
-        return this._rows[columnIndex];
-    };
-    GridLayout.prototype.getColumnSpan = function (view, columnIndex) {
-        if (this._cols.length === 0) {
-            return 1;
-        }
-        return Math.min(GridLayout.getColumnSpan(view), this._cols.length - columnIndex);
-    };
-    GridLayout.prototype.getRowSpan = function (view, rowIndex) {
-        if (this._rows.length === 0) {
-            return 1;
-        }
-        return Math.min(GridLayout.getRowSpan(view), this._rows.length - rowIndex);
-    };
+    Object.defineProperty(GridLayout.prototype, "columnsInternal", {
+        get: function () {
+            return this._cols;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(GridLayout.prototype, "rowsInternal", {
+        get: function () {
+            return this._rows;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GridLayout.prototype.invalidate = function () {
+        this.requestLayout();
     };
     GridLayout.prototype._applyXmlAttribute = function (attributeName, attributeValue) {
         if (attributeName === "columns") {
@@ -256,22 +260,25 @@ var GridLayout = (function (_super) {
     };
     GridLayout.parseItemSpecs = function (value) {
         var result = new Array();
-        var arr = value.split(",");
+        var arr = value.split(/[\s,]+/);
         for (var i = 0; i < arr.length; i++) {
-            result.push(GridLayout.convertGridLength(arr[i].trim()));
+            var str = arr[i].trim();
+            if (str.length > 0) {
+                result.push(GridLayout.convertGridLength(arr[i].trim()));
+            }
         }
         return result;
     };
     GridLayout.convertGridLength = function (value) {
         if (value === "auto") {
-            return new definition.ItemSpec(1, definition.GridUnitType.auto);
+            return ItemSpec.create(1, GridUnitType.auto);
         }
         else if (value.indexOf("*") !== -1) {
             var starCount = parseInt(value.replace("*", "") || "1");
-            return new definition.ItemSpec(starCount, definition.GridUnitType.star);
+            return ItemSpec.create(starCount, GridUnitType.star);
         }
         else if (!isNaN(parseInt(value))) {
-            return new definition.ItemSpec(parseInt(value), definition.GridUnitType.pixel);
+            return ItemSpec.create(parseInt(value), GridUnitType.pixel);
         }
         else {
             throw new Error("Cannot parse item spec from string: " + value);
@@ -314,23 +321,29 @@ var GridLayout = (function (_super) {
         }
     };
     GridLayout.getView = function (object) {
-        if (object instanceof view.View) {
+        if (object instanceof view_1.View) {
             return object;
         }
         throw new Error("Element is not View or its descendant.");
     };
     GridLayout.prototype._setColumns = function (value) {
-        this._cols = GridLayout.parseItemSpecs(value);
-        this.invalidate();
+        this.removeColumns();
+        var columns = GridLayout.parseItemSpecs(value);
+        for (var i = 0, count = columns.length; i < count; i++) {
+            this.addColumn(columns[i]);
+        }
     };
     GridLayout.prototype._setRows = function (value) {
-        this._rows = GridLayout.parseItemSpecs(value);
-        this.invalidate();
+        this.removeRows();
+        var rows = GridLayout.parseItemSpecs(value);
+        for (var i = 0, count = rows.length; i < count; i++) {
+            this.addRow(rows[i]);
+        }
     };
-    GridLayout.columnProperty = new dependencyObservable.Property("Column", "GridLayout", new proxy.PropertyMetadata(0, dependencyObservable.PropertyMetadataSettings.None, GridLayout.onColumnPropertyChanged, numberUtils.notNegative));
-    GridLayout.columnSpanProperty = new dependencyObservable.Property("ColumnSpan", "GridLayout", new proxy.PropertyMetadata(1, dependencyObservable.PropertyMetadataSettings.None, GridLayout.onColumnSpanPropertyChanged, numberUtils.greaterThanZero));
-    GridLayout.rowProperty = new dependencyObservable.Property("Row", "GridLayout", new proxy.PropertyMetadata(0, dependencyObservable.PropertyMetadataSettings.None, GridLayout.onRowPropertyChanged, numberUtils.notNegative));
-    GridLayout.rowSpanProperty = new dependencyObservable.Property("RowSpan", "GridLayout", new proxy.PropertyMetadata(1, dependencyObservable.PropertyMetadataSettings.None, GridLayout.onRowSpanPropertyChanged, numberUtils.greaterThanZero));
+    GridLayout.columnProperty = new dependency_observable_1.Property("Column", "GridLayout", new proxy_1.PropertyMetadata(0, dependency_observable_1.PropertyMetadataSettings.None, GridLayout.onColumnPropertyChanged, numberUtils.notNegative));
+    GridLayout.columnSpanProperty = new dependency_observable_1.Property("ColumnSpan", "GridLayout", new proxy_1.PropertyMetadata(1, dependency_observable_1.PropertyMetadataSettings.None, GridLayout.onColumnSpanPropertyChanged, numberUtils.greaterThanZero));
+    GridLayout.rowProperty = new dependency_observable_1.Property("Row", "GridLayout", new proxy_1.PropertyMetadata(0, dependency_observable_1.PropertyMetadataSettings.None, GridLayout.onRowPropertyChanged, numberUtils.notNegative));
+    GridLayout.rowSpanProperty = new dependency_observable_1.Property("RowSpan", "GridLayout", new proxy_1.PropertyMetadata(1, dependency_observable_1.PropertyMetadataSettings.None, GridLayout.onRowSpanPropertyChanged, numberUtils.greaterThanZero));
     return GridLayout;
-})(layouts.LayoutBase);
+})(layout_base_1.LayoutBase);
 exports.GridLayout = GridLayout;

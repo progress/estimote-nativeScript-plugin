@@ -3,10 +3,13 @@
     "id": "org.nativescript.Demo",
     "tns-ios": {
       "version": "1.6.0"
+    },
+    "tns-android": {
+      "version": "1.6.3"
     }
   },
   "dependencies": {
     "nativescript-estimote-sdk": "file:../Plugin",
-    "tns-core-modules": "1.5.2"
+    "tns-core-modules": "1.6.2"
   }
 }

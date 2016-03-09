@@ -1,12 +1,32 @@
 var observable = require("data/observable");
-var observableArray = require("data/observable-array");
 var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var dependencyObservable = require("ui/core/dependency-observable");
-var builder = require("ui/builder");
-var label = require("ui/label");
 var color = require("color");
-var weakEvents = require("ui/core/weak-event-listener");
+var builder;
+function ensureBuilder() {
+    if (!builder) {
+        builder = require("ui/builder");
+    }
+}
+var label;
+function ensureLabel() {
+    if (!label) {
+        label = require("ui/label");
+    }
+}
+var observableArray;
+function ensureObservableArray() {
+    if (!observableArray) {
+        observableArray = require("data/observable-array");
+    }
+}
+var weakEvents;
+function ensureWeakEvents() {
+    if (!weakEvents) {
+        weakEvents = require("ui/core/weak-event-listener");
+    }
+}
 var ITEMS = "items";
 var ITEMTEMPLATE = "itemTemplate";
 var ISSCROLLING = "isScrolling";
@@ -89,6 +109,7 @@ var ListView = (function (_super) {
     ListView.prototype.scrollToIndex = function (index) {
     };
     ListView.prototype._getItemTemplateContent = function (index) {
+        ensureBuilder();
         var v;
         if (this.itemTemplate && this.items) {
             v = builder.parse(this.itemTemplate, this);
@@ -109,6 +130,7 @@ var ListView = (function (_super) {
         return this.items.getItem ? this.items.getItem(index) : this.items[index];
     };
     ListView.prototype._getDefaultItemContent = function (index) {
+        ensureLabel();
         var lbl = new label.Label();
         lbl.bind({
             targetProperty: "text",
@@ -117,6 +139,8 @@ var ListView = (function (_super) {
         return lbl;
     };
     ListView.prototype._onItemsPropertyChanged = function (data) {
+        ensureObservableArray();
+        ensureWeakEvents();
         if (data.oldValue instanceof observable.Observable) {
             weakEvents.removeWeakEventListener(data.oldValue, observableArray.ObservableArray.changeEvent, this._onItemsChanged, this);
         }

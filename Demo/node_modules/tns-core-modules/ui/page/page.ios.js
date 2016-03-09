@@ -80,9 +80,6 @@ var UIViewControllerImpl = (function (_super) {
         trace.write(owner + " viewWillAppear", trace.categories.Navigation);
         owner._enableLoadedEvents = true;
         owner._viewWillDisappear = false;
-        if (!owner._isModal) {
-            owner._delayLoadedEvent = true;
-        }
         owner.onLoaded();
         owner._enableLoadedEvents = false;
     };
@@ -131,12 +128,6 @@ var Page = (function (_super) {
             _super.prototype.onLoaded.call(this);
         }
         this._updateActionBar(false);
-    };
-    Page.prototype.notify = function (data) {
-        if (data.eventName === view_1.View.loadedEvent && this._delayLoadedEvent) {
-            return;
-        }
-        _super.prototype.notify.call(this, data);
     };
     Page.prototype.onUnloaded = function () {
         if (this._enableLoadedEvents) {
@@ -194,8 +185,9 @@ var Page = (function (_super) {
             this._ios.modalPresentationStyle = UIModalPresentationStyle.UIModalPresentationFormSheet;
             this._UIModalPresentationFormSheet = true;
         }
+        _super.prototype._raiseShowingModallyEvent.call(this);
         var that = this;
-        parent.ios.presentViewControllerAnimatedCompletion(this._ios, false, function completion() {
+        parent.ios.presentViewControllerAnimatedCompletion(this._ios, utils.ios.MajorVersion >= 9, function completion() {
             that._raiseShownModallyEvent(parent, context, closeCallback);
         });
     };
@@ -203,7 +195,7 @@ var Page = (function (_super) {
         this._isModal = false;
         this._UIModalPresentationFormSheet = false;
         parent.requestLayout();
-        parent._ios.dismissModalViewControllerAnimated(false);
+        parent._ios.dismissModalViewControllerAnimated(utils.ios.MajorVersion >= 9);
         _super.prototype._hideNativeModalView.call(this, parent);
     };
     Page.prototype._updateActionBar = function (hidden) {
@@ -232,7 +224,7 @@ var Page = (function (_super) {
             actionBarHeight = actionBarSize.measuredHeight;
         }
         var heightSpec = utils.layout.makeMeasureSpec(height - actionBarHeight - statusBarHeight, heightMode);
-        var result = view_1.View.measureChild(this, this.content, widthMeasureSpec, heightSpec);
+        var result = view_1.View.measureChild(this, this.layoutView, widthMeasureSpec, heightSpec);
         var measureWidth = Math.max(actionBarWidth, result.measuredWidth, this.minWidth);
         var measureHeight = Math.max(result.measuredHeight + actionBarHeight, this.minHeight);
         var widthAndState = view_1.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
@@ -252,7 +244,7 @@ var Page = (function (_super) {
         if (this._isModal && this._UIModalPresentationFormSheet && platform_1.device.deviceType === enums_1.DeviceType.Tablet) {
             statusBarHeight = 0;
         }
-        view_1.View.layoutChild(this, this.content, 0, navigationBarHeight + statusBarHeight, right - left, bottom - top);
+        view_1.View.layoutChild(this, this.layoutView, 0, navigationBarHeight + statusBarHeight, right - left, bottom - top);
     };
     Page.prototype._addViewToNativeVisualTree = function (view) {
         if (view === this.actionBar) {

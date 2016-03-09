@@ -51,6 +51,36 @@ declare module "ui/layouts/layout-base" {
         removeChildren(): void;
 
         /**
+         * INTERNAL. Used by the layout system.
+         */
+        _registerLayoutChild(child: view.View): void;
+
+        /**
+         * INTERNAL. Used by the layout system.
+         */
+        _unregisterLayoutChild(child: view.View): void;
+
+        /**
+         * Calls the callback for each child that should be laid out.
+         * @param callback The callback
+         */
+        eachLayoutChild(callback: (child: view.View, isLast: boolean) => void): void;
+
+        /**
+         * Iterates over children and changes their width and height to one calculated from percentage values.
+         *
+         * @param widthMeasureSpec  Width MeasureSpec of the parent layout.
+         * @param heightMeasureSpec Height MeasureSpec of the parent layout.
+         */
+        protected static adjustChildrenLayoutParams(layoutBase: LayoutBase, widthMeasureSpec: number, heightMeasureSpec: number): void;
+
+        /**
+         * Iterates over children and restores their original dimensions that were changed for
+         * percentage values.
+         */
+        protected static restoreOriginalParams(layoutBase: LayoutBase): void;
+
+        /**
          * Gets or sets padding style property.
          */
         padding: string;

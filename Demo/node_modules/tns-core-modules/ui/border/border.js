@@ -23,7 +23,7 @@ var Border = (function (_super) {
         var heightMode = utils.layout.getMeasureSpecMode(heightMeasureSpec);
         var density = utils.layout.getDisplayDensity();
         var borderSize = (2 * this.borderWidth) * density;
-        var result = viewModule.View.measureChild(this, this.content, utils.layout.makeMeasureSpec(width - borderSize, widthMode), utils.layout.makeMeasureSpec(height - borderSize, heightMode));
+        var result = viewModule.View.measureChild(this, this.layoutView, utils.layout.makeMeasureSpec(width - borderSize, widthMode), utils.layout.makeMeasureSpec(height - borderSize, heightMode));
         var widthAndState = viewModule.View.resolveSizeAndState(result.measuredWidth + borderSize, width, widthMode, 0);
         var heightAndState = viewModule.View.resolveSizeAndState(result.measuredHeight + borderSize, height, heightMode, 0);
         this.setMeasuredDimension(widthAndState, heightAndState);
@@ -31,7 +31,7 @@ var Border = (function (_super) {
     Border.prototype.onLayout = function (left, top, right, bottom) {
         var density = utils.layout.getDisplayDensity();
         var borderSize = this.borderWidth * density;
-        viewModule.View.layoutChild(this, this.content, borderSize, borderSize, right - left - borderSize, bottom - top - borderSize);
+        viewModule.View.layoutChild(this, this.layoutView, borderSize, borderSize, right - left - borderSize, bottom - top - borderSize);
     };
     Border = __decorate([
         Deprecated

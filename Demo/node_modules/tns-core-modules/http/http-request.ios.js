@@ -1,16 +1,26 @@
-var imageSource = require("image-source");
 var types = require("utils/types");
-var utils = require("utils/utils");
 var GET = "GET";
 var USER_AGENT_HEADER = "User-Agent";
 var USER_AGENT = "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25";
+var utils;
+function ensureUtils() {
+    if (!utils) {
+        utils = require("utils/utils");
+    }
+}
+var imageSource;
+function ensureImageSource() {
+    if (!imageSource) {
+        imageSource = require("image-source");
+    }
+}
 function request(options) {
     return new Promise(function (resolve, reject) {
         try {
             var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
             var queue = NSOperationQueue.mainQueue();
             var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
-            var urlRequest = NSMutableURLRequest.requestWithURL(NSURL.URLWithString(options.url.replace("%", "%25")));
+            var urlRequest = NSMutableURLRequest.requestWithURL(NSURL.URLWithString(options.url));
             urlRequest.HTTPMethod = types.isDefined(options.method) ? options.method : GET;
             urlRequest.setValueForHTTPHeaderField(USER_AGENT, USER_AGENT_HEADER);
             if (options.headers) {
@@ -43,9 +53,11 @@ function request(options) {
                             raw: data,
                             toString: function () { return NSDataToString(data); },
                             toJSON: function () {
+                                ensureUtils();
                                 return utils.parseJSON(NSDataToString(data));
                             },
                             toImage: function () {
+                                ensureImageSource();
                                 if (UIImage.imageWithData["async"]) {
                                     return UIImage.imageWithData["async"](UIImage, [data])
                                         .then(function (image) {
@@ -66,6 +78,20 @@ function request(options) {
                                         rejectImage(new Error("Response content may not be converted to an Image"));
                                     }
                                 });
+                            },
+                            toFile: function (destinationFilePath) {
+                                var fs = require("file-system");
+                                var fileName = options.url;
+                                if (!destinationFilePath) {
+                                    destinationFilePath = fs.path.join(fs.knownFolders.documents().path, fileName.substring(fileName.lastIndexOf('/') + 1));
+                                }
+                                if (data instanceof NSData) {
+                                    data.writeToFileAtomically(destinationFilePath, true);
+                                    return fs.File.fromPath(destinationFilePath);
+                                }
+                                else {
+                                    reject(new Error("Cannot save file with path: " + destinationFilePath + "."));
+                                }
                             }
                         },
                         statusCode: response.statusCode,

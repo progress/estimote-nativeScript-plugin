@@ -119,6 +119,11 @@ declare module "ui/core/view" {
         borderColor: color.Color;
 
         /**
+         * Gets or sets the automation text of the view.
+         */
+        automationText: string;
+
+        /**
          * String value used when hooking to loaded event.
          */
         public static loadedEvent: string;
@@ -127,6 +132,11 @@ declare module "ui/core/view" {
          * String value used when hooking to unloaded event.
          */
         public static unloadedEvent: string;
+
+        /**
+         * Represents the observable property backing the automationText property of each View.
+         */
+        public static automationTextProperty: dependencyObservable.Property;
 
         /**
          * Represents the observable property backing the id property of each View.
@@ -367,24 +377,47 @@ declare module "ui/core/view" {
 
         /**
          * Called from layout when this view should assign a size and position to each of its children. Derived classes with children should override this method and call layout on each of their children.
-         * @param left Left position, relative to parent
-         * @param top Top position, relative to parent
-         * @param right Right position, relative to parent
+         * @param left      Left position, relative to parent
+         * @param top       Top position, relative to parent
+         * @param right     Right position, relative to parent
          * @param bottom	Bottom position, relative to parent
          */
         public onLayout(left: number, top: number, right: number, bottom: number): void;
 
         /**
          * This method must be called by onMeasure(int, int) to store the measured width and measured height. Failing to do so will trigger an exception at measurement time.
-         * @param measuredWidth	The measured width of this view. May be a complex bit mask as defined by MEASURED_SIZE_MASK and MEASURED_STATE_TOO_SMALL.
+         * @param measuredWidth	    The measured width of this view. May be a complex bit mask as defined by MEASURED_SIZE_MASK and MEASURED_STATE_TOO_SMALL.
          * @param measuredHeight	The measured height of this view. May be a complex bit mask as defined by MEASURED_SIZE_MASK and MEASURED_STATE_TOO_SMALL.
          */
         public setMeasuredDimension(measuredWidth: number, measuredHeight: number): void;
 
+        /**
+         * Called from onLayout when native view position is about to be changed.
+         * @param parent    This parameter is not used. You can pass null.
+         * @param left      Left position, relative to parent
+         * @param top       Top position, relative to parent
+         * @param right     Right position, relative to parent
+         * @param bottom	Bottom position, relative to parent
+         */
         public layoutNativeView(left: number, top: number, right: number, bottom: number): void;
 
+        /**
+         * Measure a child by taking into account its margins and a given measureSpecs.
+         * @param parent            This parameter is not used. You can pass null.
+         * @param child             The view to be measured.
+         * @param measuredWidth	    The measured width that the parent layout specifies for this view.
+         * @param measuredHeight	The measured height that the parent layout specifies for this view.
+         */
         public static measureChild(parent: View, child: View, widthMeasureSpec: number, heightMeasureSpec: number): { measuredWidth: number; measuredHeight: number };
-
+        
+        /**
+         * Layout a child by taking into account its margins, horizontal and vertical alignments and a given bounds.
+         * @param parent    This parameter is not used. You can pass null.
+         * @param left      Left position, relative to parent
+         * @param top       Top position, relative to parent
+         * @param right     Right position, relative to parent
+         * @param bottom	Bottom position, relative to parent
+         */
         public static layoutChild(parent: View, child: View, left: number, top: number, right: number, bottom: number): void;
 
         /**
@@ -412,7 +445,7 @@ declare module "ui/core/view" {
          * Sets in-line CSS string as style.
          * @param style - In-line CSS string. 
          */
-        public setInlineStyle(style: string) : void;
+        public setInlineStyle(style: string): void;
 
         public getGestureObservers(type: gestures.GestureTypes): Array<gestures.GesturesObserver>;
 
@@ -463,6 +496,14 @@ declare module "ui/core/view" {
         _inheritProperties(parentView: View)
         _removeView(view: View);
         _context: any /* android.content.Context */;
+
+        _childIndexToNativeChildIndex(index?: number): number;
+        _getNativeViewsCount(): number;
+
+        _eachLayoutView(callback: (View) => void): void;
+
+        _addToSuperview(superview: any, index?: number): boolean;
+        _removeFromSuperview();
 
         public _applyXmlAttribute(attribute: string, value: any): boolean;
 

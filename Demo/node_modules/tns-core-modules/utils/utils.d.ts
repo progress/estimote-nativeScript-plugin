@@ -53,12 +53,18 @@ declare module "utils/utils" {
          * @param value - The pixel to convert.
          */
         export function toDeviceIndependentPixels(value: number): number;
+
+        export function measureSpecToString(measureSpec: number): string;
     }
 
     /**
      * Module with android specific utilities.
      */
     module ad {
+        export function setTextTransform(view, value: string);
+        export function setWhiteSpace(view, value: string);
+        export function setTextDecoration(view, value: string);
+
         /**
          * Gets the native Android application instance.
          */
@@ -132,6 +138,20 @@ declare module "utils/utils" {
      * Module with ios specific utilities.
      */
     module ios {
+        export function setTextDecorationAndTransform(view: any, decoration: string, transform: string);
+        export function setWhiteSpace(view, value: string, parentView?: any);
+        export function setTextAlignment(view, value: string);
+
+        export interface TextUIView {
+            font: any;
+            textAlignment: number;
+            textColor: any;
+            text: string;
+            attributedText: any;
+            lineBreakMode: number;
+            numberOfLines: number;
+        }
+
         /**
          * Utility module dealing with some iOS collections.
          */
@@ -161,6 +181,12 @@ declare module "utils/utils" {
          * Gets the iOS device major version (for 8.1 will return 8).
          */
         export var MajorVersion: number;
+
+        /**
+         * Opens file with associated application.
+         * @param filePath The file path.
+         */
+        export function openFile(filePath: string): boolean
     }
     /**
      * An utility function that copies properties from source object to target object.
@@ -196,4 +222,10 @@ declare module "utils/utils" {
      * @param url The url.
      */
     export function openUrl(url: string): boolean
+    
+    /**
+     * Escapes special regex symbols (., *, ^, $ and so on) in string in order to create a valid regex from it.
+     * @param source The original value. 
+     */
+    export function escapeRegexSymbols(source: string): string
 }

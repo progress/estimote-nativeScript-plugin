@@ -1,4 +1,4 @@
-var observable = require("data/observable");
+var observable_1 = require("data/observable");
 var types = require("utils/types");
 var propertyFromKey = {};
 var propertyIdCounter = 0;
@@ -295,8 +295,9 @@ var DependencyObservable = (function (_super) {
         }
     };
     DependencyObservable.prototype._setValue = function (property, value, source) {
-        if (!property.isValidValue(value)) {
-            throw new Error("Invalid value " + value + " for property " + property.name);
+        var realValue = observable_1.WrappedValue.unwrap(value);
+        if (!property.isValidValue(realValue)) {
+            throw new Error("Invalid value " + realValue + " for property " + property.name);
         }
         if (types.isUndefined(source)) {
             source = ValueSource.Local;
@@ -348,18 +349,29 @@ var DependencyObservable = (function (_super) {
         }
     };
     DependencyObservable.prototype._onPropertyChanged = function (property, oldValue, newValue) {
+        var realNewValue = observable_1.WrappedValue.unwrap(newValue);
         if (property.metadata.onValueChanged) {
             property.metadata.onValueChanged({
                 object: this,
                 property: property,
-                eventName: observable.Observable.propertyChangeEvent,
-                newValue: newValue,
+                eventName: observable_1.Observable.propertyChangeEvent,
+                newValue: realNewValue,
                 oldValue: oldValue
             });
         }
-        if (this.hasListeners(observable.Observable.propertyChangeEvent)) {
+        if (this.hasListeners(observable_1.Observable.propertyChangeEvent)) {
             var changeData = _super.prototype._createPropertyChangeData.call(this, property.name, newValue);
             this.notify(changeData);
+        }
+        var eventName = property.name + "Change";
+        if (this.hasListeners(eventName)) {
+            var ngChangedData = {
+                eventName: eventName,
+                propertyName: property.name,
+                object: this,
+                value: realNewValue
+            };
+            this.notify(ngChangedData);
         }
     };
     DependencyObservable.prototype._eachSetProperty = function (callback) {
@@ -381,8 +393,9 @@ var DependencyObservable = (function (_super) {
         return this.typeName;
     };
     DependencyObservable.prototype._setValueInternal = function (property, value, source) {
-        if (types.isString(value) && property.valueConverter) {
-            value = property.valueConverter(value);
+        var realValue = observable_1.WrappedValue.unwrap(value);
+        if (types.isString(realValue) && property.valueConverter) {
+            realValue = property.valueConverter(realValue);
         }
         var entry = this._propertyEntries[property.id];
         if (!entry) {
@@ -392,20 +405,20 @@ var DependencyObservable = (function (_super) {
         var currentValue = entry.effectiveValue;
         switch (source) {
             case ValueSource.Css:
-                entry.cssValue = value;
+                entry.cssValue = realValue;
                 break;
             case ValueSource.Inherited:
-                entry.inheritedValue = value;
+                entry.inheritedValue = realValue;
                 break;
             case ValueSource.Local:
-                entry.localValue = value;
+                entry.localValue = realValue;
                 break;
             case ValueSource.VisualState:
-                entry.visualStateValue = value;
+                entry.visualStateValue = realValue;
                 break;
         }
         var comparer = property.metadata.equalityComparer || this._defaultComparer;
-        if (!comparer(currentValue, entry.effectiveValue)) {
+        if ((value && value.wrapped) || !comparer(currentValue, entry.effectiveValue)) {
             this._onPropertyChanged(property, currentValue, entry.effectiveValue);
         }
     };
@@ -413,5 +426,5 @@ var DependencyObservable = (function (_super) {
         return x === y;
     };
     return DependencyObservable;
-})(observable.Observable);
+})(observable_1.Observable);
 exports.DependencyObservable = DependencyObservable;

@@ -17,5 +17,7 @@ declare module "ui/content-view" {
         
 
         _addChildFromBuilder(name: string, value: any): void;
+
+        layoutView: view.View;
     }
 } 

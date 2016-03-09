@@ -1,4 +1,5 @@
 var aiCommon = require("./activity-indicator-common");
+var style = require("ui/styling/style");
 function onBusyPropertyChanged(data) {
     var indicator = data.object;
     if (!indicator.ios) {
@@ -29,3 +30,25 @@ var ActivityIndicator = (function (_super) {
     return ActivityIndicator;
 })(aiCommon.ActivityIndicator);
 exports.ActivityIndicator = ActivityIndicator;
+var ActivityIndicatorStyler = (function () {
+    function ActivityIndicatorStyler() {
+    }
+    ActivityIndicatorStyler.setColorProperty = function (view, newValue) {
+        var bar = view.ios;
+        bar.color = newValue;
+    };
+    ActivityIndicatorStyler.resetColorProperty = function (view, nativeValue) {
+        var bar = view.ios;
+        bar.color = nativeValue;
+    };
+    ActivityIndicatorStyler.getNativeColorValue = function (view) {
+        var bar = view.ios;
+        return bar.color;
+    };
+    ActivityIndicatorStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(ActivityIndicatorStyler.setColorProperty, ActivityIndicatorStyler.resetColorProperty, ActivityIndicatorStyler.getNativeColorValue), "ActivityIndicator");
+    };
+    return ActivityIndicatorStyler;
+})();
+exports.ActivityIndicatorStyler = ActivityIndicatorStyler;
+ActivityIndicatorStyler.registerHandlers();

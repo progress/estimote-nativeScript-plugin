@@ -1,6 +1,5 @@
 var common = require("./web-view-common");
 var trace = require("trace");
-var fs = require("file-system");
 global.moduleMerge(common, exports);
 var UIWebViewDelegateImpl = (function (_super) {
     __extends(UIWebViewDelegateImpl, _super);
@@ -86,6 +85,7 @@ var WebView = (function (_super) {
         this._ios.loadRequest(NSURLRequest.requestWithURL(NSURL.URLWithString(src)));
     };
     WebView.prototype._loadData = function (content) {
+        var fs = require("file-system");
         this._ios.loadHTMLStringBaseURL(content, NSURL.alloc().initWithString("file:///" + fs.knownFolders.currentApp().path + "/"));
     };
     Object.defineProperty(WebView.prototype, "canGoBack", {

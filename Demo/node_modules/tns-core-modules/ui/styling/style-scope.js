@@ -1,11 +1,31 @@
 var trace = require("trace");
 var cssSelector = require("ui/styling/css-selector");
 var cssParser = require("css");
-var visual_state_1 = require("./visual-state");
 var application = require("application");
-var utils = require("utils/utils");
-var types = require("utils/types");
-var fs = require("file-system");
+var types;
+function ensureTypes() {
+    if (!types) {
+        types = require("utils/types");
+    }
+}
+var utils;
+function ensureUtils() {
+    if (!utils) {
+        utils = require("utils/utils");
+    }
+}
+var fs;
+function ensureFS() {
+    if (!fs) {
+        fs = require("file-system");
+    }
+}
+var vs;
+function ensureVisualState() {
+    if (!vs) {
+        vs = require("./visual-state");
+    }
+}
 var pattern = /('|")(.*?)\1/;
 var StyleScope = (function () {
     function StyleScope() {
@@ -56,6 +76,7 @@ var StyleScope = (function () {
     };
     StyleScope.createSelectorsFromImports = function (tree) {
         var selectors = new Array();
+        ensureTypes();
         if (!types.isNullOrUndefined(tree)) {
             var imports = tree["stylesheet"]["rules"].filter(function (r) { return r.type === "import"; });
             for (var i = 0; i < imports.length; i++) {
@@ -63,7 +84,9 @@ var StyleScope = (function () {
                 var match = importItem && importItem.match(pattern);
                 var url = match && match[2];
                 if (!types.isNullOrUndefined(url)) {
+                    ensureUtils();
                     if (utils.isFileOrResourcePath(url)) {
+                        ensureFS();
                         var fileName = types.isString(url) ? url.trim() : "";
                         if (fileName.indexOf("~/") === 0) {
                             fileName = fs.path.join(fs.knownFolders.currentApp().path, fileName.replace("~/", ""));
@@ -136,11 +159,12 @@ var StyleScope = (function () {
     StyleScope.prototype._createVisualsStatesForSelectors = function (key, matchedStateSelectors) {
         var i, allStates = {}, stateSelector;
         this._statesByKey[key] = allStates;
+        ensureVisualState();
         for (i = 0; i < matchedStateSelectors.length; i++) {
             stateSelector = matchedStateSelectors[i];
             var visualState = allStates[stateSelector.state];
             if (!visualState) {
-                visualState = new visual_state_1.VisualState();
+                visualState = new vs.VisualState();
                 allStates[stateSelector.state] = visualState;
             }
             stateSelector.eachSetter(function (property, value) {

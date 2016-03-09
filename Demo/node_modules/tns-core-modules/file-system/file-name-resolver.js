@@ -2,7 +2,6 @@ var fs = require("file-system");
 var types = require("utils/types");
 var trace = require("trace");
 var platform = require("platform");
-var application = require("application");
 var MIN_WH = "minWH";
 var MIN_W = "minW";
 var MIN_H = "minH";
@@ -176,7 +175,8 @@ var appEventAttached = false;
 var resolverInstance;
 function resolveFileName(path, ext) {
     if (!appEventAttached) {
-        application.on(application.orientationChangedEvent, function (data) {
+        var app = require("application");
+        app.on(app.orientationChangedEvent, function (data) {
             resolverInstance = undefined;
         });
         appEventAttached = true;

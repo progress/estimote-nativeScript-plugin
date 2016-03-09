@@ -1,7 +1,8 @@
 var utils = require("utils/utils");
-var view = require("ui/core/view");
-var enums = require("ui/enums");
 var common = require("./dock-layout-common");
+var style_1 = require("ui/styling/style");
+var enums_1 = require("ui/enums");
+var view_1 = require("ui/core/view");
 global.moduleMerge(common, exports);
 var DockLayout = (function (_super) {
     __extends(DockLayout, _super);
@@ -12,6 +13,8 @@ var DockLayout = (function (_super) {
         this.requestLayout();
     };
     DockLayout.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
+        var _this = this;
+        DockLayout.adjustChildrenLayoutParams(this, widthMeasureSpec, heightMeasureSpec);
         _super.prototype.onMeasure.call(this, widthMeasureSpec, heightMeasureSpec);
         var measureWidth = 0;
         var measureHeight = 0;
@@ -26,13 +29,8 @@ var DockLayout = (function (_super) {
         var tempWidth = 0;
         var childWidthMeasureSpec;
         var childHeightMeasureSpec;
-        var count = this.getChildrenCount();
-        for (var i = 0; i < count; i++) {
-            var child = this.getChildAt(i);
-            if (!child || !child._isVisible) {
-                continue;
-            }
-            if (this.stretchLastChild && i === (count - 1)) {
+        this.eachLayoutChild(function (child, last) {
+            if (_this.stretchLastChild && last) {
                 childWidthMeasureSpec = utils.layout.makeMeasureSpec(remainingWidth, widthMode);
                 childHeightMeasureSpec = utils.layout.makeMeasureSpec(remainingHeight, heightMode);
             }
@@ -40,18 +38,18 @@ var DockLayout = (function (_super) {
                 childWidthMeasureSpec = utils.layout.makeMeasureSpec(remainingWidth, widthMode === utils.layout.EXACTLY ? utils.layout.AT_MOST : widthMode);
                 childHeightMeasureSpec = utils.layout.makeMeasureSpec(remainingHeight, heightMode === utils.layout.EXACTLY ? utils.layout.AT_MOST : heightMode);
             }
-            var childSize = view.View.measureChild(this, child, childWidthMeasureSpec, childHeightMeasureSpec);
+            var childSize = view_1.View.measureChild(_this, child, childWidthMeasureSpec, childHeightMeasureSpec);
             var dock = DockLayout.getDock(child);
             switch (dock) {
-                case enums.Dock.top:
-                case enums.Dock.bottom:
+                case enums_1.Dock.top:
+                case enums_1.Dock.bottom:
                     remainingHeight = Math.max(0, remainingHeight - childSize.measuredHeight);
                     tempHeight += childSize.measuredHeight;
                     measureWidth = Math.max(measureWidth, tempWidth + childSize.measuredWidth);
                     measureHeight = Math.max(measureHeight, tempHeight);
                     break;
-                case enums.Dock.left:
-                case enums.Dock.right:
+                case enums_1.Dock.left:
+                case enums_1.Dock.right:
                 default:
                     remainingWidth = Math.max(0, remainingWidth - childSize.measuredWidth);
                     tempWidth += childSize.measuredWidth;
@@ -59,16 +57,17 @@ var DockLayout = (function (_super) {
                     measureHeight = Math.max(measureHeight, tempHeight + childSize.measuredHeight);
                     break;
             }
-        }
+        });
         measureWidth += (this.paddingLeft + this.paddingRight) * density;
         measureHeight += (this.paddingTop + this.paddingBottom) * density;
         measureWidth = Math.max(measureWidth, this.minWidth * density);
         measureHeight = Math.max(measureHeight, this.minHeight * density);
-        var widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
-        var heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
+        var widthAndState = view_1.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
+        var heightAndState = view_1.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
         this.setMeasuredDimension(widthAndState, heightAndState);
     };
     DockLayout.prototype.onLayout = function (left, top, right, bottom) {
+        var _this = this;
         _super.prototype.onLayout.call(this, left, top, right, bottom);
         var density = utils.layout.getDisplayDensity();
         var childLeft = this.paddingLeft * density;
@@ -77,41 +76,36 @@ var DockLayout = (function (_super) {
         var y = childTop;
         var remainingWidth = Math.max(0, right - left - ((this.paddingLeft + this.paddingRight) * density));
         var remainingHeight = Math.max(0, bottom - top - ((this.paddingTop + this.paddingBottom) * density));
-        var count = this.getChildrenCount();
-        var childToStretch = null;
-        if (count > 0 && this.stretchLastChild) {
-            count--;
-            childToStretch = this.getChildAt(count);
-        }
-        for (var i = 0; i < count; i++) {
-            var child = this.getChildAt(i);
-            if (!child || !child._isVisible) {
-                continue;
+        this.eachLayoutChild(function (child, last) {
+            var lp = child.style._getValue(style_1.nativeLayoutParamsProperty);
+            var childWidth = child.getMeasuredWidth() + (lp.leftMargin + lp.rightMargin) * density;
+            var childHeight = child.getMeasuredHeight() + (lp.topMargin + lp.bottomMargin) * density;
+            if (last && _this.stretchLastChild) {
+                view_1.View.layoutChild(_this, child, x, y, x + remainingWidth, y + remainingHeight);
+                return;
             }
-            var childWidth = child.getMeasuredWidth() + (child.marginLeft + child.marginRight) * density;
-            var childHeight = child.getMeasuredHeight() + (child.marginTop + child.marginBottom) * density;
             var dock = DockLayout.getDock(child);
             switch (dock) {
-                case enums.Dock.top:
+                case enums_1.Dock.top:
                     childLeft = x;
                     childTop = y;
                     childWidth = remainingWidth;
                     y += childHeight;
                     remainingHeight = Math.max(0, remainingHeight - childHeight);
                     break;
-                case enums.Dock.bottom:
+                case enums_1.Dock.bottom:
                     childLeft = x;
                     childTop = y + remainingHeight - childHeight;
                     childWidth = remainingWidth;
                     remainingHeight = Math.max(0, remainingHeight - childHeight);
                     break;
-                case enums.Dock.right:
+                case enums_1.Dock.right:
                     childLeft = x + remainingWidth - childWidth;
                     childTop = y;
                     childHeight = remainingHeight;
                     remainingWidth = Math.max(0, remainingWidth - childWidth);
                     break;
-                case enums.Dock.left:
+                case enums_1.Dock.left:
                 default:
                     childLeft = x;
                     childTop = y;
@@ -120,11 +114,9 @@ var DockLayout = (function (_super) {
                     remainingWidth = Math.max(0, remainingWidth - childWidth);
                     break;
             }
-            view.View.layoutChild(this, child, childLeft, childTop, childLeft + childWidth, childTop + childHeight);
-        }
-        if (childToStretch) {
-            view.View.layoutChild(this, childToStretch, x, y, x + remainingWidth, y + remainingHeight);
-        }
+            view_1.View.layoutChild(_this, child, childLeft, childTop, childLeft + childWidth, childTop + childHeight);
+        });
+        DockLayout.restoreOriginalParams(this);
     };
     return DockLayout;
 })(common.DockLayout);

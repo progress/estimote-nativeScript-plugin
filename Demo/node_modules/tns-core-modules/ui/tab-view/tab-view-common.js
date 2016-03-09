@@ -123,6 +123,19 @@ var TabView = (function (_super) {
         }
     };
     TabView.prototype._removeTabs = function (oldItems) {
+        var i;
+        var length = oldItems.length;
+        var oldItem;
+        for (i = 0; i < length; i++) {
+            oldItem = oldItems[i];
+            if (!oldItem) {
+                throw new Error("TabViewItem at index " + i + " is undefined.");
+            }
+            if (!oldItem.view) {
+                throw new Error("TabViewItem at index " + i + " does not have a view.");
+            }
+            this._removeView(oldItem.view);
+        }
     };
     TabView.prototype._addTabs = function (newItems) {
         var i;
@@ -136,6 +149,7 @@ var TabView = (function (_super) {
             if (!newItem.view) {
                 throw new Error("TabViewItem at index " + i + " does not have a view.");
             }
+            this._addView(newItem.view, i);
         }
     };
     Object.defineProperty(TabView.prototype, "selectedIndex", {

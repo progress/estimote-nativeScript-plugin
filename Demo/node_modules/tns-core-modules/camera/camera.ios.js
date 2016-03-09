@@ -1,6 +1,3 @@
-var imageSource = require("image-source");
-var frame = require("ui/frame");
-var common = require("./camera-common");
 var types = require("utils/types");
 var UIImagePickerControllerDelegateImpl = (function (_super) {
     __extends(UIImagePickerControllerDelegateImpl, _super);
@@ -31,6 +28,7 @@ var UIImagePickerControllerDelegateImpl = (function (_super) {
                 if (this._width || this._height) {
                     var newSize = null;
                     if (this._keepAspectRatio) {
+                        var common = require("./camera-common");
                         var aspectSafeSize = common.getAspectSafeDimensions(source.size.width, source.size.height, this._width, this._height);
                         newSize = CGSizeMake(aspectSafeSize.width, aspectSafeSize.height);
                     }
@@ -42,6 +40,7 @@ var UIImagePickerControllerDelegateImpl = (function (_super) {
                     image = UIGraphicsGetImageFromCurrentImageContext();
                     UIGraphicsEndImageContext();
                 }
+                var imageSource = require("image-source");
                 var imageSourceResult = image ? imageSource.fromNativeSource(image) : imageSource.fromNativeSource(source);
                 if (this._callback) {
                     this._callback(imageSourceResult);
@@ -85,6 +84,7 @@ exports.takePicture = function (options) {
             imagePickerController.sourceType = sourceType;
         }
         imagePickerController.modalPresentationStyle = UIModalPresentationStyle.UIModalPresentationCurrentContext;
+        var frame = require("ui/frame");
         var topMostFrame = frame.topmost();
         if (topMostFrame) {
             var viewController = topMostFrame.currentPage && topMostFrame.currentPage.ios;
