@@ -1,4 +1,10 @@
-var trace = require("trace");
+var definition = require("ui/animation");
+var trace;
+function ensureTrace() {
+    if (!trace) {
+        trace = require("trace");
+    }
+}
 var Properties;
 (function (Properties) {
     Properties.opacity = "opacity";
@@ -7,17 +13,28 @@ var Properties;
     Properties.rotate = "rotate";
     Properties.scale = "scale";
 })(Properties = exports.Properties || (exports.Properties = {}));
+var CubicBezierAnimationCurve = (function () {
+    function CubicBezierAnimationCurve(x1, y1, x2, y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+    return CubicBezierAnimationCurve;
+})();
+exports.CubicBezierAnimationCurve = CubicBezierAnimationCurve;
 var Animation = (function () {
     function Animation(animationDefinitions, playSequentially) {
         if (!animationDefinitions || animationDefinitions.length === 0) {
             throw new Error("No animation definitions specified");
         }
+        ensureTrace();
         trace.write("Analyzing " + animationDefinitions.length + " animation definitions...", trace.categories.Animation);
         this._propertyAnimations = new Array();
         var i = 0;
         var length = animationDefinitions.length;
         for (; i < length; i++) {
-            animationDefinitions[i].curve = this._resolveAnimationCurve(animationDefinitions[i].curve);
+            animationDefinitions[i].curve = definition._resolveAnimationCurve(animationDefinitions[i].curve);
             this._propertyAnimations = this._propertyAnimations.concat(Animation._createPropertyAnimations(animationDefinitions[i]));
         }
         if (this._propertyAnimations.length === 0) {
@@ -57,8 +74,6 @@ var Animation = (function () {
     Animation.prototype._rejectAnimationFinishedPromise = function () {
         this._isPlaying = false;
         this._reject(new Error("Animation cancelled."));
-    };
-    Animation.prototype._resolveAnimationCurve = function (curve) {
     };
     Animation._createPropertyAnimations = function (animationDefinition) {
         if (!animationDefinition.target) {

@@ -33,7 +33,7 @@ var XMLHttpRequest = (function () {
     XMLHttpRequest.prototype.abort = function () {
         this._errorFlag = true;
         this._response = null;
-        this._responseText = null;
+        this._responseTextReader = null;
         this._headers = null;
         this._status = null;
         if (this._readyState === this.UNSENT || this._readyState === this.OPENED || this._readyState === this.DONE) {
@@ -47,7 +47,7 @@ var XMLHttpRequest = (function () {
         var _this = this;
         this._errorFlag = false;
         this._response = null;
-        this._responseText = null;
+        this._responseTextReader = null;
         this._headers = null;
         this._status = null;
         if (types.isDefined(this._options)) {
@@ -59,22 +59,38 @@ var XMLHttpRequest = (function () {
             }
             http.request(this._options).then(function (r) {
                 if (!_this._errorFlag) {
-                    _this._status = r.statusCode;
-                    _this._response = r.content.raw;
-                    _this._headers = r.headers;
-                    _this._setReadyState(_this.HEADERS_RECEIVED);
-                    _this._setReadyState(_this.LOADING);
-                    if (_this.responseType === XMLHttpRequestResponseType.empty ||
-                        _this.responseType === XMLHttpRequestResponseType.text ||
-                        _this.responseType === XMLHttpRequestResponseType.json) {
-                        _this._responseText = r.content.toString;
-                    }
-                    _this._setReadyState(_this.DONE);
+                    _this._loadResponse(r);
                 }
             }).catch(function (e) {
                 _this._errorFlag = true;
                 _this._setReadyState(_this.DONE, e);
             });
+        }
+    };
+    XMLHttpRequest.prototype._loadResponse = function (r) {
+        this._status = r.statusCode;
+        this._response = r.content.raw;
+        this._headers = r.headers;
+        this._setReadyState(this.HEADERS_RECEIVED);
+        this._setReadyState(this.LOADING);
+        this._setResponseType();
+        if (this.responseType === XMLHttpRequestResponseType.json) {
+            this._responseTextReader = function () { return r.content.toString(); };
+            this._response = JSON.parse(this.responseText);
+        }
+        else if (this.responseType === XMLHttpRequestResponseType.empty ||
+            this.responseType === XMLHttpRequestResponseType.text) {
+            this._responseTextReader = function () { return r.content.toString(); };
+        }
+        this._setReadyState(this.DONE);
+    };
+    XMLHttpRequest.prototype._setResponseType = function () {
+        var contentType = this.getResponseHeader('Content-Type').toLowerCase();
+        if (contentType.indexOf('application/json') >= 0) {
+            this.responseType = XMLHttpRequestResponseType.json;
+        }
+        else if (contentType.indexOf('text/plain') >= 0) {
+            this.responseType = XMLHttpRequestResponseType.text;
         }
     };
     XMLHttpRequest.prototype.addEventListener = function (eventName, handler) {
@@ -174,8 +190,8 @@ var XMLHttpRequest = (function () {
     };
     Object.defineProperty(XMLHttpRequest.prototype, "responseText", {
         get: function () {
-            if (types.isFunction(this._responseText)) {
-                return this._responseText();
+            if (types.isFunction(this._responseTextReader)) {
+                return this._responseTextReader();
             }
             return "";
         },

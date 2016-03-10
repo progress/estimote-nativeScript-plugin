@@ -1,6 +1,9 @@
+var types = require("utils/types");
 var view = require("ui/core/view");
 var dependencyObservable = require("ui/core/dependency-observable");
 var proxy = require("ui/core/proxy");
+var utils = require("utils/utils");
+var style = require("ui/styling/style");
 var LayoutBase = (function (_super) {
     __extends(LayoutBase, _super);
     function LayoutBase() {
@@ -31,33 +34,29 @@ var LayoutBase = (function (_super) {
     LayoutBase.prototype.getChildById = function (id) {
         return view.getViewById(this, id);
     };
+    LayoutBase.prototype._registerLayoutChild = function (child) {
+    };
+    LayoutBase.prototype._unregisterLayoutChild = function (child) {
+    };
     LayoutBase.prototype.addChild = function (child) {
-        this._addView(child);
         this._subViews.push(child);
+        this._addView(child);
+        this._registerLayoutChild(child);
     };
     LayoutBase.prototype.insertChild = function (child, atIndex) {
-        this._addView(child, atIndex);
         this._subViews.splice(atIndex, 0, child);
+        this._addView(child, atIndex);
+        this._registerLayoutChild(child);
     };
     LayoutBase.prototype.removeChild = function (child) {
         this._removeView(child);
         var index = this._subViews.indexOf(child);
         this._subViews.splice(index, 1);
+        this._unregisterLayoutChild(child);
     };
     LayoutBase.prototype.removeChildren = function () {
         while (this.getChildrenCount() !== 0) {
             this.removeChild(this._subViews[this.getChildrenCount() - 1]);
-        }
-    };
-    LayoutBase.prototype._eachChildView = function (callback) {
-        var i;
-        var length = this._subViews.length;
-        var retVal;
-        for (i = 0; i < length; i++) {
-            retVal = callback(this._subViews[i]);
-            if (retVal === false) {
-                break;
-            }
         }
     };
     Object.defineProperty(LayoutBase.prototype, "padding", {
@@ -122,9 +121,102 @@ var LayoutBase = (function (_super) {
             nativeView.setClipChildren(newValue);
         }
     };
+    LayoutBase.prototype._childIndexToNativeChildIndex = function (index) {
+        if (types.isUndefined(index)) {
+            return undefined;
+        }
+        var result = 0;
+        for (var i = 0; i < index && i < this._subViews.length; i++) {
+            result += this._subViews[i]._getNativeViewsCount();
+        }
+        return result;
+    };
+    LayoutBase.prototype._eachChildView = function (callback) {
+        var i;
+        var length = this._subViews.length;
+        var retVal;
+        for (i = 0; i < length; i++) {
+            retVal = callback(this._subViews[i]);
+            if (retVal === false) {
+                break;
+            }
+        }
+    };
+    LayoutBase.prototype.eachLayoutChild = function (callback) {
+        var index = 0;
+        var lastChild = null;
+        this._eachChildView(function (cv) {
+            cv._eachLayoutView(function (lv) {
+                if (lastChild && lastChild._isVisible) {
+                    callback(lastChild, false);
+                }
+                lastChild = lv;
+            });
+            return true;
+        });
+        if (lastChild && lastChild._isVisible) {
+            callback(lastChild, true);
+        }
+    };
     LayoutBase.onClipToBoundsPropertyChanged = function (data) {
         var layout = data.object;
         layout.onClipToBoundsChanged(data.oldValue, data.newValue);
+    };
+    LayoutBase.adjustChildrenLayoutParams = function (layoutBase, widthMeasureSpec, heightMeasureSpec) {
+        var availableWidth = utils.layout.getMeasureSpecSize(widthMeasureSpec);
+        var widthSpec = utils.layout.getMeasureSpecMode(widthMeasureSpec);
+        var availableHeight = utils.layout.getMeasureSpecSize(heightMeasureSpec);
+        var heightSpec = utils.layout.getMeasureSpecMode(heightMeasureSpec);
+        for (var i = 0, count = layoutBase.getChildrenCount(); i < count; i++) {
+            var child = layoutBase.getChildAt(i);
+            var lp = child.style._getValue(style.nativeLayoutParamsProperty);
+            if (widthSpec !== utils.layout.UNSPECIFIED) {
+                if (lp.widthPercent > 0) {
+                    lp.width = Math.round(availableWidth * lp.widthPercent);
+                }
+                if (lp.leftMarginPercent > 0) {
+                    lp.leftMargin = Math.round(availableWidth * lp.leftMarginPercent);
+                }
+                if (lp.rightMarginPercent > 0) {
+                    lp.rightMargin = Math.round(availableWidth * lp.rightMarginPercent);
+                }
+            }
+            if (heightSpec !== utils.layout.UNSPECIFIED) {
+                if (lp.heightPercent > 0) {
+                    lp.height = Math.round(availableHeight * lp.heightPercent);
+                }
+                if (lp.topMarginPercent > 0) {
+                    lp.topMargin = Math.round(availableHeight * lp.topMarginPercent);
+                }
+                if (lp.bottomMarginPercent > 0) {
+                    lp.bottomMargin = Math.round(availableHeight * lp.bottomMarginPercent);
+                }
+            }
+        }
+    };
+    LayoutBase.restoreOriginalParams = function (layoutBase) {
+        for (var i = 0, count = layoutBase.getChildrenCount(); i < count; i++) {
+            var child = layoutBase.getChildAt(i);
+            var lp = child.style._getValue(style.nativeLayoutParamsProperty);
+            if (lp.widthPercent > 0) {
+                lp.width = -1;
+            }
+            if (lp.heightPercent > 0) {
+                lp.height = -1;
+            }
+            if (lp.leftMarginPercent > 0) {
+                lp.leftMargin = 0;
+            }
+            if (lp.topMarginPercent > 0) {
+                lp.topMargin = 0;
+            }
+            if (lp.rightMarginPercent > 0) {
+                lp.rightMargin = 0;
+            }
+            if (lp.bottomMarginPercent > 0) {
+                lp.bottomMargin = 0;
+            }
+        }
     };
     LayoutBase.clipToBoundsProperty = new dependencyObservable.Property("clipToBounds", "LayoutBase", new proxy.PropertyMetadata(true, dependencyObservable.PropertyMetadataSettings.None, LayoutBase.onClipToBoundsPropertyChanged));
     return LayoutBase;

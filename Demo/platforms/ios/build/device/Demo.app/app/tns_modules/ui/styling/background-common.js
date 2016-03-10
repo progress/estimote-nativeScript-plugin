@@ -1,7 +1,12 @@
 var colorModule = require("color");
-var types = require("utils/types");
 var enums = require("ui/enums");
 var cssValue = require("css-value");
+var types;
+function ensureTypes() {
+    if (!types) {
+        types = require("utils/types");
+    }
+}
 var Background = (function () {
     function Background(color, image, repeat, position, size) {
         this.color = color;
@@ -156,6 +161,7 @@ var Background = (function () {
     };
     ;
     Background.prototype.isEmpty = function () {
+        ensureTypes();
         return types.isNullOrUndefined(this.image) && types.isNullOrUndefined(this.color);
     };
     Background.equals = function (value1, value2) {

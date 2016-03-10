@@ -1,4 +1,3 @@
-var utilsModule = require("utils/utils");
 var textModule = require("text");
 var FileSystemAccess = (function () {
     function FileSystemAccess() {
@@ -115,17 +114,22 @@ var FileSystemAccess = (function () {
         return null;
     };
     FileSystemAccess.prototype.fileExists = function (path) {
-        var fileManager = NSFileManager.defaultManager();
-        return fileManager.fileExistsAtPath(path);
+        var result = this.exists(path);
+        return result.exists;
     };
     FileSystemAccess.prototype.folderExists = function (path) {
+        var result = this.exists(path);
+        return result.exists && result.isDirectory;
+    };
+    FileSystemAccess.prototype.exists = function (path) {
         var fileManager = NSFileManager.defaultManager();
-        var outVal = new interop.Reference();
-        var exists = fileManager.fileExistsAtPathIsDirectory(path, outVal);
-        return exists && outVal.value > 0;
+        var isDirectory = new interop.Reference(interop.types.bool, false);
+        var exists = fileManager.fileExistsAtPathIsDirectory(path, isDirectory);
+        return { exists: exists, isDirectory: isDirectory.value };
     };
     FileSystemAccess.prototype.concatPath = function (left, right) {
-        var nsArray = utilsModule.ios.collections.jsArrayToNSArray([left, right]);
+        var utils = require("utils/utils");
+        var nsArray = utils.ios.collections.jsArrayToNSArray([left, right]);
         var nsString = NSString.pathWithComponents(nsArray);
         return nsString.toString();
     };
@@ -165,6 +169,11 @@ var FileSystemAccess = (function () {
             }
         }
     };
+    FileSystemAccess.prototype.getLogicalRootPath = function () {
+        var mainBundlePath = NSBundle.mainBundle().bundlePath;
+        var resolvedPath = NSString.stringWithString(mainBundlePath).stringByResolvingSymlinksInPath;
+        return resolvedPath;
+    };
     FileSystemAccess.prototype.getDocumentsFolderPath = function () {
         return this.getKnownPath(this.documentDir);
     };
@@ -186,6 +195,16 @@ var FileSystemAccess = (function () {
             }
         }
     };
+    FileSystemAccess.prototype.read = function (path, onError) {
+        try {
+            return NSData.dataWithContentsOfFile(path);
+        }
+        catch (ex) {
+            if (onError) {
+                onError(new Error("Failed to read file at path '" + path + "': " + ex));
+            }
+        }
+    };
     FileSystemAccess.prototype.writeText = function (path, content, onError, encoding) {
         var nsString = NSString.alloc().initWithString(content);
         var actualEncoding = encoding;
@@ -194,6 +213,16 @@ var FileSystemAccess = (function () {
         }
         try {
             nsString.writeToFileAtomicallyEncodingError(path, false, actualEncoding);
+        }
+        catch (ex) {
+            if (onError) {
+                onError(new Error("Failed to write to file '" + path + "': " + ex));
+            }
+        }
+    };
+    FileSystemAccess.prototype.write = function (path, content, onError) {
+        try {
+            content.writeToFileAtomically(path, true);
         }
         catch (ex) {
             if (onError) {

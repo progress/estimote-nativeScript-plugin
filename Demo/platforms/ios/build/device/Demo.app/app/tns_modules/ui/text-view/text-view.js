@@ -1,6 +1,8 @@
 var common = require("./text-view-common");
 var textBase = require("ui/text-base");
 var enums = require("ui/enums");
+var style = require("ui/styling/style");
+var types = require("utils/types");
 global.moduleMerge(common, exports);
 var UITextViewDelegateImpl = (function (_super) {
     __extends(UITextViewDelegateImpl, _super);
@@ -98,14 +100,51 @@ var TextView = (function (_super) {
     };
     TextView.prototype._showHint = function (hint) {
         this.ios.textColor = this.ios.textColor ? this.ios.textColor.colorWithAlphaComponent(0.22) : UIColor.blackColor().colorWithAlphaComponent(0.22);
-        this.ios.text = hint + "";
+        this.ios.text = types.isNullOrUndefined(hint) ? "" : hint + "";
         this.ios.isShowingHint = true;
     };
     TextView.prototype._hideHint = function () {
         this.ios.textColor = this.color ? this.color.ios : null;
-        this.ios.text = this.text + "";
+        this.ios.text = types.isNullOrUndefined(this.text) ? "" : this.text + "";
         this.ios.isShowingHint = false;
     };
     return TextView;
 })(common.TextView);
 exports.TextView = TextView;
+var TextViewStyler = (function () {
+    function TextViewStyler() {
+    }
+    TextViewStyler.setColorProperty = function (v, newValue) {
+        var textView = v._nativeView;
+        TextViewStyler._setTextViewColor(textView, newValue);
+    };
+    TextViewStyler.resetColorProperty = function (v, nativeValue) {
+        var textView = v._nativeView;
+        TextViewStyler._setTextViewColor(textView, nativeValue);
+    };
+    TextViewStyler._setTextViewColor = function (textView, newValue) {
+        var color = newValue;
+        if (textView.isShowingHint && color) {
+            textView.textColor = color.colorWithAlphaComponent(0.22);
+        }
+        else {
+            textView.textColor = color;
+            textView.tintColor = color;
+        }
+    };
+    TextViewStyler.getNativeColorValue = function (v) {
+        var textView = v._nativeView;
+        if (textView.isShowingHint && textView.textColor) {
+            return textView.textColor.colorWithAlphaComponent(1);
+        }
+        else {
+            return textView.textColor;
+        }
+    };
+    TextViewStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(TextViewStyler.setColorProperty, TextViewStyler.resetColorProperty, TextViewStyler.getNativeColorValue), "TextView");
+    };
+    return TextViewStyler;
+})();
+exports.TextViewStyler = TextViewStyler;
+TextViewStyler.registerHandlers();

@@ -1,6 +1,11 @@
 var common = require("./search-bar-common");
-var color = require("color");
-var types = require("utils/types");
+var style = require("ui/styling/style");
+var types;
+function ensureTypes() {
+    if (!types) {
+        types = require("utils/types");
+    }
+}
 function onTextPropertyChanged(data) {
     var bar = data.object;
     bar.ios.text = data.newValue;
@@ -8,6 +13,7 @@ function onTextPropertyChanged(data) {
 common.SearchBar.textProperty.metadata.onSetNativeValue = onTextPropertyChanged;
 function onTextFieldBackgroundColorPropertyChanged(data) {
     var bar = data.object;
+    var color = require("color");
     if (data.newValue instanceof color.Color) {
         var tf = bar._textField;
         if (tf) {
@@ -29,6 +35,7 @@ function onHintPropertyChanged(data) {
         return;
     }
     var newValue = data.newValue;
+    ensureTypes();
     if (types.isString(newValue)) {
         bar.ios.placeholder = newValue;
     }
@@ -51,10 +58,9 @@ var UISearchBarDelegateImpl = (function (_super) {
             return;
         }
         owner._onPropertyChangedFromNative(common.SearchBar.textProperty, searchText);
-        if (searchText === "" && this._searchText !== searchText) {
+        if (searchText === "") {
             owner._emit(common.SearchBar.clearEvent);
         }
-        this._searchText = searchText;
     };
     UISearchBarDelegateImpl.prototype.searchBarCancelButtonClicked = function (searchBar) {
         searchBar.resignFirstResponder();
@@ -113,3 +119,67 @@ var SearchBar = (function (_super) {
     return SearchBar;
 })(common.SearchBar);
 exports.SearchBar = SearchBar;
+var SearchBarStyler = (function () {
+    function SearchBarStyler() {
+    }
+    SearchBarStyler.setBackgroundColorProperty = function (v, newValue) {
+        var bar = v.ios;
+        bar.barTintColor = newValue;
+    };
+    SearchBarStyler.getBackgroundColorProperty = function (v) {
+        var bar = v.ios;
+        return bar.barTintColor;
+    };
+    SearchBarStyler.resetBackgroundColorProperty = function (v, nativeValue) {
+        var bar = v.ios;
+        bar.barTintColor = nativeValue;
+    };
+    SearchBarStyler.getColorProperty = function (v) {
+        var sf = v._textField;
+        if (sf) {
+            return sf.textColor;
+        }
+        return undefined;
+    };
+    SearchBarStyler.setColorProperty = function (v, newValue) {
+        var sf = v._textField;
+        if (sf) {
+            sf.textColor = newValue;
+            sf.tintColor = newValue;
+        }
+    };
+    SearchBarStyler.resetColorProperty = function (v, nativeValue) {
+        var sf = v._textField;
+        if (sf) {
+            sf.textColor = nativeValue;
+            sf.tintColor = nativeValue;
+        }
+    };
+    SearchBarStyler.setFontInternalProperty = function (v, newValue, nativeValue) {
+        var sf = v._textField;
+        if (sf) {
+            sf.font = newValue.getUIFont(nativeValue);
+        }
+    };
+    SearchBarStyler.resetFontInternalProperty = function (v, nativeValue) {
+        var sf = v._textField;
+        if (sf) {
+            sf.font = nativeValue;
+        }
+    };
+    SearchBarStyler.getNativeFontInternalValue = function (v) {
+        var sf = v._textField;
+        if (sf) {
+            return sf.font;
+        }
+        return undefined;
+    };
+    SearchBarStyler.registerHandlers = function () {
+        style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setBackgroundColorProperty, SearchBarStyler.resetBackgroundColorProperty, SearchBarStyler.getBackgroundColorProperty), "SearchBar");
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setColorProperty, SearchBarStyler.resetColorProperty, SearchBarStyler.getColorProperty), "SearchBar");
+        style.registerHandler(style.fontInternalProperty, new style.StylePropertyChangedHandler(SearchBarStyler.setFontInternalProperty, SearchBarStyler.resetFontInternalProperty, SearchBarStyler.getNativeFontInternalValue), "SearchBar");
+    };
+    return SearchBarStyler;
+})();
+exports.SearchBarStyler = SearchBarStyler;
+SearchBarStyler.registerHandlers();

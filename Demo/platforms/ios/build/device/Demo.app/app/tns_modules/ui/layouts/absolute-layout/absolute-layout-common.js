@@ -1,7 +1,7 @@
-var layouts = require("ui/layouts/layout-base");
-var dependencyObservable = require("ui/core/dependency-observable");
-var view = require("ui/core/view");
-var proxy = require("ui/core/proxy");
+var layout_base_1 = require("ui/layouts/layout-base");
+var view_1 = require("ui/core/view");
+var proxy_1 = require("ui/core/proxy");
+var dependency_observable_1 = require("ui/core/dependency-observable");
 var special_properties_1 = require("ui/builder/special-properties");
 function validateArgs(element) {
     if (!element) {
@@ -24,20 +24,20 @@ var AbsoluteLayout = (function (_super) {
         return isFinite(value);
     };
     AbsoluteLayout.onLeftPropertyChanged = function (data) {
-        var uiView = data.object;
-        if (uiView instanceof view.View) {
-            var layout = uiView.parent;
+        var view = data.object;
+        if (view instanceof view_1.View) {
+            var layout = view.parent;
             if (layout instanceof AbsoluteLayout) {
-                layout.onLeftChanged(uiView, data.oldValue, data.newValue);
+                layout.onLeftChanged(view, data.oldValue, data.newValue);
             }
         }
     };
     AbsoluteLayout.onTopPropertyChanged = function (data) {
-        var uiView = data.object;
-        if (uiView instanceof view.View) {
-            var layout = uiView.parent;
+        var view = data.object;
+        if (view instanceof view_1.View) {
+            var layout = view.parent;
             if (layout instanceof AbsoluteLayout) {
-                layout.onTopChanged(uiView, data.oldValue, data.newValue);
+                layout.onTopChanged(view, data.oldValue, data.newValue);
             }
         }
     };
@@ -57,8 +57,8 @@ var AbsoluteLayout = (function (_super) {
     };
     AbsoluteLayout.prototype.onTopChanged = function (view, oldValue, newValue) {
     };
-    AbsoluteLayout.leftProperty = new dependencyObservable.Property("left", "AbsoluteLayout", new proxy.PropertyMetadata(0, undefined, AbsoluteLayout.onLeftPropertyChanged, AbsoluteLayout.isValid));
-    AbsoluteLayout.topProperty = new dependencyObservable.Property("top", "AbsoluteLayout", new proxy.PropertyMetadata(0, undefined, AbsoluteLayout.onTopPropertyChanged, AbsoluteLayout.isValid));
+    AbsoluteLayout.leftProperty = new dependency_observable_1.Property("left", "AbsoluteLayout", new proxy_1.PropertyMetadata(0, undefined, AbsoluteLayout.onLeftPropertyChanged, AbsoluteLayout.isValid));
+    AbsoluteLayout.topProperty = new dependency_observable_1.Property("top", "AbsoluteLayout", new proxy_1.PropertyMetadata(0, undefined, AbsoluteLayout.onTopPropertyChanged, AbsoluteLayout.isValid));
     return AbsoluteLayout;
-})(layouts.LayoutBase);
+})(layout_base_1.LayoutBase);
 exports.AbsoluteLayout = AbsoluteLayout;

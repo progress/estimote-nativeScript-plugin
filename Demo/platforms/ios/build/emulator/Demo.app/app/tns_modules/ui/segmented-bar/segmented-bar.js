@@ -1,7 +1,13 @@
 var common = require("./segmented-bar-common");
 var types = require("utils/types");
-var color = require("color");
+var style = require("ui/styling/style");
 global.moduleMerge(common, exports);
+var color;
+function ensureColor() {
+    if (!color) {
+        color = require("color");
+    }
+}
 function onSelectedIndexPropertyChanged(data) {
     var view = data.object;
     if (!view.ios || !view.items) {
@@ -51,6 +57,7 @@ function onSelectedBackgroundColorPropertyChanged(data) {
     if (!view.ios) {
         return;
     }
+    ensureColor();
     if (data.newValue instanceof color.Color) {
         view.ios.tintColor = data.newValue.ios;
     }
@@ -109,3 +116,79 @@ var SelectionHandlerImpl = (function (_super) {
     };
     return SelectionHandlerImpl;
 })(NSObject);
+var SegmentedBarStyler = (function () {
+    function SegmentedBarStyler() {
+    }
+    SegmentedBarStyler.setColorProperty = function (v, newValue) {
+        var bar = v.ios;
+        var currentAttrs = bar.titleTextAttributesForState(UIControlState.UIControlStateNormal);
+        var attrs;
+        if (currentAttrs) {
+            attrs = currentAttrs.mutableCopy();
+        }
+        else {
+            attrs = NSMutableDictionary.new();
+        }
+        attrs.setValueForKey(newValue, NSForegroundColorAttributeName);
+        bar.setTitleTextAttributesForState(attrs, UIControlState.UIControlStateNormal);
+    };
+    SegmentedBarStyler.resetColorProperty = function (v, nativeValue) {
+        var bar = v.ios;
+        var currentAttrs = bar.titleTextAttributesForState(UIControlState.UIControlStateNormal);
+        var attrs;
+        if (currentAttrs) {
+            attrs = currentAttrs.mutableCopy();
+        }
+        else {
+            attrs = NSMutableDictionary.new();
+        }
+        attrs.setValueForKey(nativeValue, NSForegroundColorAttributeName);
+        bar.setTitleTextAttributesForState(attrs, UIControlState.UIControlStateNormal);
+    };
+    SegmentedBarStyler.setFontInternalProperty = function (v, newValue) {
+        var bar = v.ios;
+        var currentAttrs = bar.titleTextAttributesForState(UIControlState.UIControlStateNormal);
+        var attrs;
+        if (currentAttrs) {
+            attrs = currentAttrs.mutableCopy();
+        }
+        else {
+            attrs = NSMutableDictionary.new();
+        }
+        var newFont = newValue.getUIFont(UIFont.systemFontOfSize(UIFont.labelFontSize()));
+        attrs.setValueForKey(newFont, NSFontAttributeName);
+        bar.setTitleTextAttributesForState(attrs, UIControlState.UIControlStateNormal);
+    };
+    SegmentedBarStyler.resetFontInternalProperty = function (v, nativeValue) {
+        var bar = v.ios;
+        var currentAttrs = bar.titleTextAttributesForState(UIControlState.UIControlStateNormal);
+        var attrs;
+        if (currentAttrs) {
+            attrs = currentAttrs.mutableCopy();
+        }
+        else {
+            attrs = NSMutableDictionary.new();
+        }
+        attrs.setValueForKey(nativeValue, NSFontAttributeName);
+        bar.setTitleTextAttributesForState(attrs, UIControlState.UIControlStateNormal);
+    };
+    SegmentedBarStyler.getNativeFontValue = function (v) {
+        var bar = v.ios;
+        var currentAttrs = bar.titleTextAttributesForState(UIControlState.UIControlStateNormal);
+        var currentFont;
+        if (currentAttrs) {
+            currentFont = currentAttrs.objectForKey(NSFontAttributeName);
+        }
+        if (!currentFont) {
+            currentFont = UIFont.systemFontOfSize(UIFont.labelFontSize());
+        }
+        return currentFont;
+    };
+    SegmentedBarStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SegmentedBarStyler.setColorProperty, SegmentedBarStyler.resetColorProperty), "SegmentedBar");
+        style.registerHandler(style.fontInternalProperty, new style.StylePropertyChangedHandler(SegmentedBarStyler.setFontInternalProperty, SegmentedBarStyler.resetFontInternalProperty, SegmentedBarStyler.getNativeFontValue), "SegmentedBar");
+    };
+    return SegmentedBarStyler;
+})();
+exports.SegmentedBarStyler = SegmentedBarStyler;
+SegmentedBarStyler.registerHandlers();

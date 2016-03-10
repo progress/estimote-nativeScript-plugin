@@ -3,8 +3,9 @@ var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var imageSource = require("image-source");
 var enums = require("ui/enums");
-var types = require("utils/types");
 var platform = require("platform");
+var utils = require("utils/utils");
+var types = require("utils/types");
 var SRC = "src";
 var IMAGE_SOURCE = "imageSource";
 var IMAGE = "Image";
@@ -19,7 +20,14 @@ function onSrcPropertyChanged(data) {
         image.imageSource = null;
         image["_url"] = value;
         image._setValue(Image.isLoadingProperty, true);
-        if (imageSource.isFileOrResourcePath(value)) {
+        if (utils.isDataURI(value)) {
+            var base64Data = value.split(",")[1];
+            if (types.isDefined(base64Data)) {
+                image.imageSource = imageSource.fromBase64(base64Data);
+                image._setValue(Image.isLoadingProperty, false);
+            }
+        }
+        else if (imageSource.isFileOrResourcePath(value)) {
             image.imageSource = imageSource.fromFileOrResource(value);
             image._setValue(Image.isLoadingProperty, false);
         }

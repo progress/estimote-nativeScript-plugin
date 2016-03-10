@@ -1,9 +1,16 @@
 var view = require("ui/core/view");
+var types = require("utils/types");
 var observable = require("data/observable");
 var dependencyObservable = require("ui/core/dependency-observable");
 var proxy = require("ui/core/proxy");
 var formattedString = require("text/formatted-string");
-var weakEvents = require("ui/core/weak-event-listener");
+var tbs = require("ui/text-base/text-base-styler");
+var weakEvents;
+function ensureWeakEvents() {
+    if (!weakEvents) {
+        weakEvents = require("ui/core/weak-event-listener");
+    }
+}
 var textProperty = new dependencyObservable.Property("text", "TextBase", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 var formattedTextProperty = new dependencyObservable.Property("formattedText", "TextBase", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 function onTextPropertyChanged(data) {
@@ -63,6 +70,7 @@ var TextBase = (function (_super) {
         },
         set: function (value) {
             if (this.formattedText !== value) {
+                ensureWeakEvents();
                 if (this.formattedText) {
                     weakEvents.removeWeakEventListener(this.formattedText, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
                 }
@@ -79,11 +87,12 @@ var TextBase = (function (_super) {
         this.setFormattedTextPropertyToNative(eventData.value);
     };
     TextBase.prototype._onTextPropertyChanged = function (data) {
+        var newValue = types.isNullOrUndefined(data.newValue) ? "" : data.newValue + "";
         if (this.android) {
-            this.android.setText(data.newValue + "");
+            this.android.setText(newValue);
         }
         else if (this.ios) {
-            this.ios.text = data.newValue + "";
+            this.ios.text = newValue;
             this.style._updateTextDecoration();
             this.style._updateTextTransform();
         }
@@ -113,3 +122,4 @@ var TextBase = (function (_super) {
     return TextBase;
 })(view.View);
 exports.TextBase = TextBase;
+tbs.TextBaseStyler.registerHandlers();

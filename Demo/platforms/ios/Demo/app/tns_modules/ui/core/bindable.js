@@ -3,16 +3,26 @@ var dependencyObservable = require("ui/core/dependency-observable");
 var weakEvents = require("ui/core/weak-event-listener");
 var types = require("utils/types");
 var trace = require("trace");
-var polymerExpressions = require("js-libs/polymer-expressions");
 var bindingBuilder = require("../builder/binding-builder");
 var viewModule = require("ui/core/view");
-var special_properties_1 = require("ui/builder/special-properties");
-var _appModule = null;
-function appModule() {
-    if (!_appModule) {
-        _appModule = require("application");
+var utils = require("utils/utils");
+var application;
+function ensureApplication() {
+    if (!application) {
+        application = require("application");
     }
-    return _appModule;
+}
+var expressions;
+function ensureExpressions() {
+    if (!expressions) {
+        expressions = require("js-libs/polymer-expressions");
+    }
+}
+var specialProperties;
+function ensureSpecialProperties() {
+    if (!specialProperties) {
+        specialProperties = require("ui/builder/special-properties");
+    }
 }
 var bindingContextProperty = new dependencyObservable.Property("bindingContext", "Bindable", new dependencyObservable.PropertyMetadata(undefined, dependencyObservable.PropertyMetadataSettings.Inheritable, onBindingContextChanged));
 function onBindingContextChanged(data) {
@@ -207,7 +217,7 @@ var Binding = (function () {
                 currentObjectChanged = true;
             }
             result.push({ instance: currentObject, property: objProp });
-            if (!currentObjectChanged) {
+            if (!currentObjectChanged && (i < propsArrayLength - 1)) {
                 currentObject = currentObject ? currentObject[propsArray[i]] : null;
             }
             currentObjectChanged = false;
@@ -252,8 +262,7 @@ var Binding = (function () {
         this.sourcePropertiesArray = undefined;
     };
     Binding.prototype.prepareExpressionForUpdate = function () {
-        var escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
-        var escapedSourceProperty = this.options.sourceProperty.replace(escapeRegex, '\\$&');
+        var escapedSourceProperty = utils.escapeRegexSymbols(this.options.sourceProperty);
         var expRegex = new RegExp(escapedSourceProperty, 'g');
         var resultExp = this.options.expression.replace(expRegex, bc.newPropertyValueKey);
         return resultExp;
@@ -294,18 +303,20 @@ var Binding = (function () {
     };
     Binding.prototype._getExpressionValue = function (expression, isBackConvert, changedModel) {
         try {
-            var exp = polymerExpressions.PolymerExpressions.getExpression(expression);
+            ensureExpressions();
+            var exp = expressions.PolymerExpressions.getExpression(expression);
             if (exp) {
                 var context = this.source && this.source.get && this.source.get() || global;
                 var model = {};
-                for (var prop in appModule().resources) {
-                    if (appModule().resources.hasOwnProperty(prop) && !context.hasOwnProperty(prop)) {
-                        context[prop] = appModule().resources[prop];
+                ensureApplication();
+                for (var prop in application.resources) {
+                    if (application.resources.hasOwnProperty(prop) && !context.hasOwnProperty(prop)) {
+                        context[prop] = application.resources[prop];
                     }
                 }
                 this.prepareContextForExpression(context, expression);
                 model[contextKey] = context;
-                return exp.getValue(model, isBackConvert, changedModel);
+                return exp.getValue(model, isBackConvert, changedModel ? changedModel : model);
             }
             return new Error(expression + " is not a valid expression.");
         }
@@ -361,6 +372,9 @@ var Binding = (function () {
     Binding.prototype.prepareContextForExpression = function (model, expression) {
         var parentViewAndIndex;
         var parentView;
+        if (expression.indexOf(bc.bindingValueKey) > -1) {
+            model[bc.bindingValueKey] = model;
+        }
         if (expression.indexOf(bc.parentValueKey) > -1) {
             parentView = this.getParentView(this.target.get(), bc.parentValueKey).view;
             if (parentView) {
@@ -489,7 +503,8 @@ var Binding = (function () {
                 optionsInstance.on(options.property, value, optionsInstance.bindingContext);
             }
             else {
-                var specialSetter = special_properties_1.getSpecialPropertySetter(options.property);
+                ensureSpecialProperties();
+                var specialSetter = specialProperties.getSpecialPropertySetter(options.property);
                 if (specialSetter) {
                     specialSetter(optionsInstance, value);
                 }

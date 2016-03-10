@@ -4,9 +4,13 @@ var dependencyObservable = require("ui/core/dependency-observable");
 var enums = require("ui/enums");
 var proxy = require("ui/core/proxy");
 var view = require("ui/core/view");
-var style = require("../styling/style");
-var observable = require("ui/core/dependency-observable");
 var ACTION_ITEMS = "actionItems";
+var style;
+function ensureStyle() {
+    if (!style) {
+        style = require("../styling/style");
+    }
+}
 var knownCollections;
 (function (knownCollections) {
     knownCollections.actionItems = "actionItems";
@@ -66,15 +70,16 @@ var ActionBar = (function (_super) {
         },
         set: function (value) {
             if (this._titleView !== value) {
+                ensureStyle();
                 if (this._titleView) {
                     this._removeView(this._titleView);
-                    this._titleView.style._resetValue(style.horizontalAlignmentProperty, observable.ValueSource.Inherited);
-                    this._titleView.style._resetValue(style.verticalAlignmentProperty, observable.ValueSource.Inherited);
+                    this._titleView.style._resetValue(style.horizontalAlignmentProperty, dependencyObservable.ValueSource.Inherited);
+                    this._titleView.style._resetValue(style.verticalAlignmentProperty, dependencyObservable.ValueSource.Inherited);
                 }
                 this._titleView = value;
                 if (this._titleView) {
-                    this._titleView.style._setValue(style.horizontalAlignmentProperty, enums.HorizontalAlignment.center, observable.ValueSource.Inherited);
-                    this._titleView.style._setValue(style.verticalAlignmentProperty, enums.VerticalAlignment.center, observable.ValueSource.Inherited);
+                    this._titleView.style._setValue(style.horizontalAlignmentProperty, enums.HorizontalAlignment.center, dependencyObservable.ValueSource.Inherited);
+                    this._titleView.style._setValue(style.verticalAlignmentProperty, enums.VerticalAlignment.center, dependencyObservable.ValueSource.Inherited);
                     this._addView(this._titleView);
                 }
                 this.update();
@@ -125,7 +130,10 @@ var ActionBar = (function (_super) {
         if (value instanceof dts.NavigationButton) {
             this.navigationButton = value;
         }
-        if (value instanceof view.View) {
+        else if (value instanceof dts.ActionItem) {
+            this.actionItems.addItem(value);
+        }
+        else if (value instanceof view.View) {
             this.titleView = value;
         }
     };
@@ -261,6 +269,13 @@ var ActionItem = (function (_super) {
                     this.bindingContext = this._actionBar.bindingContext;
                 }
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ActionItem.prototype, "page", {
+        get: function () {
+            return this.actionBar ? this.actionBar.page : undefined;
         },
         enumerable: true,
         configurable: true

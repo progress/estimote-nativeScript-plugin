@@ -95,6 +95,9 @@ function _generateAmpMap() {
     }
     return ampCodes;
 }
+if (global.__snapshot) {
+    _ampCodes = _generateAmpMap();
+}
 function _HandleAmpEntities(found, decimalValue, hexValue, wordValue) {
     if (wordValue) {
         if (!_ampCodes) {

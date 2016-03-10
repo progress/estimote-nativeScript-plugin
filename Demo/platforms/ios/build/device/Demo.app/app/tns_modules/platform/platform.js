@@ -1,4 +1,3 @@
-var enums = require("ui/enums");
 var platformNames;
 (function (platformNames) {
     platformNames.android = "Android";
@@ -54,6 +53,7 @@ var device = (function () {
     Object.defineProperty(device, "deviceType", {
         get: function () {
             if (!device._deviceType) {
+                var enums = require("ui/enums");
                 if (UIDevice.currentDevice().userInterfaceIdiom === UIUserInterfaceIdiom.UIUserInterfaceIdiomPhone) {
                     device._deviceType = enums.DeviceType.Phone;
                 }

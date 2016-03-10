@@ -1,5 +1,5 @@
-var color = require("color");
 var enums = require("ui/enums");
+var color = require("color");
 function colorConverter(value) {
     return new color.Color(value);
 }

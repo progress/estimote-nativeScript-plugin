@@ -21,4 +21,5 @@ ListView {
 
 Image {
   margin : 5;
+  width: 25;
 }

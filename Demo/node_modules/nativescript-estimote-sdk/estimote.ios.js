@@ -26,7 +26,30 @@ var BeaconManagerDelegateImpl = (function (_super) {
         }
     };
 
-    BeaconManagerDelegateImpl.prototype.beaconManagerDidRangeBeaconsInRegion = function (manager, beacons, region) {
+    BeaconManagerDelegateImpl.prototype.beaconManagerDidRangeBeaconsInRegion = function (manager, nativeBeacons, region) {
+        var beacons = [];
+
+        for (var index = 0; index < nativeBeacons.count; index++){
+            var beacon = nativeBeacons[index];
+
+            var proximity = "Immediate";
+
+            if (beacon.proximity === CLProximity.Near){
+                proximity = "Near";
+            }
+            else if (beacon.proximity === CLProximity.Far){
+                proximity = "Far";
+            }
+
+            beacons.push({
+                major : beacon.major,
+                minor: beacon.minor,
+                proximity: proximity,
+                rssi : beacon.rssi,
+                _beacon : beacon
+            });
+        }
+
         this._callback(beacons);
     };
     BeaconManagerDelegateImpl.ObjCProtocols = [ESTBeaconManagerDelegate];

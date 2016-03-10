@@ -1,4 +1,5 @@
 var common = require("./date-picker-common");
+var style = require("ui/styling/style");
 function onYearPropertyChanged(data) {
     var picker = data.object;
     if (picker.ios) {
@@ -92,3 +93,25 @@ var UIDatePickerChangeHandlerImpl = (function (_super) {
     };
     return UIDatePickerChangeHandlerImpl;
 })(NSObject);
+var DatePickerStyler = (function () {
+    function DatePickerStyler() {
+    }
+    DatePickerStyler.setColorProperty = function (view, newValue) {
+        var picker = view._nativeView;
+        picker.setValueForKey(newValue, "textColor");
+    };
+    DatePickerStyler.resetColorProperty = function (view, nativeValue) {
+        var picker = view._nativeView;
+        picker.setValueForKey(nativeValue, "textColor");
+    };
+    DatePickerStyler.getColorProperty = function (view) {
+        var picker = view._nativeView;
+        return picker.valueForKey("textColor");
+    };
+    DatePickerStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(DatePickerStyler.setColorProperty, DatePickerStyler.resetColorProperty, DatePickerStyler.getColorProperty), "DatePicker");
+    };
+    return DatePickerStyler;
+})();
+exports.DatePickerStyler = DatePickerStyler;
+DatePickerStyler.registerHandlers();

@@ -1,12 +1,12 @@
 var common = require("./html-view-common");
 var utils = require("utils/utils");
-var types = require("utils/types");
-var viewModule = require("ui/core/view");
+var view = require("ui/core/view");
 function onHtmlPropertyChanged(data) {
     var view = data.object;
     if (!view.ios) {
         return;
     }
+    var types = require("utils/types");
     if (types.isString(data.newValue)) {
         var htmlString = NSString.stringWithString(data.newValue);
         var nsData = htmlString.dataUsingEncoding(NSUnicodeStringEncoding);
@@ -62,8 +62,8 @@ var HtmlView = (function (_super) {
             labelWidth = Math.min(labelWidth, width);
             var measureWidth = Math.max(labelWidth, this.minWidth);
             var measureHeight = Math.max(nativeSize.height, this.minHeight);
-            var widthAndState = viewModule.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
-            var heightAndState = viewModule.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
+            var widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
+            var heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
             this.setMeasuredDimension(widthAndState, heightAndState);
         }
     };

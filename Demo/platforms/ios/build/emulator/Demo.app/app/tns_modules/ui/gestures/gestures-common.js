@@ -7,6 +7,7 @@ var definition = require("ui/gestures");
     GestureTypes[GestureTypes["swipe"] = 16] = "swipe";
     GestureTypes[GestureTypes["rotation"] = 32] = "rotation";
     GestureTypes[GestureTypes["longPress"] = 64] = "longPress";
+    GestureTypes[GestureTypes["touch"] = 128] = "touch";
 })(exports.GestureTypes || (exports.GestureTypes = {}));
 var GestureTypes = exports.GestureTypes;
 (function (GestureStateTypes) {
@@ -23,8 +24,15 @@ var GestureStateTypes = exports.GestureStateTypes;
     SwipeDirection[SwipeDirection["down"] = 8] = "down";
 })(exports.SwipeDirection || (exports.SwipeDirection = {}));
 var SwipeDirection = exports.SwipeDirection;
-function observe(target, type, callback, thisArg) {
-    var observer = new definition.GesturesObserver(target, callback, thisArg);
+var TouchAction;
+(function (TouchAction) {
+    TouchAction.down = "down";
+    TouchAction.up = "up";
+    TouchAction.move = "move";
+    TouchAction.cancel = "cancel";
+})(TouchAction = exports.TouchAction || (exports.TouchAction = {}));
+function observe(target, type, callback, context) {
+    var observer = new definition.GesturesObserver(target, callback, context);
     observer.observe(type);
     return observer;
 }
@@ -52,6 +60,9 @@ function toString(type, separator) {
     if (type & definition.GestureTypes.longPress) {
         types.push("longPress");
     }
+    if (type & definition.GestureTypes.touch) {
+        types.push("touch");
+    }
     return types.join(separator);
 }
 exports.toString = toString;
@@ -77,6 +88,9 @@ function fromString(type) {
     }
     else if (t === "longpress") {
         return definition.GestureTypes.longPress;
+    }
+    else if (t === "touch") {
+        return definition.GestureTypes.touch;
     }
     return undefined;
 }

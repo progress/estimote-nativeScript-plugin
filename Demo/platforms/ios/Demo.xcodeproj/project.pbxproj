@@ -38,6 +38,7 @@
 		E6A27FC8B67C404C81E1E1BE /* Default-Landscape-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C7AFCB464EAE4224A02490D0 /* Default-Landscape-568h@2x.png */; };
 		F2A86B46AA674D61A9627827 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = C7C250CC6299475B858651B6 /* Default-Portrait.png */; };
 		F6C5181AD9424E4189A7ACD0 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAD0E40F00504A01A049C889 /* Icon-Small@2x.png */; };
+		B1BF1922EB714A39A1B745D3 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE7361AB724419F8C4FB58D /* libEstimoteSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +95,7 @@
 		DCFC5ECCB9DD4931AAA433A0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Demo/Resources/icon.png; sourceTree = "<group>"; };
 		F26FC09F30854DBF9CEE471D /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-40.png"; path = "Demo/Resources/icon-40.png"; sourceTree = "<group>"; };
 		F9B8C6A31ACEDEEB00547416 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		5BE7361AB724419F8C4FB58D /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = "../../lib/iOS/libEstimoteSDK.a"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				6161DF121C81106A0009D881 /* CFNetwork.framework in Frameworks */,
 				6161DF101C81105F0009D881 /* CoreFoundation.framework in Frameworks */,
 				6161DF0E1C8110580009D881 /* Security.framework in Frameworks */,
+				B1BF1922EB714A39A1B745D3 /* libEstimoteSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +138,7 @@
 				6161DF111C81106A0009D881 /* CFNetwork.framework */,
 				6161DF0F1C81105F0009D881 /* CoreFoundation.framework */,
 				6161DF0D1C8110580009D881 /* Security.framework */,
+				5BE7361AB724419F8C4FB58D /* libEstimoteSDK.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -464,6 +468,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Demo-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -485,6 +493,10 @@
 				GCC_PREFIX_HEADER = "Demo/Demo-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
+					"$(SRCROOT)/../../lib/iOS/include/libEstimoteSDK",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Demo/Demo-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -2,6 +2,7 @@ var common = require("./gestures-common");
 var definition = require("ui/gestures");
 var view = require("ui/core/view");
 var trace = require("trace");
+var types = require("utils/types");
 global.moduleMerge(common, exports);
 var UIGestureRecognizerDelegateImpl = (function (_super) {
     __extends(UIGestureRecognizerDelegateImpl, _super);
@@ -125,6 +126,9 @@ var GesturesObserver = (function (_super) {
             if (type & definition.GestureTypes.longPress) {
                 nativeView.addGestureRecognizer(this._createRecognizer(definition.GestureTypes.longPress));
             }
+            if (type & definition.GestureTypes.touch) {
+                nativeView.addGestureRecognizer(this._createRecognizer(definition.GestureTypes.touch));
+            }
         }
     };
     GesturesObserver.prototype._detach = function () {
@@ -162,13 +166,13 @@ var GesturesObserver = (function (_super) {
         var target = _createUIGestureRecognizerTarget(this, type, callback, this.context);
         var recognizerType = _getUIGestureRecognizerType(type);
         if (recognizerType) {
+            recognizer = recognizerType.alloc().initWithTargetAction(target, "recognize");
             if (type === definition.GestureTypes.swipe && swipeDirection) {
                 name = name + swipeDirection.toString();
-                recognizer = recognizerType.alloc().initWithTargetAction(target, "recognize");
                 recognizer.direction = swipeDirection;
             }
-            else {
-                recognizer = recognizerType.alloc().initWithTargetAction(target, "recognize");
+            else if (type === definition.GestureTypes.touch) {
+                recognizer.observer = this;
             }
             if (recognizer) {
                 recognizer.delegate = recognizerDelegateInstance;
@@ -180,8 +184,8 @@ var GesturesObserver = (function (_super) {
     return GesturesObserver;
 })(common.GesturesObserver);
 exports.GesturesObserver = GesturesObserver;
-function _createUIGestureRecognizerTarget(owner, type, callback, thisArg) {
-    return UIGestureRecognizerImpl.initWithOwnerTypeCallback(new WeakRef(owner), type, callback, thisArg);
+function _createUIGestureRecognizerTarget(owner, type, callback, context) {
+    return UIGestureRecognizerImpl.initWithOwnerTypeCallback(new WeakRef(owner), type, callback, context);
 }
 function _getUIGestureRecognizerType(type) {
     var nativeType = null;
@@ -205,6 +209,9 @@ function _getUIGestureRecognizerType(type) {
     }
     else if (type === definition.GestureTypes.longPress) {
         nativeType = UILongPressGestureRecognizer;
+    }
+    else if (type === definition.GestureTypes.touch) {
+        nativeType = TouchGestureRecognizer;
     }
     return nativeType;
 }
@@ -291,3 +298,108 @@ function _getRotationData(args) {
         state: getState(recognizer)
     };
 }
+var TouchGestureRecognizer = (function (_super) {
+    __extends(TouchGestureRecognizer, _super);
+    function TouchGestureRecognizer() {
+        _super.apply(this, arguments);
+    }
+    TouchGestureRecognizer.prototype.touchesBeganWithEvent = function (touches, event) {
+        this.executeCallback(common.TouchAction.down, touches, event);
+    };
+    TouchGestureRecognizer.prototype.touchesMovedWithEvent = function (touches, event) {
+        this.executeCallback(common.TouchAction.move, touches, event);
+    };
+    TouchGestureRecognizer.prototype.touchesEndedWithEvent = function (touches, event) {
+        this.executeCallback(common.TouchAction.up, touches, event);
+    };
+    TouchGestureRecognizer.prototype.touchesCancelledWithEvent = function (touches, event) {
+        this.executeCallback(common.TouchAction.cancel, touches, event);
+    };
+    TouchGestureRecognizer.prototype.executeCallback = function (action, touches, event) {
+        if (!this._eventData) {
+            this._eventData = new TouchGestureEventData();
+        }
+        this._eventData.prepare(this.observer.target, action, touches, event);
+        this.observer._executeCallback(this._eventData);
+    };
+    return TouchGestureRecognizer;
+})(UIGestureRecognizer);
+var Pointer = (function () {
+    function Pointer(touch, targetView) {
+        this.android = undefined;
+        this.ios = undefined;
+        this.ios = touch;
+        this._view = targetView;
+    }
+    Object.defineProperty(Pointer.prototype, "location", {
+        get: function () {
+            if (!this._location) {
+                this._location = this.ios.locationInView(this._view._nativeView);
+            }
+            return this._location;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Pointer.prototype.getX = function () {
+        return this.location.x;
+    };
+    Pointer.prototype.getY = function () {
+        return this.location.x;
+    };
+    return Pointer;
+})();
+var TouchGestureEventData = (function () {
+    function TouchGestureEventData() {
+        this.eventName = definition.toString(definition.GestureTypes.touch);
+        this.type = definition.GestureTypes.touch;
+        this.android = undefined;
+    }
+    TouchGestureEventData.prototype.prepare = function (view, action, touches, event) {
+        this.action = action;
+        this.view = view;
+        this.object = view;
+        this.ios = {
+            touches: touches,
+            event: event
+        };
+        this._mainPointer = undefined;
+        this._activePointers = undefined;
+        this._allPointers = undefined;
+    };
+    TouchGestureEventData.prototype.getPointerCount = function () {
+        return this.ios.event.allTouches().count;
+    };
+    TouchGestureEventData.prototype.getMainPointer = function () {
+        if (types.isUndefined(this._mainPointer)) {
+            this._mainPointer = this.ios.touches.anyObject();
+        }
+        return this._mainPointer;
+    };
+    TouchGestureEventData.prototype.getActivePointers = function () {
+        if (!this._activePointers) {
+            this._activePointers = [];
+            for (var i = 0, nsArr = this.ios.touches.allObjects; i < nsArr.count; i++) {
+                this._activePointers.push(new Pointer(nsArr.objectAtIndex(i), this.view));
+            }
+        }
+        return this._activePointers;
+    };
+    TouchGestureEventData.prototype.getAllPointers = function () {
+        if (!this._allPointers) {
+            this._allPointers = [];
+            var nsArr = this.ios.event.allTouches().allObjects;
+            for (var i = 0; i < nsArr.count; i++) {
+                this._allPointers.push(new Pointer(nsArr.objectAtIndex(i), this.view));
+            }
+        }
+        return this._allPointers;
+    };
+    TouchGestureEventData.prototype.getX = function () {
+        return this.getMainPointer().locationInView(this.view._nativeView).x;
+    };
+    TouchGestureEventData.prototype.getY = function () {
+        return this.getMainPointer().locationInView(this.view._nativeView).y;
+    };
+    return TouchGestureEventData;
+})();

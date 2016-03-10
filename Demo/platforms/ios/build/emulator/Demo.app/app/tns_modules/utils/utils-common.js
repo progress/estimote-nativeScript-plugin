@@ -24,6 +24,11 @@ function parseJSON(source) {
     return JSON.parse(src);
 }
 exports.parseJSON = parseJSON;
+function escapeRegexSymbols(source) {
+    var escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
+    return source.replace(escapeRegex, "\\$&");
+}
+exports.escapeRegexSymbols = escapeRegexSymbols;
 var layout;
 (function (layout) {
     var MODE_SHIFT = 30;
@@ -53,6 +58,26 @@ var layout;
         return (spec & ~MODE_MASK);
     }
     layout.getMeasureSpecSize = getMeasureSpecSize;
+    function measureSpecToString(measureSpec) {
+        var mode = getMeasureSpecMode(measureSpec);
+        var size = getMeasureSpecSize(measureSpec);
+        var text = "MeasureSpec: ";
+        if (mode === layout.UNSPECIFIED) {
+            text += "UNSPECIFIED ";
+        }
+        else if (mode === layout.EXACTLY) {
+            text += "EXACTLY ";
+        }
+        else if (mode === layout.AT_MOST) {
+            text += "AT_MOST ";
+        }
+        else {
+            text += mode + " ";
+        }
+        text += size;
+        return text;
+    }
+    layout.measureSpecToString = measureSpecToString;
 })(layout = exports.layout || (exports.layout = {}));
 function isFileOrResourcePath(path) {
     if (!types.isString(path)) {

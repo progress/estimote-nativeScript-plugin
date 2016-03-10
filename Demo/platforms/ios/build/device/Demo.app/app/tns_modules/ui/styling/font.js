@@ -1,7 +1,6 @@
 var enums = require("ui/enums");
 var common = require("./font-common");
 var fs = require("file-system");
-var trace = require("trace");
 var DEFAULT_SERIF = "Times New Roman";
 var DEFAULT_SANS_SERIF = "Helvetica";
 var DEFAULT_MONOSPACE = "Courier New";
@@ -131,6 +130,7 @@ var ios;
         }
         var error = new interop.Reference();
         if (!CTFontManagerRegisterGraphicsFont(font, error)) {
+            var trace = require("trace");
             trace.write("Error occur while registering font: " + CFErrorCopyDescription(error.value), trace.categories.Error, trace.messageType.error);
         }
         areSystemFontSetsValid = false;

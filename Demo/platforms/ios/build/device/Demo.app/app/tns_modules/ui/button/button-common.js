@@ -3,8 +3,18 @@ var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var formattedString = require("text/formatted-string");
 var observable = require("data/observable");
-var weakEvents = require("ui/core/weak-event-listener");
-var enums = require("ui/enums");
+var weakEvents;
+function ensureWeakEvents() {
+    if (!weakEvents) {
+        weakEvents = require("ui/core/weak-event-listener");
+    }
+}
+var enums;
+function ensureEnums() {
+    if (!enums) {
+        enums = require("ui/enums");
+    }
+}
 var textProperty = new dependencyObservable.Property("text", "Button", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 var formattedTextProperty = new dependencyObservable.Property("formattedText", "Button", new proxy.PropertyMetadata("", dependencyObservable.PropertyMetadataSettings.AffectsLayout));
 function onTextPropertyChanged(data) {
@@ -44,6 +54,7 @@ var Button = (function (_super) {
         },
         set: function (value) {
             if (this.formattedText !== value) {
+                ensureWeakEvents();
                 if (this.formattedText) {
                     weakEvents.removeWeakEventListener(this.formattedText, observable.Observable.propertyChangeEvent, this.onFormattedTextChanged, this);
                 }
@@ -83,6 +94,7 @@ var Button = (function (_super) {
         }
         if (this.ios) {
             this.ios.setAttributedTitleForState(value._formattedText, UIControlState.UIControlStateNormal);
+            this.style._updateTextDecoration();
         }
     };
     Button.prototype._onFormattedTextPropertyChanged = function (data) {
@@ -103,6 +115,7 @@ var Button = (function (_super) {
 exports.Button = Button;
 function onTextWrapPropertyChanged(data) {
     var v = data.object;
+    ensureEnums();
     v.style.whiteSpace = data.newValue ? enums.WhiteSpace.normal : enums.WhiteSpace.nowrap;
 }
 Button.textWrapProperty.metadata.onSetNativeValue = onTextWrapPropertyChanged;

@@ -1,4 +1,3 @@
-var timer = require("timer");
 var defModule = require("location");
 var defaultGetLocationTimeout = 20000;
 var Location = (function () {
@@ -38,6 +37,7 @@ exports.getLocation = function (options) {
         if (!defModule.LocationManager.isEnabled()) {
             return reject(new Error("Location service is disabled"));
         }
+        var timer = require("timer");
         locationManager.startLocationMonitoring(function (location) {
             if (options && ("number" === typeof options.maximumAge)) {
                 if (location.timestamp.valueOf() + options.maximumAge > new Date().valueOf()) {

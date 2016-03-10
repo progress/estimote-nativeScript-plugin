@@ -1,11 +1,8 @@
-var appModule = require("./application-common");
-var frame = require("ui/frame");
-var types = require("utils/types");
-var definition = require("application");
-var enums = require("ui/enums");
+var common = require("./application-common");
+var frame_1 = require("ui/frame");
 var uiUtils = require("ui/utils");
-var fileResolverModule = require("file-system/file-name-resolver");
-global.moduleMerge(appModule, exports);
+global.moduleMerge(common, exports);
+var typedExports = exports;
 var Responder = (function (_super) {
     __extends(Responder, _super);
     function Responder() {
@@ -106,60 +103,78 @@ var IOSApplication = (function () {
     IOSApplication.prototype.didFinishLaunchingWithOptions = function (notification) {
         this._window = Window.alloc().initWithFrame(UIScreen.mainScreen().bounds);
         this._window.backgroundColor = UIColor.whiteColor();
-        if (exports.onLaunch) {
-            exports.onLaunch();
+        if (typedExports.onLaunch) {
+            typedExports.onLaunch(undefined);
         }
-        exports.notify({
-            eventName: definition.launchEvent,
+        var args = {
+            eventName: typedExports.launchEvent,
             object: this,
             ios: notification.userInfo && notification.userInfo.objectForKey("UIApplicationLaunchOptionsLocalNotificationKey") || null
-        });
-        var topFrame = frame.topmost();
-        if (!topFrame) {
-            var navParam = definition.mainEntry;
+        };
+        typedExports.notify(args);
+        var rootView = args.root;
+        var frame;
+        var navParam;
+        if (!rootView) {
+            navParam = typedExports.mainEntry;
             if (!navParam) {
-                navParam = definition.mainModule;
+                navParam = typedExports.mainModule;
             }
             if (navParam) {
-                topFrame = new frame.Frame();
-                topFrame.navigate(navParam);
+                frame = new frame_1.Frame();
+                frame.navigate(navParam);
             }
             else {
                 throw new Error("A Frame must be used to navigate to a Page.");
             }
+            rootView = frame;
         }
-        this._window.content = topFrame;
-        this.rootController = this._window.rootViewController = topFrame.ios.controller;
+        this._window.content = rootView;
+        if (rootView instanceof frame_1.Frame) {
+            this.rootController = this._window.rootViewController = rootView.ios.controller;
+        }
+        else if (rootView.ios instanceof UIViewController) {
+            this.rootController = this._window.rootViewController = rootView.ios;
+        }
+        else if (rootView.ios instanceof UIView) {
+            var newController = new UIViewController();
+            newController.view.addSubview(rootView.ios);
+            this.rootController = newController;
+        }
+        else {
+            throw new Error("Root should be either UIViewController or UIView");
+        }
         this._window.makeKeyAndVisible();
     };
     IOSApplication.prototype.didBecomeActive = function (notification) {
-        if (exports.onResume) {
-            exports.onResume();
+        if (typedExports.onResume) {
+            typedExports.onResume();
         }
-        exports.notify({ eventName: definition.resumeEvent, object: this, ios: UIApplication.sharedApplication() });
+        typedExports.notify({ eventName: typedExports.resumeEvent, object: this, ios: UIApplication.sharedApplication() });
     };
     IOSApplication.prototype.didEnterBackground = function (notification) {
-        if (exports.onSuspend) {
-            exports.onSuspend();
+        if (typedExports.onSuspend) {
+            typedExports.onSuspend();
         }
-        exports.notify({ eventName: definition.suspendEvent, object: this, ios: UIApplication.sharedApplication() });
+        typedExports.notify({ eventName: typedExports.suspendEvent, object: this, ios: UIApplication.sharedApplication() });
     };
     IOSApplication.prototype.willTerminate = function (notification) {
-        if (exports.onExit) {
-            exports.onExit();
+        if (typedExports.onExit) {
+            typedExports.onExit();
         }
-        exports.notify({ eventName: definition.exitEvent, object: this, ios: UIApplication.sharedApplication() });
+        typedExports.notify({ eventName: typedExports.exitEvent, object: this, ios: UIApplication.sharedApplication() });
     };
     IOSApplication.prototype.didReceiveMemoryWarning = function (notification) {
-        if (exports.onLowMemory) {
-            exports.onLowMemory();
+        if (typedExports.onLowMemory) {
+            typedExports.onLowMemory();
         }
-        exports.notify({ eventName: definition.lowMemoryEvent, object: this, android: undefined, ios: UIApplication.sharedApplication() });
+        typedExports.notify({ eventName: typedExports.lowMemoryEvent, object: this, android: undefined, ios: UIApplication.sharedApplication() });
     };
     IOSApplication.prototype.orientationDidChange = function (notification) {
         var orientation = UIDevice.currentDevice().orientation;
         if (this._currentOrientation !== orientation) {
             this._currentOrientation = orientation;
+            var enums = require("ui/enums");
             var newValue;
             switch (orientation) {
                 case UIDeviceOrientation.UIDeviceOrientationLandscapeRight:
@@ -174,8 +189,8 @@ var IOSApplication = (function () {
                     newValue = enums.DeviceOrientation.unknown;
                     break;
             }
-            exports.notify({
-                eventName: definition.orientationChangedEvent,
+            typedExports.notify({
+                eventName: typedExports.orientationChangedEvent,
                 ios: this,
                 newValue: newValue,
                 object: this
@@ -185,19 +200,26 @@ var IOSApplication = (function () {
     return IOSApplication;
 })();
 var iosApp = new IOSApplication();
-exports.ios = iosApp;
+typedExports.ios = iosApp;
 global.__onUncaughtError = function (error) {
-    if (types.isFunction(exports.onUncaughtError)) {
-        exports.onUncaughtError(error);
+    var types = require("utils/types");
+    if (types.isFunction(typedExports.onUncaughtError)) {
+        typedExports.onUncaughtError(error);
     }
-    definition.notify({ eventName: definition.uncaughtErrorEvent, object: definition.ios, ios: error });
+    typedExports.notify({ eventName: typedExports.uncaughtErrorEvent, object: typedExports.ios, ios: error });
 };
+function loadCss() {
+    typedExports.cssSelectorsCache = typedExports.loadCss(typedExports.cssFile);
+}
 var started = false;
-exports.start = function () {
+typedExports.start = function (entry) {
     if (!started) {
+        if (entry) {
+            exports.mainEntry = entry;
+        }
         started = true;
-        appModule.loadCss();
-        UIApplicationMain(0, null, null, exports.ios && exports.ios.delegate ? NSStringFromClass(exports.ios.delegate) : NSStringFromClass(Responder));
+        loadCss();
+        UIApplicationMain(0, null, null, typedExports.ios && typedExports.ios.delegate ? NSStringFromClass(typedExports.ios.delegate) : NSStringFromClass(Responder));
     }
     else {
         throw new Error("iOS Application already started!");
@@ -207,7 +229,8 @@ global.__onLiveSync = function () {
     if (!started) {
         return;
     }
-    fileResolverModule.clearCache();
-    appModule.loadCss();
-    frame.reloadPage();
+    var fileResolver = require("file-system/file-name-resolver");
+    fileResolver.clearCache();
+    loadCss();
+    frame_1.reloadPage();
 };

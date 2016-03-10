@@ -1,3 +1,4 @@
+var animationModule = require("ui/animation");
 var KeyboardType;
 (function (KeyboardType) {
     KeyboardType.datetime = "datetime";
@@ -163,4 +164,9 @@ var AnimationCurve;
     AnimationCurve.easeOut = "easeOut";
     AnimationCurve.easeInOut = "easeInOut";
     AnimationCurve.linear = "linear";
+    AnimationCurve.spring = "spring";
+    function cubicBezier(x1, y1, x2, y2) {
+        return new animationModule.CubicBezierAnimationCurve(x1, y1, x2, y2);
+    }
+    AnimationCurve.cubicBezier = cubicBezier;
 })(AnimationCurve = exports.AnimationCurve || (exports.AnimationCurve = {}));

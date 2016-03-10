@@ -25,8 +25,9 @@ var Estimote = (function(){
         onBeaconsDiscovered: function(region, list){
             var beacons = [];
             for (var index = 0; index < list.size(); index++){
+                var beacon = list.get(index);
                 beacons.push({
-                  proximity : beacon.getProximityUUID().toString(),
+                  proximityUUID : beacon.getProximityUUID().toString(),
                   rssi : beacon.getRssi(),
                   major: beacon.getMajor(),
                   minor: beacon.getMinor(),
@@ -42,21 +43,18 @@ var Estimote = (function(){
       var _this = this;
       com.estimote.sdk.SystemRequirementsChecker.check(this.context, new com.estimote.sdk.SystemRequirementsChecker.Callback({
           	onRequirementsMissing: function(requirements){
-                if (requirements.length == 0){
-                  _this.beaconManager.connect(new com.estimote.sdk.BeaconManager.ServiceReadyCallback({
-                      onServiceReady : function(){
-                          try {
-                              _this.beaconManager.startRanging(_this.region);
-                          }catch(error){
-                            console.log(error.message);
-                          }
-                      }
-                  }));
-                }
-                else{
-                    console.log("Missing perssion(s) " + requirements);
-                }
+              console.log("Missing perssion(s) " + requirements);
             }
+      }));
+
+      _this.beaconManager.connect(new com.estimote.sdk.BeaconManager.ServiceReadyCallback({
+          onServiceReady : function(){
+              try {
+                  _this.beaconManager.startRanging(_this.region);
+              }catch(error){
+                console.log(error.message);
+              }
+          }
       }));
   };
 

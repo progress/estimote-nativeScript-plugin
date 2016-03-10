@@ -185,6 +185,37 @@ var File = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    File.prototype.readSync = function (onError) {
+        this.checkAccess();
+        this[fileLockedProperty] = true;
+        var that = this;
+        var localError = function (error) {
+            that[fileLockedProperty] = false;
+            if (onError) {
+                onError(error);
+            }
+        };
+        var content = getFileAccess().read(this.path, localError);
+        this[fileLockedProperty] = false;
+        return content;
+    };
+    File.prototype.writeSync = function (content, onError) {
+        this.checkAccess();
+        try {
+            this[fileLockedProperty] = true;
+            var that = this;
+            var localError = function (error) {
+                that[fileLockedProperty] = false;
+                if (onError) {
+                    onError(error);
+                }
+            };
+            getFileAccess().write(this.path, content, localError);
+        }
+        finally {
+            this[fileLockedProperty] = false;
+        }
+    };
     File.prototype.readText = function (encoding) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -405,9 +436,13 @@ var knownFolders;
     knownFolders.currentApp = function () {
         if (!_app) {
             var currentDir = __dirname;
-            var path = currentDir.substring(0, currentDir.indexOf("/tns_modules"));
+            var tnsModulesIndex = currentDir.indexOf("/tns_modules");
+            var appPath = currentDir;
+            if (tnsModulesIndex !== -1) {
+                appPath = currentDir.substring(0, tnsModulesIndex);
+            }
             _app = new Folder();
-            _app[pathProperty] = path;
+            _app[pathProperty] = appPath;
             _app[isKnownProperty] = true;
         }
         return _app;

@@ -1,6 +1,5 @@
 var observable = require("data/observable");
 var observableArray = require("data/observable-array");
-var definition = require("text/formatted-string");
 var types = require("utils/types");
 var colorModule = require("color");
 var knownCollections;
@@ -223,7 +222,7 @@ var FormattedString = (function (_super) {
     FormattedString.addFormattedStringToView = function (view, name, value) {
         if (name === CHILD_SPAN) {
             if (!view.formattedText) {
-                view.formattedText = new definition.FormattedString();
+                view.formattedText = new FormattedString();
             }
             view.formattedText.spans.push(value);
         }

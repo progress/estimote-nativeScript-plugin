@@ -42,7 +42,7 @@ var Span = (function (_super) {
     });
     Span.prototype._getColorValue = function (value) {
         var result;
-        if (types.isString(value) && value.indexOf("#") === 0) {
+        if (types.isString(value) && colorModule.Color.isValid(value)) {
             result = new colorModule.Color(value);
         }
         else {

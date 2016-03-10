@@ -5,6 +5,8 @@ var enums = require("ui/enums");
 var view = require("ui/core/view");
 var utils = require("utils/utils");
 var types = require("utils/types");
+var style = require("ui/styling/style");
+var frame = require("ui/frame");
 global.moduleMerge(common, exports);
 var ActionItem = (function (_super) {
     __extends(ActionItem, _super);
@@ -149,6 +151,9 @@ var ActionBar = (function (_super) {
         if (!this.page) {
             return;
         }
+        if (this.page.frame) {
+            this.page.frame._updateActionBar();
+        }
         var navigationItem = this.page.ios.navigationItem;
         navigationItem.title = this.title;
     };
@@ -206,3 +211,46 @@ var TapBarItemHandlerImpl = (function (_super) {
     };
     return TapBarItemHandlerImpl;
 })(NSObject);
+var ActionBarStyler = (function () {
+    function ActionBarStyler() {
+    }
+    ActionBarStyler.setColorProperty = function (v, newValue) {
+        var topFrame = frame.topmost();
+        if (topFrame) {
+            var navBar = topFrame.ios.controller.navigationBar;
+            navBar.titleTextAttributes = (_a = {}, _a[NSForegroundColorAttributeName] = newValue, _a);
+            navBar.tintColor = newValue;
+        }
+        var _a;
+    };
+    ActionBarStyler.resetColorProperty = function (v, nativeValue) {
+        var topFrame = frame.topmost();
+        if (topFrame) {
+            var navBar = topFrame.ios.controller.navigationBar;
+            navBar.titleTextAttributes = null;
+            navBar.tintColor = null;
+        }
+    };
+    ActionBarStyler.setBackgroundColorProperty = function (v, newValue) {
+        var topFrame = frame.topmost();
+        if (topFrame) {
+            var navBar = topFrame.ios.controller.navigationBar;
+            navBar.barTintColor = newValue;
+        }
+    };
+    ActionBarStyler.resetBackgroundColorProperty = function (v, nativeValue) {
+        var topFrame = frame.topmost();
+        if (topFrame) {
+            var navBar = topFrame.ios.controller.navigationBar;
+            navBar.barTintColor = null;
+        }
+    };
+    ActionBarStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(ActionBarStyler.setColorProperty, ActionBarStyler.resetColorProperty), "ActionBar");
+        style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(ActionBarStyler.setBackgroundColorProperty, ActionBarStyler.resetBackgroundColorProperty), "ActionBar");
+        style.registerHandler(style.backgroundInternalProperty, style.ignorePropertyHandler, "ActionBar");
+    };
+    return ActionBarStyler;
+})();
+exports.ActionBarStyler = ActionBarStyler;
+ActionBarStyler.registerHandlers();

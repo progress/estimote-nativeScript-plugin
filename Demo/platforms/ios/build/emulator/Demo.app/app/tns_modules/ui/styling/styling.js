@@ -1,6 +1,5 @@
 var styleModule = require("./style");
 var stylePropertyModule = require("./style-property");
-var stylersCommonModule = require("./stylers-common");
 var visualStateConstatnsModule = require("./visual-state-constants");
 var convertersModule = require("./converters");
 exports.Property = stylePropertyModule.Property;
@@ -33,8 +32,3 @@ var visualStates;
     visualStates.Pressed = visualStateConstatnsModule.Pressed;
 })(visualStates = exports.visualStates || (exports.visualStates = {}));
 ;
-var stylers;
-(function (stylers) {
-    stylers.StylePropertyChangedHandler = stylersCommonModule.StylePropertyChangedHandler;
-    stylers.registerHandler = styleModule.registerHandler;
-})(stylers = exports.stylers || (exports.stylers = {}));

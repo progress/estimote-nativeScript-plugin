@@ -42,7 +42,6 @@ __export(require("ui/styling/background"));
 __export(require("ui/styling/css-selector"));
 __export(require("ui/styling/font"));
 __export(require("ui/styling/style-property"));
-__export(require("ui/styling/stylers"));
 __export(require("ui/styling/visual-state-constants"));
 __export(require("ui/switch"));
 __export(require("ui/tab-view"));

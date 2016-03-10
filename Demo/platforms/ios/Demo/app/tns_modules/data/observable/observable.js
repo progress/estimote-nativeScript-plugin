@@ -1,4 +1,40 @@
 var types = require("utils/types");
+var _wrappedIndex = 0;
+var WrappedValue = (function () {
+    function WrappedValue(value) {
+        this._wrapped = value;
+    }
+    Object.defineProperty(WrappedValue.prototype, "wrapped", {
+        get: function () {
+            return this._wrapped;
+        },
+        set: function (value) {
+            this._wrapped = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    WrappedValue.unwrap = function (value) {
+        if (value && value.wrapped) {
+            return value.wrapped;
+        }
+        return value;
+    };
+    WrappedValue.wrap = function (value) {
+        var w = _wrappedValues[_wrappedIndex++ % 5];
+        w.wrapped = value;
+        return w;
+    };
+    return WrappedValue;
+})();
+exports.WrappedValue = WrappedValue;
+var _wrappedValues = [
+    new WrappedValue(null),
+    new WrappedValue(null),
+    new WrappedValue(null),
+    new WrappedValue(null),
+    new WrappedValue(null)
+];
 var Observable = (function () {
     function Observable(json) {
         this._observers = {};
@@ -95,7 +131,8 @@ var Observable = (function () {
     };
     Observable.prototype._setCore = function (data) {
         this.disableNotifications[data.propertyName] = true;
-        this[data.propertyName] = data.value;
+        var newValue = WrappedValue.unwrap(data.value);
+        this[data.propertyName] = newValue;
         delete this.disableNotifications[data.propertyName];
     };
     Observable.prototype.notify = function (data) {

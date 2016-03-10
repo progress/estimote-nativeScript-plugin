@@ -1,17 +1,23 @@
-var view = require("ui/core/view");
-var fs = require("file-system");
+var debug_1 = require("utils/debug");
 var xml = require("xml");
-var types = require("utils/types");
-var componentBuilder = require("ui/builder/component-builder");
-var platform = require("platform");
-var page = require("ui/page");
-var fileResolverModule = require("file-system/file-name-resolver");
-var trace = require("trace");
-var debug = require("utils/debug");
+var view_1 = require("ui/core/view");
+var file_system_1 = require("file-system");
+var types_1 = require("utils/types");
+var component_builder_1 = require("ui/builder/component-builder");
+var platform_1 = require("platform");
+var page_1 = require("ui/page");
+var file_name_resolver_1 = require("file-system/file-name-resolver");
+var defaultNameSpaceMatcher = /tns\.xsd$/i;
+var trace;
+function ensureTrace() {
+    if (!trace) {
+        trace = require("trace");
+    }
+}
 function parse(value, context) {
-    if (types.isString(value)) {
+    if (types_1.isString(value)) {
         var viewToReturn;
-        if (context instanceof view.View) {
+        if (context instanceof view_1.View) {
             context = getExports(context);
         }
         var componentModule = parseInternal(value, context);
@@ -20,7 +26,7 @@ function parse(value, context) {
         }
         return viewToReturn;
     }
-    else if (types.isFunction(value)) {
+    else if (types_1.isFunction(value)) {
         return value();
     }
 }
@@ -28,7 +34,7 @@ exports.parse = parse;
 function parseInternal(value, context, uri) {
     var start;
     var ui;
-    var errorFormat = (debug.debug && uri) ? xml2ui.SourceErrorFormat(uri) : xml2ui.PositionErrorFormat;
+    var errorFormat = (debug_1.debug && uri) ? xml2ui.SourceErrorFormat(uri) : xml2ui.PositionErrorFormat;
     (start = new xml2ui.XmlStringParser(errorFormat))
         .pipe(new xml2ui.PlatformFilter())
         .pipe(new xml2ui.XmlStateParser(ui = new xml2ui.ComponentParser(context, errorFormat)));
@@ -39,33 +45,34 @@ function loadCustomComponent(componentPath, componentName, attributes, context, 
     var result;
     componentPath = componentPath.replace("~/", "");
     var fullComponentPathFilePathWithoutExt = componentPath;
-    if (!fs.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
-        fullComponentPathFilePathWithoutExt = fs.path.join(fs.knownFolders.currentApp().path, componentPath, componentName);
+    if (!file_system_1.File.exists(componentPath) || componentPath === "." || componentPath === "./") {
+        fullComponentPathFilePathWithoutExt = file_system_1.path.join(file_system_1.knownFolders.currentApp().path, componentPath, componentName);
     }
-    var xmlFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "xml");
+    var xmlFilePath = file_name_resolver_1.resolveFileName(fullComponentPathFilePathWithoutExt, "xml");
     if (xmlFilePath) {
-        var jsFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "js");
+        var jsFilePath = file_name_resolver_1.resolveFileName(fullComponentPathFilePathWithoutExt, "js");
         var subExports = context;
         if (jsFilePath) {
-            subExports = require(jsFilePath);
+            subExports = global.loadModule(jsFilePath);
         }
         result = loadInternal(xmlFilePath, subExports);
-        if (types.isDefined(result) && types.isDefined(result.component) && types.isDefined(attributes)) {
+        if (types_1.isDefined(result) && types_1.isDefined(result.component) && types_1.isDefined(attributes)) {
             var attr;
             for (attr in attributes) {
-                componentBuilder.setPropertyValue(result.component, subExports, context, attr, attributes[attr]);
+                component_builder_1.setPropertyValue(result.component, subExports, context, attr, attributes[attr]);
             }
         }
     }
     else {
-        result = componentBuilder.getComponentModule(componentName, componentPath, attributes, context);
+        result = component_builder_1.getComponentModule(componentName, componentPath, attributes, context);
     }
-    var cssFilePath = fileResolverModule.resolveFileName(fullComponentPathFilePathWithoutExt, "css");
+    var cssFilePath = file_name_resolver_1.resolveFileName(fullComponentPathFilePathWithoutExt, "css");
     if (cssFilePath) {
         if (parentPage) {
             parentPage.addCssFile(cssFilePath);
         }
         else {
+            ensureTrace();
             trace.write("CSS file found but no page specified. Please specify page in the options!", trace.categories.Error, trace.messageType.error);
         }
     }
@@ -75,18 +82,18 @@ function load(pathOrOptions, context) {
     var viewToReturn;
     var componentModule;
     if (!context) {
-        if (!types.isString(pathOrOptions)) {
+        if (!types_1.isString(pathOrOptions)) {
             var options = pathOrOptions;
             componentModule = loadCustomComponent(options.path, options.name, undefined, options.exports, options.page);
         }
         else {
-            var path = pathOrOptions;
-            componentModule = loadInternal(path);
+            var path_1 = pathOrOptions;
+            componentModule = loadInternal(path_1);
         }
     }
     else {
-        var path = pathOrOptions;
-        componentModule = loadInternal(path, context);
+        var path_2 = pathOrOptions;
+        componentModule = loadInternal(path_2, context);
     }
     if (componentModule) {
         viewToReturn = componentModule.component;
@@ -96,8 +103,8 @@ function load(pathOrOptions, context) {
 exports.load = load;
 function loadInternal(fileName, context) {
     var componentModule;
-    if (fs.File.exists(fileName)) {
-        var file = fs.File.fromPath(fileName);
+    if (file_system_1.File.exists(fileName)) {
+        var file = file_system_1.File.fromPath(fileName);
         var onError = function (error) {
             throw new Error("Error loading file " + fileName + " :" + error.message);
         };
@@ -149,8 +156,7 @@ var xml2ui;
             }, function (e, p) {
                 throw _this.error(e, p);
             }, true);
-            if (types.isString(value)) {
-                value = value.replace(/xmlns=("|')http:\/\/((www)|(schemas))\.nativescript\.org\/tns\.xsd\1/, "");
+            if (types_1.isString(value)) {
                 xmlParser.parse(value);
             }
         };
@@ -158,13 +164,13 @@ var xml2ui;
     })(XmlProducerBase);
     xml2ui.XmlStringParser = XmlStringParser;
     function PositionErrorFormat(e, p) {
-        return new debug.ScopeError(e, "Parsing XML at " + p.line + ":" + p.column);
+        return new debug_1.ScopeError(e, "Parsing XML at " + p.line + ":" + p.column);
     }
     xml2ui.PositionErrorFormat = PositionErrorFormat;
     function SourceErrorFormat(uri) {
         return function (e, p) {
-            var source = new debug.Source(uri, p.line, p.column);
-            e = new debug.SourceError(e, source, "Building UI from XML.");
+            var source = p ? new debug_1.Source(uri, p.line, p.column) : new debug_1.Source(uri, -1, -1);
+            e = new debug_1.SourceError(e, source, "Building UI from XML.");
             return e;
         };
     }
@@ -196,11 +202,11 @@ var xml2ui;
             this.next(args);
         };
         PlatformFilter.isPlatform = function (value) {
-            return value && (value.toLowerCase() === platform.platformNames.android.toLowerCase()
-                || value.toLowerCase() === platform.platformNames.ios.toLowerCase());
+            return value && (value.toLowerCase() === platform_1.platformNames.android.toLowerCase()
+                || value.toLowerCase() === platform_1.platformNames.ios.toLowerCase());
         };
         PlatformFilter.isCurentPlatform = function (value) {
-            return value && value.toLowerCase() === platform.device.os.toLowerCase();
+            return value && value.toLowerCase() === platform_1.device.os.toLowerCase();
         };
         return PlatformFilter;
     })(XmlProducerBase);
@@ -338,7 +344,11 @@ var xml2ui;
                         componentModule = loadCustomComponent(args.namespace, args.elementName, args.attributes, this.context, this.currentPage);
                     }
                     else {
-                        componentModule = componentBuilder.getComponentModule(args.elementName, args.namespace, args.attributes, this.context);
+                        var namespace = args.namespace;
+                        if (defaultNameSpaceMatcher.test(namespace || '')) {
+                            namespace = undefined;
+                        }
+                        componentModule = component_builder_1.getComponentModule(args.elementName, namespace, args.attributes, this.context);
                     }
                     if (componentModule) {
                         if (parent) {
@@ -351,7 +361,7 @@ var xml2ui;
                         }
                         else if (this.parents.length === 0) {
                             this.rootComponentModule = componentModule;
-                            if (this.rootComponentModule && this.rootComponentModule.component instanceof page.Page) {
+                            if (this.rootComponentModule && this.rootComponentModule.component instanceof page_1.Page) {
                                 this.currentPage = this.rootComponentModule.component;
                             }
                         }
@@ -376,11 +386,11 @@ var xml2ui;
             return this;
         };
         ComponentParser.isComplexProperty = function (name) {
-            return types.isString(name) && name.indexOf(".") !== -1;
+            return types_1.isString(name) && name.indexOf(".") !== -1;
         };
         ComponentParser.getComplexPropertyName = function (fullName) {
             var name;
-            if (types.isString(fullName)) {
+            if (types_1.isString(fullName)) {
                 var names = fullName.split(".");
                 name = names[names.length - 1];
             }

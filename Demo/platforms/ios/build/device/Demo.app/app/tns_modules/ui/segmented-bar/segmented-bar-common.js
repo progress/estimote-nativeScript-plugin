@@ -2,8 +2,13 @@ var view = require("ui/core/view");
 var proxy = require("ui/core/proxy");
 var dependencyObservable = require("ui/core/dependency-observable");
 var color = require("color");
-var types = require("utils/types");
 var bindable = require("ui/core/bindable");
+var types;
+function ensureTypes() {
+    if (!types) {
+        types = require("utils/types");
+    }
+}
 var knownCollections;
 (function (knownCollections) {
     knownCollections.items = "items";
@@ -45,6 +50,7 @@ var SegmentedBar = (function (_super) {
     SegmentedBar.prototype._adjustSelectedIndex = function (items) {
         if (this.items) {
             if (this.items.length > 0) {
+                ensureTypes();
                 if (types.isUndefined(this.selectedIndex) || (this.selectedIndex > this.items.length - 1)) {
                     this._setValue(SegmentedBar.selectedIndexProperty, 0);
                 }

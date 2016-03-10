@@ -1,5 +1,6 @@
 var common = require("./switch-common");
 var utils = require("utils/utils");
+var style = require("ui/styling/style");
 function onCheckedPropertyChanged(data) {
     var swtch = data.object;
     swtch.ios.on = data.newValue;
@@ -53,3 +54,39 @@ var Switch = (function (_super) {
     return Switch;
 })(common.Switch);
 exports.Switch = Switch;
+var SwitchStyler = (function () {
+    function SwitchStyler() {
+    }
+    SwitchStyler.setColorProperty = function (view, newValue) {
+        var sw = view.ios;
+        sw.thumbTintColor = newValue;
+    };
+    SwitchStyler.resetColorProperty = function (view, nativeValue) {
+        var sw = view.ios;
+        sw.thumbTintColor = nativeValue;
+    };
+    SwitchStyler.getNativeColorValue = function (view) {
+        var sw = view.ios;
+        return sw.thumbTintColor;
+    };
+    SwitchStyler.setBackgroundColorProperty = function (view, newValue) {
+        var sw = view.ios;
+        sw.onTintColor = view.backgroundColor.ios;
+    };
+    SwitchStyler.resetBackgroundColorProperty = function (view, nativeValue) {
+        var sw = view.ios;
+        sw.onTintColor = nativeValue;
+    };
+    SwitchStyler.getBackgroundColorProperty = function (view) {
+        var sw = view.ios;
+        return sw.onTintColor;
+    };
+    SwitchStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SwitchStyler.setColorProperty, SwitchStyler.resetColorProperty, SwitchStyler.getNativeColorValue), "Switch");
+        style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(SwitchStyler.setBackgroundColorProperty, SwitchStyler.resetBackgroundColorProperty, SwitchStyler.getBackgroundColorProperty), "Switch");
+        style.registerHandler(style.backgroundInternalProperty, style.ignorePropertyHandler, "Switch");
+    };
+    return SwitchStyler;
+})();
+exports.SwitchStyler = SwitchStyler;
+SwitchStyler.registerHandlers();

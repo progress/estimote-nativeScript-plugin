@@ -1,7 +1,12 @@
 var common = require("./image-cache-common");
-var httpRequest = require("http/http-request");
 var utils = require("utils/utils");
 var trace = require("trace");
+var httpRequest;
+function ensureHttpRequest() {
+    if (!httpRequest) {
+        httpRequest = require("http/http-request");
+    }
+}
 var MemmoryWarningHandler = (function (_super) {
     __extends(MemmoryWarningHandler, _super);
     function MemmoryWarningHandler() {
@@ -39,6 +44,7 @@ var Cache = (function (_super) {
         this._memoryWarningHandler = MemmoryWarningHandler.new().initWithCache(this._cache);
     }
     Cache.prototype._downloadCore = function (request) {
+        ensureHttpRequest();
         var that = this;
         httpRequest.request({ url: request.url, method: "GET" })
             .then(function (response) {

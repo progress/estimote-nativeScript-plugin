@@ -1,20 +1,67 @@
+var application = require("application");
 var types = require("utils/types");
 var trace = require("trace");
 var dependency_observable_1 = require("ui/core/dependency-observable");
 var color_1 = require("color");
-var stylers = require("ui/styling/stylers");
 var styleProperty = require("ui/styling/style-property");
 var converters = require("./converters");
 var enums = require("ui/enums");
-var imageSource = require("image-source");
 var utils = require("utils/utils");
 var font = require("ui/styling/font");
 var background = require("ui/styling/background");
 var platform = require("platform");
+var imageSource;
+function ensureImageSource() {
+    if (!imageSource) {
+        imageSource = require("image-source");
+    }
+}
 var _registeredHandlers = Array();
 var _handlersCache = {};
 var noStylingClasses = {};
 var AffectsLayout = platform.device.os === platform.platformNames.android ? dependency_observable_1.PropertyMetadataSettings.None : dependency_observable_1.PropertyMetadataSettings.AffectsLayout;
+function parseMargin(value) {
+    if (types.isString(value)) {
+        var arr = value.split(/[ ,]+/);
+        var top_1;
+        var right;
+        var bottom;
+        var left;
+        if (arr.length === 1) {
+            top_1 = right = bottom = left = arr[0];
+        }
+        else if (arr.length === 2) {
+            top_1 = bottom = arr[0];
+            right = left = arr[1];
+        }
+        else if (arr.length === 4) {
+            top_1 = arr[0];
+            right = arr[1];
+            bottom = arr[2];
+            left = arr[3];
+        }
+        else {
+            throw new Error("Invalid value for margin: " + value);
+        }
+        return {
+            top: top_1,
+            right: right,
+            bottom: bottom,
+            left: left
+        };
+    }
+    else if (types.isNumber(value)) {
+        return {
+            top: value,
+            right: value,
+            bottom: value,
+            left: value
+        };
+    }
+    else {
+        return value;
+    }
+}
 function parseThickness(value) {
     var result = { top: 0, right: 0, bottom: 0, left: 0 };
     if (types.isString(value)) {
@@ -48,17 +95,55 @@ function layoutParamsComparer(x, y) {
         && x.rightMargin === y.rightMargin
         && x.bottomMargin === y.bottomMargin
         && x.horizontalAlignment === y.horizontalAlignment
-        && x.verticalAlignment === y.verticalAlignment;
+        && x.verticalAlignment === y.verticalAlignment
+        && x.widthPercent === y.widthPercent
+        && x.heightPercent === y.heightPercent
+        && x.leftMarginPercent === y.leftMarginPercent
+        && x.topMarginPercent === y.topMarginPercent
+        && x.rightMarginPercent === y.rightMarginPercent
+        && x.bottomMarginPercent === y.bottomMarginPercent;
 }
 function onLayoutParamsChanged(data) {
     var style = data.object;
+    var widthValue = convertToPercentHelper(style.width);
+    var width;
+    var widthPercent;
+    if (widthValue.isPercent) {
+        width = style.horizontalAlignment === enums.HorizontalAlignment.stretch ? -1 : -2;
+        widthPercent = widthValue.value / 100;
+    }
+    else {
+        width = isNaN(widthValue.value) ? -1 : widthValue.value;
+        widthPercent = -1;
+    }
+    var heightValue = convertToPercentHelper(style.height);
+    var height;
+    var heightPercent;
+    if (heightValue.isPercent) {
+        height = style.verticalAlignment === enums.VerticalAlignment.stretch ? -1 : -2;
+        heightPercent = heightValue.value / 100;
+    }
+    else {
+        height = isNaN(heightValue.value) ? -1 : heightValue.value;
+        heightPercent = -1;
+    }
+    var marginLeftValue = convertToPercentHelper(style.marginLeft);
+    var marginTopValue = convertToPercentHelper(style.marginTop);
+    var marginRightValue = convertToPercentHelper(style.marginRight);
+    var marginBottomValue = convertToPercentHelper(style.marginBottom);
     var layoutParams = {
-        width: isNaN(style.width) ? -1 : style.width,
-        height: isNaN(style.height) ? -1 : style.height,
-        leftMargin: style.marginLeft,
-        topMargin: style.marginTop,
-        rightMargin: style.marginRight,
-        bottomMargin: style.marginBottom,
+        width: width,
+        height: height,
+        widthPercent: widthPercent,
+        heightPercent: heightPercent,
+        leftMargin: marginLeftValue.isPercent ? 0 : marginLeftValue.value,
+        leftMarginPercent: marginLeftValue.isPercent ? marginLeftValue.value / 100 : -1,
+        topMargin: marginTopValue.isPercent ? 0 : marginTopValue.value,
+        topMarginPercent: marginTopValue.isPercent ? marginTopValue.value / 100 : -1,
+        rightMargin: marginRightValue.isPercent ? 0 : marginRightValue.value,
+        rightMarginPercent: marginRightValue.isPercent ? marginRightValue.value / 100 : -1,
+        bottomMargin: marginBottomValue.isPercent ? 0 : marginBottomValue.value,
+        bottomMarginPercent: marginBottomValue.isPercent ? marginBottomValue.value / 100 : -1,
         horizontalAlignment: style.horizontalAlignment,
         verticalAlignment: style.verticalAlignment
     };
@@ -80,8 +165,53 @@ function thicknessComparer(x, y) {
     }
     return !x === !y;
 }
+function convertToPercentHelper(value) {
+    var numberValue = 0;
+    var isPercent = false;
+    var isError = true;
+    if (types.isString(value)) {
+        var stringValue = value.trim();
+        var percentIndex = stringValue.indexOf("%");
+        if (percentIndex !== -1) {
+            if (percentIndex !== (stringValue.length - 1) || percentIndex === 0) {
+                numberValue = 0;
+            }
+            else {
+                isPercent = true;
+                numberValue = converters.numberConverter(stringValue.substring(0, stringValue.length - 1).trim());
+                isError = numberValue === 0;
+            }
+        }
+        else {
+            isError = false;
+            isPercent = false;
+            numberValue = converters.numberConverter(stringValue);
+        }
+    }
+    else if (types.isNumber(value)) {
+        isError = false;
+        isPercent = false;
+        numberValue = value;
+    }
+    return {
+        isError: isError,
+        isPercent: isPercent,
+        value: numberValue
+    };
+}
+function numberOrPercentConverter(value) {
+    var result = convertToPercentHelper(value);
+    if (result.isError) {
+        throw new Error("Invalid value: " + value);
+    }
+    return result.isPercent ? value : result.value;
+}
 function isWidthHeightValid(value) {
-    return isNaN(value) || (value >= 0.0 && isFinite(value));
+    var result = convertToPercentHelper(value);
+    if (result.isError) {
+        return false;
+    }
+    return isNaN(result.value) || (result.value >= 0.0 && isFinite(result.value));
 }
 function isMinWidthHeightValid(value) {
     return !isNaN(value) && value >= 0.0 && isFinite(value);
@@ -97,6 +227,7 @@ function onBackgroundImagePropertyChanged(data) {
         if (match && match[2]) {
             url = match[2];
         }
+        ensureImageSource();
         if (utils.isDataURI(url)) {
             var base64Data = url.split(",")[1];
             if (types.isDefined(base64Data)) {
@@ -113,6 +244,7 @@ function onBackgroundImagePropertyChanged(data) {
             style._setValue(exports.backgroundInternalProperty, currentBackground.withImage(undefined));
             imageSource.fromUrl(url).then(function (r) {
                 if (style && style["_url"] === url) {
+                    currentBackground = style._getValue(exports.backgroundInternalProperty);
                     style._setValue(exports.backgroundInternalProperty, currentBackground.withImage(r));
                 }
             });
@@ -187,14 +319,15 @@ function isTextTransformValid(value) {
 function isWhiteSpaceValid(value) {
     return value === enums.WhiteSpace.nowrap || value === enums.WhiteSpace.normal;
 }
-function onVisibilityChanged(data) {
-    data.object._view._isVisibleCache = data.newValue === enums.Visibility.visible;
-}
 function isPaddingValid(value) {
     return isFinite(value) && !isNaN(value) && value >= 0;
 }
 function isMarginValid(value) {
-    return isFinite(value) && !isNaN(value);
+    var result = convertToPercentHelper(value);
+    if (result.isError) {
+        return false;
+    }
+    return isFinite(result.value) && !isNaN(result.value);
 }
 function isOpacityValid(value) {
     var parsedValue = parseFloat(value);
@@ -205,6 +338,9 @@ function isFontWeightValid(value) {
 }
 function isFontStyleValid(value) {
     return value === enums.FontStyle.normal || value === enums.FontStyle.italic;
+}
+function onVisibilityChanged(data) {
+    data.object._view._isVisibleCache = data.newValue === enums.Visibility.visible;
 }
 function onFontFamilyChanged(data) {
     var style = data.object;
@@ -804,22 +940,28 @@ exports.textTransformProperty = new styleProperty.Property("textTransform", "tex
 exports.whiteSpaceProperty = new styleProperty.Property("whiteSpace", "white-space", new dependency_observable_1.PropertyMetadata(undefined, AffectsLayout, undefined, isWhiteSpaceValid), converters.whiteSpaceConverter);
 exports.nativeLayoutParamsProperty = new styleProperty.Property("nativeLayoutParams", "nativeLayoutParams", new dependency_observable_1.PropertyMetadata({
     width: -1,
+    widthPercent: -1,
     height: -1,
+    heightPercent: -1,
     leftMargin: 0,
+    leftMarginPercent: -1,
     topMargin: 0,
+    topMarginPercent: -1,
     rightMargin: 0,
+    rightMarginPercent: -1,
     bottomMargin: 0,
+    bottomMarginPercent: -1,
     horizontalAlignment: enums.HorizontalAlignment.stretch,
     verticalAlignment: enums.VerticalAlignment.stretch
 }, null, null, null, layoutParamsComparer));
-exports.widthProperty = new styleProperty.Property("width", "width", new dependency_observable_1.PropertyMetadata(Number.NaN, AffectsLayout, onLayoutParamsChanged, isWidthHeightValid), converters.numberConverter);
-exports.heightProperty = new styleProperty.Property("height", "height", new dependency_observable_1.PropertyMetadata(Number.NaN, AffectsLayout, onLayoutParamsChanged, isWidthHeightValid), converters.numberConverter);
+exports.widthProperty = new styleProperty.Property("width", "width", new dependency_observable_1.PropertyMetadata(Number.NaN, AffectsLayout, onLayoutParamsChanged, isWidthHeightValid), numberOrPercentConverter);
+exports.heightProperty = new styleProperty.Property("height", "height", new dependency_observable_1.PropertyMetadata(Number.NaN, AffectsLayout, onLayoutParamsChanged, isWidthHeightValid), numberOrPercentConverter);
+exports.marginLeftProperty = new styleProperty.Property("marginLeft", "margin-left", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), numberOrPercentConverter);
+exports.marginRightProperty = new styleProperty.Property("marginRight", "margin-right", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), numberOrPercentConverter);
+exports.marginTopProperty = new styleProperty.Property("marginTop", "margin-top", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), numberOrPercentConverter);
+exports.marginBottomProperty = new styleProperty.Property("marginBottom", "margin-bottom", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), numberOrPercentConverter);
 exports.verticalAlignmentProperty = new styleProperty.Property("verticalAlignment", "vertical-align", new dependency_observable_1.PropertyMetadata(enums.VerticalAlignment.stretch, AffectsLayout, onLayoutParamsChanged));
 exports.horizontalAlignmentProperty = new styleProperty.Property("horizontalAlignment", "horizontal-align", new dependency_observable_1.PropertyMetadata(enums.HorizontalAlignment.stretch, AffectsLayout, onLayoutParamsChanged));
-exports.marginLeftProperty = new styleProperty.Property("marginLeft", "margin-left", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), converters.numberConverter);
-exports.marginRightProperty = new styleProperty.Property("marginRight", "margin-right", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), converters.numberConverter);
-exports.marginTopProperty = new styleProperty.Property("marginTop", "margin-top", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), converters.numberConverter);
-exports.marginBottomProperty = new styleProperty.Property("marginBottom", "margin-bottom", new dependency_observable_1.PropertyMetadata(0, AffectsLayout, onLayoutParamsChanged, isMarginValid), converters.numberConverter);
 function getNativePadding(nativeView, callback) {
     return {
         result: nativeView ? callback(nativeView) / utils.layout.getDisplayDensity() : 0,
@@ -864,7 +1006,7 @@ function onPaddingChanged(value) {
     return array;
 }
 function onMarginChanged(value) {
-    var thickness = parseThickness(value);
+    var thickness = parseMargin(value);
     var array = new Array();
     array.push({ property: exports.marginTopProperty, value: thickness.top });
     array.push({ property: exports.marginRightProperty, value: thickness.right });
@@ -884,4 +1026,34 @@ function onFontChanged(value) {
 styleProperty.registerShorthandCallback("font", onFontChanged);
 styleProperty.registerShorthandCallback("margin", onMarginChanged);
 styleProperty.registerShorthandCallback("padding", onPaddingChanged);
-stylers._registerDefaultStylers();
+var _defaultNativeValuesCache = {};
+var StylePropertyChangedHandler = (function () {
+    function StylePropertyChangedHandler(applyCallback, resetCallback, getNativeValue) {
+        this._applyProperty = applyCallback;
+        this._resetProperty = resetCallback;
+        this._getNativeValue = getNativeValue;
+    }
+    StylePropertyChangedHandler.prototype.applyProperty = function (property, view, newValue) {
+        var className = types.getClass(view);
+        if (!_defaultNativeValuesCache.hasOwnProperty(className + property.id) && this._getNativeValue) {
+            _defaultNativeValuesCache[className + property.id] = this._getNativeValue(view);
+        }
+        if (application.android) {
+            newValue = newValue.android ? newValue.android : newValue;
+        }
+        else if (application.ios) {
+            newValue = newValue.ios ? newValue.ios : newValue;
+        }
+        this._applyProperty(view, newValue, _defaultNativeValuesCache[className + property.id]);
+    };
+    StylePropertyChangedHandler.prototype.resetProperty = function (property, view) {
+        var className = types.getClass(view);
+        this._resetProperty(view, _defaultNativeValuesCache[className + property.id]);
+    };
+    return StylePropertyChangedHandler;
+})();
+exports.StylePropertyChangedHandler = StylePropertyChangedHandler;
+exports.ignorePropertyHandler = new StylePropertyChangedHandler(function (view, val) {
+}, function (view, val) {
+});
+registerNoStylingClass("Frame");

@@ -1,9 +1,15 @@
 var file_system_1 = require("file-system");
 exports.debug = true;
-var applicationRootPath = file_system_1.knownFolders.currentApp().path;
-applicationRootPath = applicationRootPath.substr(0, applicationRootPath.length - "app/".length);
+var applicationRootPath;
+function ensureAppRootPath() {
+    if (!applicationRootPath) {
+        applicationRootPath = file_system_1.knownFolders.currentApp().path;
+        applicationRootPath = applicationRootPath.substr(0, applicationRootPath.length - "app/".length);
+    }
+}
 var Source = (function () {
     function Source(uri, line, column) {
+        ensureAppRootPath();
         if (uri.length > applicationRootPath.length && uri.substr(0, applicationRootPath.length) === applicationRootPath) {
             this._uri = "file://" + uri.substr(applicationRootPath.length);
         }

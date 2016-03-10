@@ -1,10 +1,8 @@
-var view = require("ui/core/view");
-var types = require("utils/types");
-var fs = require("file-system");
-var bindingBuilder = require("./binding-builder");
-var platform = require("platform");
-var pages = require("ui/page");
-var debug = require("utils/debug");
+var types_1 = require("utils/types");
+var page_1 = require("ui/page");
+var view_1 = require("ui/core/view");
+var file_system_1 = require("file-system");
+var binding_builder_1 = require("./binding-builder");
 require("ui/layouts/dock-layout");
 require("ui/layouts/grid-layout");
 require("ui/layouts/absolute-layout");
@@ -20,6 +18,12 @@ var MODULES = {
 };
 var CODEFILE = "codeFile";
 var CSSFILE = "cssFile";
+var platform;
+function ensurePlatform() {
+    if (!platform) {
+        platform = require("platform");
+    }
+}
 function getComponentModule(elementName, namespace, attributes, exports) {
     var instance;
     var instanceModule;
@@ -29,31 +33,32 @@ function getComponentModule(elementName, namespace, attributes, exports) {
         (elementName.toLowerCase().indexOf("layout") !== -1 ? "layouts/" : "") +
         elementName.split(/(?=[A-Z])/).join("-").toLowerCase();
     try {
-        if (types.isString(namespace)) {
-            var pathInsideTNSModules = fs.path.join(fs.knownFolders.currentApp().path, "tns_modules", namespace);
-            if (fs.Folder.exists(pathInsideTNSModules)) {
+        if (types_1.isString(namespace)) {
+            var pathInsideTNSModules = file_system_1.path.join(file_system_1.knownFolders.currentApp().path, "tns_modules", namespace);
+            if (file_system_1.Folder.exists(pathInsideTNSModules)) {
                 moduleId = pathInsideTNSModules;
             }
             else {
-                moduleId = fs.path.join(fs.knownFolders.currentApp().path, namespace);
+                moduleId = file_system_1.path.join(file_system_1.knownFolders.currentApp().path, namespace);
             }
         }
-        instanceModule = require(moduleId);
+        instanceModule = global.loadModule(moduleId);
         var instanceType = instanceModule[elementName] || Object;
         instance = new instanceType();
     }
     catch (ex) {
+        var debug = require("utils/debug");
         throw new debug.ScopeError(ex, "Module '" + moduleId + "' not found for element '" + (namespace ? namespace + ":" : "") + elementName + "'.");
     }
     if (attributes) {
         if (attributes[CODEFILE]) {
-            if (instance instanceof pages.Page) {
+            if (instance instanceof page_1.Page) {
                 var codeFilePath = attributes[CODEFILE].trim();
                 if (codeFilePath.indexOf("~/") === 0) {
-                    codeFilePath = fs.path.join(fs.knownFolders.currentApp().path, codeFilePath.replace("~/", ""));
+                    codeFilePath = file_system_1.path.join(file_system_1.knownFolders.currentApp().path, codeFilePath.replace("~/", ""));
                 }
                 try {
-                    exports = require(codeFilePath);
+                    exports = global.loadModule(codeFilePath);
                     instance.exports = exports;
                 }
                 catch (ex) {
@@ -65,12 +70,12 @@ function getComponentModule(elementName, namespace, attributes, exports) {
             }
         }
         if (attributes[CSSFILE]) {
-            if (instance instanceof pages.Page) {
+            if (instance instanceof page_1.Page) {
                 var cssFilePath = attributes[CSSFILE].trim();
                 if (cssFilePath.indexOf("~/") === 0) {
-                    cssFilePath = fs.path.join(fs.knownFolders.currentApp().path, cssFilePath.replace("~/", ""));
+                    cssFilePath = file_system_1.path.join(file_system_1.knownFolders.currentApp().path, cssFilePath.replace("~/", ""));
                 }
-                if (fs.File.exists(cssFilePath)) {
+                if (file_system_1.File.exists(cssFilePath)) {
                     instance.addCssFile(cssFilePath);
                     instance[CSSFILE] = true;
                 }
@@ -88,6 +93,7 @@ function getComponentModule(elementName, namespace, attributes, exports) {
             var attrValue = attributes[attr];
             if (attr.indexOf(":") !== -1) {
                 var platformName = attr.split(":")[0].trim();
+                ensurePlatform();
                 if (platformName.toLowerCase() === platform.device.os.toLowerCase()) {
                     attr = attr.split(":")[1].trim();
                 }
@@ -101,11 +107,11 @@ function getComponentModule(elementName, namespace, attributes, exports) {
                 var subPropName = properties[properties.length - 1];
                 var i;
                 for (i = 0; i < properties.length - 1; i++) {
-                    if (types.isDefined(subObj)) {
+                    if (types_1.isDefined(subObj)) {
                         subObj = subObj[properties[i]];
                     }
                 }
-                if (types.isDefined(subObj)) {
+                if (types_1.isDefined(subObj)) {
                     setPropertyValue(subObj, instanceModule, exports, subPropName, attrValue);
                 }
             }
@@ -120,17 +126,17 @@ function getComponentModule(elementName, namespace, attributes, exports) {
 exports.getComponentModule = getComponentModule;
 function setPropertyValue(instance, instanceModule, exports, propertyName, propertyValue) {
     if (isBinding(propertyValue) && instance.bind) {
-        var bindOptions = bindingBuilder.getBindingOptions(propertyName, getBindingExpressionFromAttribute(propertyValue));
+        var bindOptions = binding_builder_1.getBindingOptions(propertyName, getBindingExpressionFromAttribute(propertyValue));
         instance.bind({
-            sourceProperty: bindOptions[bindingBuilder.bindingConstants.sourceProperty],
-            targetProperty: bindOptions[bindingBuilder.bindingConstants.targetProperty],
-            expression: bindOptions[bindingBuilder.bindingConstants.expression],
-            twoWay: bindOptions[bindingBuilder.bindingConstants.twoWay]
-        }, bindOptions[bindingBuilder.bindingConstants.source]);
+            sourceProperty: bindOptions[binding_builder_1.bindingConstants.sourceProperty],
+            targetProperty: bindOptions[binding_builder_1.bindingConstants.targetProperty],
+            expression: bindOptions[binding_builder_1.bindingConstants.expression],
+            twoWay: bindOptions[binding_builder_1.bindingConstants.twoWay]
+        }, bindOptions[binding_builder_1.bindingConstants.source]);
     }
-    else if (view.isEventOrGesture(propertyName, instance)) {
+    else if (view_1.isEventOrGesture(propertyName, instance)) {
         var handler = exports && exports[propertyValue];
-        if (types.isFunction(handler)) {
+        if (types_1.isFunction(handler)) {
             instance.on(propertyName, handler);
         }
     }
@@ -169,7 +175,7 @@ function getBindingExpressionFromAttribute(value) {
 }
 function isBinding(value) {
     var isBinding;
-    if (types.isString(value)) {
+    if (types_1.isString(value)) {
         var str = value.trim();
         isBinding = str.indexOf("{{") === 0 && str.lastIndexOf("}}") === str.length - 2;
     }

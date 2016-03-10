@@ -35,9 +35,7 @@ function setCategories(categories) {
 exports.setCategories = setCategories;
 function addCategories(categories) {
     var split = categories.split(",");
-    _categories = {};
-    var i;
-    for (i = 0; i < split.length; i++) {
+    for (var i = 0; i < split.length; i++) {
         _categories[split[i].trim()] = true;
     }
 }
@@ -107,7 +105,8 @@ var categories;
     categories.Binding = "Binding";
     categories.Error = "Error";
     categories.Animation = "Animation";
-    categories.All = categories.VisualTreeEvents + "," + categories.Layout + "," + categories.Style + "," + categories.ViewHierarchy + "," + categories.NativeLifecycle + "," + categories.Debug + "," + categories.Navigation + "," + categories.Test + "," + categories.Binding + "," + categories.Error + "," + categories.Animation;
+    categories.Transition = "Transition";
+    categories.All = categories.VisualTreeEvents + "," + categories.Layout + "," + categories.Style + "," + categories.ViewHierarchy + "," + categories.NativeLifecycle + "," + categories.Debug + "," + categories.Navigation + "," + categories.Test + "," + categories.Binding + "," + categories.Error + "," + categories.Animation + "," + categories.Transition;
     categories.separator = ",";
     function concat() {
         var i;

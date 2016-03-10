@@ -1,16 +1,21 @@
 var proxy = require("ui/core/proxy");
 var dependencyObservable = require("ui/core/dependency-observable");
 var viewModule = require("ui/core/view");
+var layoutBaseModule = require("ui/layouts/layout-base");
+var utils = require("utils/utils");
+var trace = require("trace");
+var platform = require("platform");
+var stackLayout = require("ui/layouts/stack-layout");
+var types = require("utils/types");
+var builder = require("ui/builder");
 var observableArray = require("data/observable-array");
 var weakEvents = require("ui/core/weak-event-listener");
-var types = require("utils/types");
-var layoutBaseModule = require("ui/layouts/layout-base");
-var stackLayoutModule = require("ui/layouts/stack-layout");
-var builder = require("ui/builder");
-var utils = require("utils/utils");
-var platform = require("platform");
-var labelModule = require("ui/label");
-var trace = require("trace");
+var label;
+function ensureLabel() {
+    if (!label) {
+        label = require("ui/label");
+    }
+}
 var ITEMS = "items";
 var ITEMTEMPLATE = "itemTemplate";
 var LAYOUT = "layout";
@@ -39,7 +44,7 @@ var Repeater = (function (_super) {
         if (platform.device.os === platform.platformNames.ios) {
             this._ios = UIView.new();
         }
-        this.itemsLayout = new stackLayoutModule.StackLayout();
+        this.itemsLayout = new stackLayout.StackLayout();
     }
     Object.defineProperty(Repeater.prototype, "items", {
         get: function () {
@@ -131,7 +136,8 @@ var Repeater = (function (_super) {
         this._requestRefresh();
     };
     Repeater.prototype._getDefaultItemContent = function (index) {
-        var lbl = new labelModule.Label();
+        ensureLabel();
+        var lbl = new label.Label();
         lbl.bind({
             targetProperty: "text",
             sourceProperty: "$value"

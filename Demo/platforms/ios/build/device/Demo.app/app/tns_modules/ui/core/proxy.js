@@ -1,8 +1,8 @@
-var observable = require("data/observable");
 var bindable = require("ui/core/bindable");
 var dependencyObservable = require("ui/core/dependency-observable");
-var types = require("utils/types");
 var platform = require("platform");
+var types = require("utils/types");
+var observable = require("data/observable");
 var PropertyMetadata = (function (_super) {
     __extends(PropertyMetadata, _super);
     function PropertyMetadata(defaultValue, options, onChanged, onValidateValue, onSetNativeValue) {

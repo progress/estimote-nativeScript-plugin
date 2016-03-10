@@ -1,22 +1,28 @@
-var view = require("ui/core/view");
-var pages = require("ui/page");
-var types = require("utils/types");
+var view_1 = require("ui/core/view");
+var page_1 = require("ui/page");
+var types_1 = require("utils/types");
 var trace = require("trace");
-var builder = require("ui/builder");
+var file_name_resolver_1 = require("file-system/file-name-resolver");
 var fs = require("file-system");
-var fileResolverModule = require("file-system/file-name-resolver");
+var platform = require("platform");
+var builder;
+function ensureBuilder() {
+    if (!builder) {
+        builder = require("ui/builder");
+    }
+}
 var frameStack = [];
 function buildEntryFromArgs(arg) {
     var entry;
-    if (arg instanceof pages.Page) {
+    if (arg instanceof page_1.Page) {
         throw new Error("Navigating to a Page instance is no longer supported. Please navigate by using either a module name or a page factory function.");
     }
-    else if (types.isString(arg)) {
+    else if (types_1.isString(arg)) {
         entry = {
             moduleName: arg
         };
     }
-    else if (types.isFunction(arg)) {
+    else if (types_1.isFunction(arg)) {
         entry = {
             create: arg
         };
@@ -46,7 +52,7 @@ function resolvePageFromEntry(entry) {
     var page;
     if (entry.create) {
         page = entry.create();
-        if (!(page && page instanceof pages.Page)) {
+        if (!(page && page instanceof page_1.Page)) {
             throw new Error("Failed to create Page with entry.create() function.");
         }
     }
@@ -54,11 +60,17 @@ function resolvePageFromEntry(entry) {
         var currentAppPath = fs.knownFolders.currentApp().path;
         var moduleNamePath = fs.path.join(currentAppPath, entry.moduleName);
         var moduleExports;
-        var moduleExportsResolvedPath = fileResolverModule.resolveFileName(moduleNamePath, "js");
-        if (moduleExportsResolvedPath) {
-            trace.write("Loading JS file: " + moduleExportsResolvedPath, trace.categories.Navigation);
-            moduleExportsResolvedPath = moduleExportsResolvedPath.substr(0, moduleExportsResolvedPath.length - 3);
-            moduleExports = require(moduleExportsResolvedPath);
+        if (global.moduleExists(entry.moduleName)) {
+            trace.write("Loading pre-registered JS module: " + entry.moduleName, trace.categories.Navigation);
+            moduleExports = global.loadModule(entry.moduleName);
+        }
+        else {
+            var moduleExportsResolvedPath = file_name_resolver_1.resolveFileName(moduleNamePath, "js");
+            if (moduleExportsResolvedPath) {
+                trace.write("Loading JS file: " + moduleExportsResolvedPath, trace.categories.Navigation);
+                moduleExportsResolvedPath = moduleExportsResolvedPath.substr(0, moduleExportsResolvedPath.length - 3);
+                moduleExports = global.loadModule(moduleExportsResolvedPath);
+            }
         }
         if (moduleExports && moduleExports.createPage) {
             trace.write("Calling createPage()", trace.categories.Navigation);
@@ -67,10 +79,10 @@ function resolvePageFromEntry(entry) {
         else {
             page = pageFromBuilder(moduleNamePath, moduleExports);
         }
-        if (!(page && page instanceof pages.Page)) {
+        if (!(page && page instanceof page_1.Page)) {
             throw new Error("Failed to load Page from entry.moduleName: " + entry.moduleName);
         }
-        var cssFileName = fileResolverModule.resolveFileName(moduleNamePath, "css");
+        var cssFileName = file_name_resolver_1.resolveFileName(moduleNamePath, "css");
         if (cssFileName && !page["cssFile"]) {
             page.addCssFile(cssFileName);
         }
@@ -81,11 +93,12 @@ exports.resolvePageFromEntry = resolvePageFromEntry;
 function pageFromBuilder(moduleNamePath, moduleExports) {
     var page;
     var element;
-    var fileName = fileResolverModule.resolveFileName(moduleNamePath, "xml");
+    var fileName = file_name_resolver_1.resolveFileName(moduleNamePath, "xml");
     if (fileName) {
         trace.write("Loading XML file: " + fileName, trace.categories.Navigation);
+        ensureBuilder();
         element = builder.load(fileName, moduleExports);
-        if (element instanceof pages.Page) {
+        if (element instanceof page_1.Page) {
             page = element;
         }
     }
@@ -102,12 +115,21 @@ var Frame = (function (_super) {
     Frame.prototype.canGoBack = function () {
         return this._backStack.length > 0;
     };
-    Frame.prototype.goBack = function () {
-        trace.write(this._getTraceId() + ".goBack();", trace.categories.Navigation);
+    Frame.prototype.goBack = function (backstackEntry) {
+        trace.write("GO BACK", trace.categories.Navigation);
         if (!this.canGoBack()) {
             return;
         }
-        var backstackEntry = this._backStack.pop();
+        if (!backstackEntry) {
+            backstackEntry = this._backStack.pop();
+        }
+        else {
+            var backIndex = this._backStack.indexOf(backstackEntry);
+            if (backIndex < 0) {
+                return;
+            }
+            this._backStack.splice(backIndex);
+        }
         var navigationContext = {
             entry: backstackEntry,
             isBackNavigation: true
@@ -117,11 +139,11 @@ var Frame = (function (_super) {
             this._processNavigationContext(navigationContext);
         }
         else {
-            trace.write(this._getTraceId() + ".goBack scheduled;", trace.categories.Navigation);
+            trace.write("Going back scheduled", trace.categories.Navigation);
         }
     };
     Frame.prototype.navigate = function (param) {
-        trace.write(this._getTraceId() + ".navigate();", trace.categories.Navigation);
+        trace.write("NAVIGATE", trace.categories.Navigation);
         var entry = buildEntryFromArgs(param);
         var page = resolvePageFromEntry(entry);
         this._pushInFrameStack();
@@ -138,7 +160,7 @@ var Frame = (function (_super) {
             this._processNavigationContext(navigationContext);
         }
         else {
-            trace.write(this._getTraceId() + ".navigation scheduled;", trace.categories.Navigation);
+            trace.write("Navigation scheduled", trace.categories.Navigation);
         }
     };
     Frame.prototype._processNavigationQueue = function (page) {
@@ -165,11 +187,10 @@ var Frame = (function (_super) {
             return false;
         }
         var backstackVisibleValue = entry.entry.backstackVisible;
-        var backstackHidden = types.isDefined(backstackVisibleValue) && !backstackVisibleValue;
+        var backstackHidden = types_1.isDefined(backstackVisibleValue) && !backstackVisibleValue;
         return !backstackHidden;
     };
     Frame.prototype._updateActionBar = function (page) {
-        trace.write("calling _updateActionBar on Frame", trace.categories.Navigation);
     };
     Frame.prototype._processNavigationContext = function (navigationContext) {
         if (navigationContext.isBackNavigation) {
@@ -218,6 +239,16 @@ var Frame = (function (_super) {
         },
         set: function (value) {
             this._animated = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Frame.prototype, "transition", {
+        get: function () {
+            return this._transition;
+        },
+        set: function (value) {
+            this._transition = value;
         },
         enumerable: true,
         configurable: true
@@ -280,16 +311,30 @@ var Frame = (function (_super) {
         }
     };
     Frame.prototype._getIsAnimatedNavigation = function (entry) {
-        if (entry && types.isDefined(entry.animated)) {
+        if (entry && types_1.isDefined(entry.animated)) {
             return entry.animated;
         }
-        if (types.isDefined(this.animated)) {
+        if (types_1.isDefined(this.animated)) {
             return this.animated;
         }
         return Frame.defaultAnimatedNavigation;
     };
-    Frame.prototype._getTraceId = function () {
-        return "Frame<" + this._domId + ">";
+    Frame.prototype._getNavigationTransition = function (entry) {
+        if (entry) {
+            if (platform.device.os === platform.platformNames.ios && types_1.isDefined(entry.transitioniOS)) {
+                return entry.transitioniOS;
+            }
+            if (platform.device.os === platform.platformNames.android && types_1.isDefined(entry.transitionAndroid)) {
+                return entry.transitioniOS;
+            }
+            if (entry && types_1.isDefined(entry.transition)) {
+                return entry.transition;
+            }
+        }
+        if (types_1.isDefined(this.transition)) {
+            return this.transition;
+        }
+        return Frame.defaultTransition;
     };
     Object.defineProperty(Frame.prototype, "navigationBarHeight", {
         get: function () {
@@ -310,7 +355,7 @@ var Frame = (function (_super) {
     Frame.androidOptionSelectedEvent = "optionSelected";
     Frame.defaultAnimatedNavigation = true;
     return Frame;
-})(view.CustomLayoutView);
+})(view_1.CustomLayoutView);
 exports.Frame = Frame;
 var _topmost = function () {
     if (frameStack.length > 0) {

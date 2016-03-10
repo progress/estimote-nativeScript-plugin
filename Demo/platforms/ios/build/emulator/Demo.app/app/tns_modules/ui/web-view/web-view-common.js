@@ -2,8 +2,13 @@ var view = require("ui/core/view");
 var dependencyObservable = require("ui/core/dependency-observable");
 var proxy = require("ui/core/proxy");
 var utils = require("utils/utils");
-var fs = require("file-system");
 var trace = require("trace");
+var fs;
+function ensureFS() {
+    if (!fs) {
+        fs = require("file-system");
+    }
+}
 var urlProperty = new dependencyObservable.Property("url", "WebView", new proxy.PropertyMetadata(""));
 function onUrlPropertyChanged(data) {
     var webView = data.object;
@@ -23,6 +28,7 @@ function onSrcPropertyChanged(data) {
     var src = data.newValue;
     trace.write("WebView._loadSrc(" + src + ")", trace.categories.Debug);
     if (utils.isFileOrResourcePath(src)) {
+        ensureFS();
         if (src.indexOf("~/") === 0) {
             src = fs.path.join(fs.knownFolders.currentApp().path, src.replace("~/", ""));
         }

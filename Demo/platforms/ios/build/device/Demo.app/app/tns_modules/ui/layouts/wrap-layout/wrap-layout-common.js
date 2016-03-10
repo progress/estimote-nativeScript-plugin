@@ -1,14 +1,14 @@
-var layouts = require("ui/layouts/layout-base");
-var dependencyObservable = require("ui/core/dependency-observable");
-var enums = require("ui/enums");
-var proxy = require("ui/core/proxy");
 var platform = require("platform");
-var AffectsLayout = platform.device.os === platform.platformNames.android ? dependencyObservable.PropertyMetadataSettings.None : dependencyObservable.PropertyMetadataSettings.AffectsLayout;
+var layout_base_1 = require("ui/layouts/layout-base");
+var enums_1 = require("ui/enums");
+var proxy_1 = require("ui/core/proxy");
+var dependency_observable_1 = require("ui/core/dependency-observable");
+var AffectsLayout = platform.device.os === platform.platformNames.android ? dependency_observable_1.PropertyMetadataSettings.None : dependency_observable_1.PropertyMetadataSettings.AffectsLayout;
 function isWidthHeightValid(value) {
     return (value >= 0.0 && value !== Number.POSITIVE_INFINITY);
 }
 function isValidOrientation(value) {
-    return value === enums.Orientation.vertical || value === enums.Orientation.horizontal;
+    return value === enums_1.Orientation.vertical || value === enums_1.Orientation.horizontal;
 }
 var WrapLayout = (function (_super) {
     __extends(WrapLayout, _super);
@@ -45,9 +45,9 @@ var WrapLayout = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    WrapLayout.orientationProperty = new dependencyObservable.Property("orientation", "WrapLayout", new proxy.PropertyMetadata(enums.Orientation.horizontal, AffectsLayout, undefined, isValidOrientation));
-    WrapLayout.itemWidthProperty = new dependencyObservable.Property("itemWidth", "WrapLayout", new proxy.PropertyMetadata(0, AffectsLayout, undefined, isWidthHeightValid));
-    WrapLayout.itemHeightProperty = new dependencyObservable.Property("itemHeight", "WrapLayout", new proxy.PropertyMetadata(0, AffectsLayout, undefined, isWidthHeightValid));
+    WrapLayout.orientationProperty = new dependency_observable_1.Property("orientation", "WrapLayout", new proxy_1.PropertyMetadata(enums_1.Orientation.horizontal, AffectsLayout, undefined, isValidOrientation));
+    WrapLayout.itemWidthProperty = new dependency_observable_1.Property("itemWidth", "WrapLayout", new proxy_1.PropertyMetadata(0, AffectsLayout, undefined, isWidthHeightValid));
+    WrapLayout.itemHeightProperty = new dependency_observable_1.Property("itemHeight", "WrapLayout", new proxy_1.PropertyMetadata(0, AffectsLayout, undefined, isWidthHeightValid));
     return WrapLayout;
-})(layouts.LayoutBase);
+})(layout_base_1.LayoutBase);
 exports.WrapLayout = WrapLayout;

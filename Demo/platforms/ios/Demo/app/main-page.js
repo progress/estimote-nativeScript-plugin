@@ -1,10 +1,6 @@
-var vmModule = require("./main-view-model");
-var view = require("ui/core/view");
-var listViewModule = require("ui/list-view");
-var frameModule = require('ui/frame');
-
 var observableModule = require("data/observable");
 var observableArrayModule = require("data/observable-array");
+var frameModule = require('ui/frame');
 
 var Estimote = require('nativescript-estimote-sdk');
 
@@ -12,8 +8,8 @@ var data = new observableModule.Observable();
 
 function pageLoaded(args) {
     var page = args.object;
-
     if (page.ios) {
+
       var controller = frameModule.topmost().ios.controller;
 
       // show the navbar
@@ -36,24 +32,18 @@ function pageLoaded(args) {
 
     page.bindingContext = data;
 
-    console.log("monitoring beacons");
-
     var options = {
         callback : function(beacons){
           var items = new observableArrayModule.ObservableArray([]);
 
-          for (var i = 0; i < beacons.count; i++) {
+          for (var i = 0; i < beacons.length; i++) {
              var beacon = beacons[i];
              if (beacon.major > 0){
+                var distance = "NA";
                 var identifier = "Major:" + beacon.major + " Minor:" + beacon.minor;
 
-                var distance = "Immediate";
-
-                if (beacon.proximity === CLProximity.Near){
-                    distance = "Near";
-                }
-                else if (beacon.proximity === CLProximity.Far){
-                   distance = "Far";
+                if (beacon.proximity) {
+                  distance = beacon.proximity;
                 }
 
                 items.push({
@@ -64,8 +54,6 @@ function pageLoaded(args) {
                 });
              }
           }
-          //items.sort(function (a, b) { return parseInt(a.proximity) > parseInt(b.proximity); });
-
           data.set("beacons", items);
         }
     };

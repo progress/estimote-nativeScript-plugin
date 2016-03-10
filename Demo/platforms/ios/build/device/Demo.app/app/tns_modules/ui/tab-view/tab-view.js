@@ -2,10 +2,16 @@ var common = require("./tab-view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
-var imageSource = require("image-source");
 var types = require("utils/types");
 var color = require("color");
+var style = require("ui/styling/style");
 global.moduleMerge(common, exports);
+var imageSource;
+function ensureImageSource() {
+    if (!imageSource) {
+        imageSource = require("image-source");
+    }
+}
 var UITabBarControllerImpl = (function (_super) {
     __extends(UITabBarControllerImpl, _super);
     function UITabBarControllerImpl() {
@@ -159,7 +165,6 @@ var TabView = (function (_super) {
             oldItem = oldItems[i];
             oldItem._parent = null;
             oldItem._controller = null;
-            this._removeView(oldItem.view);
         }
         this._ios.viewControllers = null;
     };
@@ -174,7 +179,6 @@ var TabView = (function (_super) {
         var states = getTitleAttributesForStates(this);
         for (i = 0; i < length; i++) {
             item = newItems[i];
-            this._addView(item.view);
             if (item.view.ios instanceof UIViewController) {
                 newController = item.view.ios;
             }
@@ -213,6 +217,7 @@ var TabView = (function (_super) {
         var image;
         image = this._iconsCache[iconSource];
         if (!image) {
+            ensureImageSource();
             var is = imageSource.fromFileOrResource(iconSource);
             if (is && is.ios) {
                 var originalRenderedImage = is.ios.imageWithRenderingMode(UIImageRenderingMode.UIImageRenderingModeAlwaysOriginal);
@@ -278,7 +283,7 @@ var TabView = (function (_super) {
         var tabBar = this.ios.tabBar;
         tabBar.tintColor = this.selectedColor ? this.selectedColor.ios : null;
         var states = getTitleAttributesForStates(this);
-        for (var i = 0; i < this.items.length; i++) {
+        for (var i = 0; i < tabBar.items.count; i++) {
             var item = tabBar.items[i];
             item.setTitleTextAttributesForState(states.normalState, UIControlState.UIControlStateNormal);
             item.setTitleTextAttributesForState(states.selectedState, UIControlState.UIControlStateSelected);
@@ -308,3 +313,44 @@ function getTitleAttributesForStates(tabView) {
         selectedState: selectedState
     };
 }
+var TabViewStyler = (function () {
+    function TabViewStyler() {
+    }
+    TabViewStyler.setColorProperty = function (v, newValue) {
+        var tab = v;
+        tab._updateIOSTabBarColorsAndFonts();
+    };
+    TabViewStyler.resetColorProperty = function (v, nativeValue) {
+        var tab = v;
+        tab._updateIOSTabBarColorsAndFonts();
+    };
+    TabViewStyler.setFontInternalProperty = function (v, newValue, nativeValue) {
+        var tab = v;
+        tab._updateIOSTabBarColorsAndFonts();
+    };
+    TabViewStyler.resetFontInternalProperty = function (v, nativeValue) {
+        var tab = v;
+        tab._updateIOSTabBarColorsAndFonts();
+    };
+    TabViewStyler.getNativeFontValue = function (v) {
+        var tab = v;
+        var currentFont;
+        if (tab.ios && tab.ios.items && tab.ios.items.length > 0) {
+            var currentAttrs = tab.ios.items[0].titleTextAttributesForState(UIControlState.UIControlStateNormal);
+            if (currentAttrs) {
+                currentFont = currentAttrs.objectForKey(NSFontAttributeName);
+            }
+        }
+        if (!currentFont) {
+            currentFont = UIFont.systemFontOfSize(UIFont.labelFontSize());
+        }
+        return currentFont;
+    };
+    TabViewStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(TabViewStyler.setColorProperty, TabViewStyler.resetColorProperty), "TabView");
+        style.registerHandler(style.fontInternalProperty, new style.StylePropertyChangedHandler(TabViewStyler.setFontInternalProperty, TabViewStyler.resetFontInternalProperty, TabViewStyler.getNativeFontValue), "TabView");
+    };
+    return TabViewStyler;
+})();
+exports.TabViewStyler = TabViewStyler;
+TabViewStyler.registerHandlers();

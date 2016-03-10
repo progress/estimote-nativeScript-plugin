@@ -23,6 +23,26 @@ var ContentView = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ContentView.prototype, "layoutView", {
+        get: function () {
+            var result;
+            if (this._content) {
+                var first = true;
+                this._content._eachLayoutView(function (child) {
+                    if (first) {
+                        first = false;
+                        result = child;
+                    }
+                    else {
+                        throw new Error("More than one layout child inside a ContentView");
+                    }
+                });
+            }
+            return result;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ContentView.prototype, "_childrenCount", {
         get: function () {
             if (this._content) {
@@ -46,7 +66,7 @@ var ContentView = (function (_super) {
         }
     };
     ContentView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
-        var result = view.View.measureChild(this, this.content, widthMeasureSpec, heightMeasureSpec);
+        var result = view.View.measureChild(this, this.layoutView, widthMeasureSpec, heightMeasureSpec);
         var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
         var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
         var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
@@ -59,7 +79,7 @@ var ContentView = (function (_super) {
         this.setMeasuredDimension(widthAndState, heightAndState);
     };
     ContentView.prototype.onLayout = function (left, top, right, bottom) {
-        view.View.layoutChild(this, this.content, 0, 0, right - left, bottom - top);
+        view.View.layoutChild(this, this.layoutView, 0, 0, right - left, bottom - top);
     };
     return ContentView;
 })(view.CustomLayoutView);

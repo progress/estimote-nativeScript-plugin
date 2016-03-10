@@ -1,16 +1,21 @@
+var types = require("utils/types");
 var viewCommon = require("./view-common");
 var trace = require("trace");
 var utils = require("utils/utils");
-var types = require("utils/types");
-global.moduleMerge(viewCommon, exports);
-function onIdPropertyChanged(data) {
-    var view = data.object;
-    if (!view._nativeView) {
-        return;
+var style = require("ui/styling/style");
+var enums = require("ui/enums");
+var background;
+function ensureBackground() {
+    if (!background) {
+        background = require("ui/styling/background");
     }
+}
+global.moduleMerge(viewCommon, exports);
+function onAutomationTextPropertyChanged(data) {
+    var view = data.object;
     view._nativeView.accessibilityIdentifier = data.newValue;
 }
-viewCommon.View.idProperty.metadata.onSetNativeValue = onIdPropertyChanged;
+viewCommon.View.automationTextProperty.metadata.onSetNativeValue = onAutomationTextPropertyChanged;
 function onTransfromPropertyChanged(data) {
     var view = data.object;
     view._updateNativeTransform();
@@ -52,6 +57,7 @@ var View = (function (_super) {
     function View() {
         _super.call(this);
         this._hasTransfrom = false;
+        this._suspendCATransaction = false;
         this._privateFlags = PFLAG_LAYOUT_REQUIRED | PFLAG_FORCE_LAYOUT;
     }
     View.prototype._addViewCore = function (view, atIndex) {
@@ -207,6 +213,32 @@ var View = (function (_super) {
             this._setNativeViewFrame(this._nativeView, this._cachedFrame);
         }
     };
+    View.prototype._addToSuperview = function (superview, atIndex) {
+        if (superview && this._nativeView) {
+            if (types.isNullOrUndefined(atIndex) || atIndex >= superview.subviews.count) {
+                superview.addSubview(this._nativeView);
+            }
+            else {
+                superview.insertSubviewAtIndex(this._nativeView, atIndex);
+            }
+            return true;
+        }
+        return false;
+    };
+    View.prototype._removeFromSuperview = function () {
+        if (this._nativeView) {
+            this._nativeView.removeFromSuperview();
+        }
+    };
+    View.prototype._suspendPresentationLayerUpdates = function () {
+        this._suspendCATransaction = true;
+    };
+    View.prototype._resumePresentationLayerUpdates = function () {
+        this._suspendCATransaction = false;
+    };
+    View.prototype._isPresentationLayerUpdateSuspeneded = function () {
+        return this._suspendCATransaction;
+    };
     return View;
 })(viewCommon.View);
 exports.View = View;
@@ -233,24 +265,136 @@ var CustomLayoutView = (function (_super) {
     CustomLayoutView.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
     };
     CustomLayoutView.prototype._addViewToNativeVisualTree = function (child, atIndex) {
-        _super.prototype._addViewToNativeVisualTree.call(this, child);
-        if (this._nativeView && child._nativeView) {
-            if (types.isNullOrUndefined(atIndex) || atIndex >= this._nativeView.subviews.count) {
-                this._nativeView.addSubview(child._nativeView);
-            }
-            else {
-                this._nativeView.insertSubviewAtIndex(child._nativeView, atIndex);
-            }
-            return true;
-        }
-        return false;
+        _super.prototype._addViewToNativeVisualTree.call(this, child, atIndex);
+        return child._addToSuperview(this._nativeView, atIndex);
     };
     CustomLayoutView.prototype._removeViewFromNativeVisualTree = function (child) {
         _super.prototype._removeViewFromNativeVisualTree.call(this, child);
-        if (child._nativeView) {
-            child._nativeView.removeFromSuperview();
-        }
+        child._removeFromSuperview();
     };
     return CustomLayoutView;
 })(View);
 exports.CustomLayoutView = CustomLayoutView;
+var ViewStyler = (function () {
+    function ViewStyler() {
+    }
+    ViewStyler.setBackgroundInternalProperty = function (view, newValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            ensureBackground();
+            var updateSuspended = view._isPresentationLayerUpdateSuspeneded();
+            if (!updateSuspended) {
+                CATransaction.begin();
+            }
+            nativeView.backgroundColor = background.ios.createBackgroundUIColor(view);
+            if (!updateSuspended) {
+                CATransaction.commit();
+            }
+        }
+    };
+    ViewStyler.resetBackgroundInternalProperty = function (view, nativeValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            nativeView.backgroundColor = nativeValue;
+        }
+    };
+    ViewStyler.getNativeBackgroundInternalValue = function (view) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            return nativeView.backgroundColor;
+        }
+        return undefined;
+    };
+    ViewStyler.setVisibilityProperty = function (view, newValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            return nativeView.hidden = (newValue !== enums.Visibility.visible);
+        }
+    };
+    ViewStyler.resetVisibilityProperty = function (view, nativeValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            return nativeView.hidden = false;
+        }
+    };
+    ViewStyler.setOpacityProperty = function (view, newValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            var updateSuspended = view._isPresentationLayerUpdateSuspeneded();
+            if (!updateSuspended) {
+                CATransaction.begin();
+            }
+            var alpha = nativeView.alpha = newValue;
+            if (!updateSuspended) {
+                CATransaction.commit();
+            }
+            return alpha;
+        }
+    };
+    ViewStyler.resetOpacityProperty = function (view, nativeValue) {
+        var nativeView = view._nativeView;
+        if (nativeView) {
+            return nativeView.alpha = 1.0;
+        }
+    };
+    ViewStyler.setBorderWidthProperty = function (view, newValue) {
+        if (view._nativeView instanceof UIView) {
+            view._nativeView.layer.borderWidth = newValue;
+        }
+    };
+    ViewStyler.resetBorderWidthProperty = function (view, nativeValue) {
+        if (view._nativeView instanceof UIView) {
+            view._nativeView.layer.borderWidth = nativeValue;
+        }
+    };
+    ViewStyler.getBorderWidthProperty = function (view) {
+        if (view._nativeView instanceof UIView) {
+            return view._nativeView.layer.borderWidth;
+        }
+        return 0;
+    };
+    ViewStyler.setBorderColorProperty = function (view, newValue) {
+        if (view._nativeView instanceof UIView && newValue instanceof UIColor) {
+            view._nativeView.layer.borderColor = newValue.CGColor;
+        }
+    };
+    ViewStyler.resetBorderColorProperty = function (view, nativeValue) {
+        if (view._nativeView instanceof UIView && nativeValue instanceof UIColor) {
+            view._nativeView.layer.borderColor = nativeValue;
+        }
+    };
+    ViewStyler.getBorderColorProperty = function (view) {
+        if (view._nativeView instanceof UIView) {
+            return view._nativeView.layer.borderColor;
+        }
+        return undefined;
+    };
+    ViewStyler.setBorderRadiusProperty = function (view, newValue) {
+        if (view._nativeView instanceof UIView) {
+            view._nativeView.layer.cornerRadius = newValue;
+            view._nativeView.clipsToBounds = true;
+        }
+    };
+    ViewStyler.resetBorderRadiusProperty = function (view, nativeValue) {
+        if (view._nativeView instanceof UIView) {
+            view._nativeView.layer.cornerRadius = nativeValue;
+        }
+    };
+    ViewStyler.getBorderRadiusProperty = function (view) {
+        if (view._nativeView instanceof UIView) {
+            return view._nativeView.layer.cornerRadius;
+        }
+        return 0;
+    };
+    ViewStyler.registerHandlers = function () {
+        style.registerHandler(style.backgroundInternalProperty, new style.StylePropertyChangedHandler(ViewStyler.setBackgroundInternalProperty, ViewStyler.resetBackgroundInternalProperty, ViewStyler.getNativeBackgroundInternalValue));
+        style.registerHandler(style.visibilityProperty, new style.StylePropertyChangedHandler(ViewStyler.setVisibilityProperty, ViewStyler.resetVisibilityProperty));
+        style.registerHandler(style.opacityProperty, new style.StylePropertyChangedHandler(ViewStyler.setOpacityProperty, ViewStyler.resetOpacityProperty));
+        style.registerHandler(style.borderWidthProperty, new style.StylePropertyChangedHandler(ViewStyler.setBorderWidthProperty, ViewStyler.resetBorderWidthProperty, ViewStyler.getBorderWidthProperty));
+        style.registerHandler(style.borderColorProperty, new style.StylePropertyChangedHandler(ViewStyler.setBorderColorProperty, ViewStyler.resetBorderColorProperty, ViewStyler.getBorderColorProperty));
+        style.registerHandler(style.borderRadiusProperty, new style.StylePropertyChangedHandler(ViewStyler.setBorderRadiusProperty, ViewStyler.resetBorderRadiusProperty, ViewStyler.getBorderRadiusProperty));
+    };
+    return ViewStyler;
+})();
+exports.ViewStyler = ViewStyler;
+ViewStyler.registerHandlers();

@@ -3,18 +3,28 @@ var trace = require("trace");
 var enums = require("ui/enums");
 var utils = require("utils/utils");
 var view = require("ui/core/view");
-var types = require("utils/types");
 var uiUtils = require("ui/utils");
+var types = require("utils/types");
+var application = require("application");
 global.moduleMerge(frameCommon, exports);
 var ENTRY = "_entry";
 var NAV_DEPTH = "_navDepth";
+var TRANSITION = "_transition";
 var navDepth = -1;
 var Frame = (function (_super) {
     __extends(Frame, _super);
     function Frame() {
+        var _this = this;
         _super.call(this);
         this._shouldSkipNativePop = false;
         this._ios = new iOSFrame(this);
+        var that = this;
+        application.ios.addNotificationObserver(UIApplicationDidChangeStatusBarFrameNotification, function (notification) {
+            that._handleHigherInCallStatusBarIfNeeded();
+            if (_this._ios.controller.owner.currentPage) {
+                _this._ios.controller.owner.currentPage.requestLayout();
+            }
+        });
     }
     Frame.prototype.onLoaded = function () {
         _super.prototype.onLoaded.call(this);
@@ -32,21 +42,23 @@ var Frame = (function (_super) {
         }
     };
     Frame.prototype._navigateCore = function (backstackEntry) {
+        trace.write(this + "._navigateCore(pageId: " + backstackEntry.resolvedPage.id + ", backstackVisible: " + this._isEntryBackstackVisible(backstackEntry) + ", clearHistory: " + backstackEntry.entry.clearHistory + "), navDepth: " + navDepth, trace.categories.Navigation);
         var viewController = backstackEntry.resolvedPage.ios;
         if (!viewController) {
-            throw new Error("Required page does have an viewController created.");
+            throw new Error("Required page does not have a viewController created.");
         }
         navDepth++;
-        var animated = false;
-        if (this.currentPage) {
-            animated = this._getIsAnimatedNavigation(backstackEntry.entry);
+        var animated = this.currentPage ? this._getIsAnimatedNavigation(backstackEntry.entry) : false;
+        var navigationTransition = this._getNavigationTransition(backstackEntry.entry);
+        if (animated && navigationTransition) {
+            viewController[TRANSITION] = navigationTransition;
         }
         backstackEntry[NAV_DEPTH] = navDepth;
         viewController[ENTRY] = backstackEntry;
         this._updateActionBar(backstackEntry.resolvedPage);
         if (!this._currentEntry) {
             this._ios.controller.pushViewControllerAnimated(viewController, animated);
-            trace.write("Frame<" + this._domId + ">.pushViewControllerAnimated(newController) depth = " + navDepth, trace.categories.Navigation);
+            trace.write(this + ".pushViewControllerAnimated(" + viewController + ", " + animated + "); depth = " + navDepth, trace.categories.Navigation);
             return;
         }
         if (backstackEntry.entry.clearHistory) {
@@ -54,7 +66,7 @@ var Frame = (function (_super) {
             var newControllers = NSMutableArray.alloc().initWithCapacity(1);
             newControllers.addObject(viewController);
             this._ios.controller.setViewControllersAnimated(newControllers, animated);
-            trace.write("Frame<" + this._domId + ">.setViewControllersAnimated([newController]) depth = " + navDepth, trace.categories.Navigation);
+            trace.write(this + ".setViewControllersAnimated([" + viewController + "], " + animated + "); depth = " + navDepth, trace.categories.Navigation);
             return;
         }
         if (!this._isEntryBackstackVisible(this._currentEntry)) {
@@ -66,19 +78,20 @@ var Frame = (function (_super) {
             newControllers.removeLastObject();
             newControllers.addObject(viewController);
             this._ios.controller.setViewControllersAnimated(newControllers, animated);
-            trace.write("Frame<" + this._domId + ">.setViewControllersAnimated([originalControllers - lastController + newController]) depth = " + navDepth, trace.categories.Navigation);
+            trace.write(this + ".setViewControllersAnimated([originalControllers - lastController + " + viewController + "], " + animated + "); depth = " + navDepth, trace.categories.Navigation);
             return;
         }
         this._ios.controller.pushViewControllerAnimated(viewController, animated);
-        trace.write("Frame<" + this._domId + ">.pushViewControllerAnimated(newController) depth = " + navDepth, trace.categories.Navigation);
+        trace.write(this + ".pushViewControllerAnimated(" + viewController + ", " + animated + "); depth = " + navDepth, trace.categories.Navigation);
     };
     Frame.prototype._goBackCore = function (backstackEntry) {
         navDepth = backstackEntry[NAV_DEPTH];
-        trace.write("Frame<" + this._domId + ">.popViewControllerAnimated depth = " + navDepth, trace.categories.Navigation);
+        trace.write(this + "._goBackCore(pageId: " + backstackEntry.resolvedPage.id + ", backstackVisible: " + this._isEntryBackstackVisible(backstackEntry) + ", clearHistory: " + backstackEntry.entry.clearHistory + "), navDepth: " + navDepth, trace.categories.Navigation);
         if (!this._shouldSkipNativePop) {
             var controller = backstackEntry.resolvedPage.ios;
-            var animated = this._getIsAnimatedNavigation(backstackEntry.entry);
+            var animated = this._currentEntry ? this._getIsAnimatedNavigation(this._currentEntry.entry) : false;
             this._updateActionBar(backstackEntry.resolvedPage);
+            trace.write(this + ".popToViewControllerAnimated(" + controller + ", " + animated + "); depth = " + navDepth, trace.categories.Navigation);
             this._ios.controller.popToViewControllerAnimated(controller, animated);
         }
     };
@@ -133,6 +146,16 @@ var Frame = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Frame, "defaultTransition", {
+        get: function () {
+            return frameCommon.Frame.defaultTransition;
+        },
+        set: function (value) {
+            frameCommon.Frame.defaultTransition = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Frame.prototype.requestLayout = function () {
         _super.prototype.requestLayout.call(this);
         var window = this._nativeView.window;
@@ -170,6 +193,7 @@ var Frame = (function (_super) {
     Frame.prototype.onLayout = function (left, top, right, bottom) {
         this._right = right;
         this._bottom = bottom;
+        this._handleHigherInCallStatusBarIfNeeded();
         this.layoutPage(this.currentPage);
         if (this._navigateToEntry && this.currentPage) {
             this.layoutPage(this._navigateToEntry.resolvedPage);
@@ -203,9 +227,61 @@ var Frame = (function (_super) {
             window.layoutIfNeeded();
         }
     };
+    Frame.prototype._handleHigherInCallStatusBarIfNeeded = function () {
+        var statusBarHeight = uiUtils.ios.getStatusBarHeight();
+        if (!this._ios ||
+            !this._ios.controller ||
+            !this._ios.controller.navigationBar ||
+            this._ios.controller.navigationBar.hidden ||
+            this._ios.controller.navigationBar.frame.origin.y === statusBarHeight) {
+            return;
+        }
+        trace.write("Forcing navigationBar.frame.origin.y to " + statusBarHeight + " due to a higher in-call status-bar", trace.categories.Layout);
+        this._ios.controller.navigationBar.autoresizingMask = UIViewAutoresizing.UIViewAutoresizingNone;
+        this._ios.controller.navigationBar.removeConstraints(this._ios.controller.navigationBar.constraints);
+        this._ios.controller.navigationBar.frame = CGRectMake(this._ios.controller.navigationBar.frame.origin.x, statusBarHeight, this._ios.controller.navigationBar.frame.size.width, this._ios.controller.navigationBar.frame.size.height);
+    };
     return Frame;
 })(frameCommon.Frame);
 exports.Frame = Frame;
+var TransitionDelegate = (function (_super) {
+    __extends(TransitionDelegate, _super);
+    function TransitionDelegate() {
+        _super.apply(this, arguments);
+    }
+    TransitionDelegate.new = function () {
+        return _super.new.call(this);
+    };
+    TransitionDelegate.prototype.initWithOwnerId = function (owner, id) {
+        this._owner = owner;
+        this._owner.transitionDelegates.push(this);
+        this._id = id;
+        return this;
+    };
+    TransitionDelegate.prototype.animationWillStart = function (animationID, context) {
+        trace.write("START " + this._id, trace.categories.Transition);
+    };
+    TransitionDelegate.prototype.animationDidStop = function (animationID, finished, context) {
+        if (finished) {
+            trace.write("END " + this._id, trace.categories.Transition);
+        }
+        else {
+            trace.write("CANCEL " + this._id, trace.categories.Transition);
+        }
+        if (this._owner) {
+            var index = this._owner.transitionDelegates.indexOf(this);
+            if (index > -1) {
+                this._owner.transitionDelegates.splice(index, 1);
+            }
+        }
+    };
+    TransitionDelegate.ObjCExposedMethods = {
+        "animationWillStart": { returns: interop.types.void, params: [NSString, NSObject] },
+        "animationDidStop": { returns: interop.types.void, params: [NSString, NSNumber, NSObject] }
+    };
+    return TransitionDelegate;
+})(NSObject);
+var _defaultTransitionDuration = 0.35;
 var UINavigationControllerImpl = (function (_super) {
     __extends(UINavigationControllerImpl, _super);
     function UINavigationControllerImpl() {
@@ -214,11 +290,19 @@ var UINavigationControllerImpl = (function (_super) {
     UINavigationControllerImpl.initWithOwner = function (owner) {
         var controller = UINavigationControllerImpl.new();
         controller._owner = owner;
+        controller._transitionDelegates = new Array();
         return controller;
     };
     Object.defineProperty(UINavigationControllerImpl.prototype, "owner", {
         get: function () {
             return this._owner.get();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UINavigationControllerImpl.prototype, "transitionDelegates", {
+        get: function () {
+            return this._transitionDelegates;
         },
         enumerable: true,
         configurable: true
@@ -237,6 +321,7 @@ var UINavigationControllerImpl = (function (_super) {
         }
     };
     UINavigationControllerImpl.prototype.navigationControllerWillShowViewControllerAnimated = function (navigationController, viewController, animated) {
+        trace.write("UINavigationControllerImpl.navigationControllerWillShowViewControllerAnimated(" + navigationController + ", " + viewController + ", " + animated + ")", trace.categories.NativeLifecycle);
         var frame = this._owner.get();
         if (!frame) {
             return;
@@ -257,17 +342,22 @@ var UINavigationControllerImpl = (function (_super) {
             throw new Error("Page is already shown on another frame.");
         }
         newPage.actionBar.update();
+        viewController["willShowCalled"] = true;
     };
     UINavigationControllerImpl.prototype.navigationControllerDidShowViewControllerAnimated = function (navigationController, viewController, animated) {
+        trace.write("UINavigationControllerImpl.navigationControllerDidShowViewControllerAnimated(" + navigationController + ", " + viewController + ", " + animated + ")", trace.categories.NativeLifecycle);
+        if (viewController["willShowCalled"] === undefined) {
+            return;
+        }
+        else {
+            viewController["willShowCalled"] = undefined;
+        }
         var frame = this._owner.get();
         if (!frame) {
             return;
         }
         var newEntry = viewController[ENTRY];
         var newPage = newEntry.resolvedPage;
-        if (!newPage._delayLoadedEvent) {
-            return;
-        }
         var backStack = frame.backStack;
         var currentEntry = backStack.length > 0 ? backStack[backStack.length - 1] : null;
         var isBack = currentEntry && newEntry === currentEntry;
@@ -296,8 +386,6 @@ var UINavigationControllerImpl = (function (_super) {
         frame._navigateToEntry = null;
         frame._currentEntry = newEntry;
         frame.remeasureFrame();
-        newPage._delayLoadedEvent = false;
-        newPage._emit(view.View.loadedEvent);
         frame._updateActionBar(newPage);
         newPage.onNavigatedTo(isBack || isBackNavigation);
         frame._processNavigationQueue(newPage);
@@ -305,9 +393,196 @@ var UINavigationControllerImpl = (function (_super) {
     UINavigationControllerImpl.prototype.supportedInterfaceOrientation = function () {
         return UIInterfaceOrientationMask.UIInterfaceOrientationMaskAll;
     };
+    UINavigationControllerImpl.prototype.pushViewControllerAnimated = function (viewController, animated) {
+        var _this = this;
+        var navigationTransition = viewController[TRANSITION];
+        trace.write("UINavigationControllerImpl.pushViewControllerAnimated(" + viewController + ", " + animated + "); transition: " + JSON.stringify(navigationTransition), trace.categories.NativeLifecycle);
+        if (!animated || !navigationTransition) {
+            _super.prototype.pushViewControllerAnimated.call(this, viewController, animated);
+            return;
+        }
+        var nativeTransition = _getNativeTransition(navigationTransition, true);
+        if (!nativeTransition) {
+            _super.prototype.pushViewControllerAnimated.call(this, viewController, animated);
+            return;
+        }
+        var duration = navigationTransition.duration ? navigationTransition.duration / 1000 : _defaultTransitionDuration;
+        var curve = _getNativeCurve(navigationTransition);
+        var id = _getTransitionId(nativeTransition, "push");
+        var transitionDelegate = TransitionDelegate.new().initWithOwnerId(this, id);
+        UIView.animateWithDurationAnimations(duration, function () {
+            UIView.setAnimationDelegate(transitionDelegate);
+            UIView.setAnimationWillStartSelector("animationWillStart");
+            UIView.setAnimationDidStopSelector("animationDidStop");
+            UIView.setAnimationCurve(curve);
+            _super.prototype.pushViewControllerAnimated.call(_this, viewController, false);
+            UIView.setAnimationTransitionForViewCache(nativeTransition, _this.view, true);
+        });
+    };
+    UINavigationControllerImpl.prototype.setViewControllersAnimated = function (viewControllers, animated) {
+        var _this = this;
+        var viewController = viewControllers.lastObject;
+        var navigationTransition = viewController[TRANSITION];
+        trace.write("UINavigationControllerImpl.setViewControllersAnimated(" + viewControllers + ", " + animated + "); transition: " + JSON.stringify(navigationTransition), trace.categories.NativeLifecycle);
+        if (!animated || !navigationTransition) {
+            _super.prototype.setViewControllersAnimated.call(this, viewControllers, animated);
+            return;
+        }
+        var nativeTransition = _getNativeTransition(navigationTransition, true);
+        if (!nativeTransition) {
+            _super.prototype.setViewControllersAnimated.call(this, viewControllers, animated);
+            return;
+        }
+        var duration = navigationTransition.duration ? navigationTransition.duration / 1000 : _defaultTransitionDuration;
+        var curve = _getNativeCurve(navigationTransition);
+        var id = _getTransitionId(nativeTransition, "set");
+        var transitionDelegate = TransitionDelegate.new().initWithOwnerId(this, id);
+        UIView.animateWithDurationAnimations(duration, function () {
+            UIView.setAnimationDelegate(transitionDelegate);
+            UIView.setAnimationWillStartSelector("animationWillStart");
+            UIView.setAnimationDidStopSelector("animationDidStop");
+            UIView.setAnimationCurve(curve);
+            _super.prototype.setViewControllersAnimated.call(_this, viewControllers, false);
+            UIView.setAnimationTransitionForViewCache(nativeTransition, _this.view, true);
+        });
+    };
+    UINavigationControllerImpl.prototype.popViewControllerAnimated = function (animated) {
+        var _this = this;
+        var lastViewController = this.viewControllers.lastObject;
+        var navigationTransition = lastViewController[TRANSITION];
+        trace.write("UINavigationControllerImpl.popViewControllerAnimated(" + animated + "); transition: " + JSON.stringify(navigationTransition), trace.categories.NativeLifecycle);
+        if (!animated || !navigationTransition) {
+            return _super.prototype.popViewControllerAnimated.call(this, animated);
+        }
+        var nativeTransition = _getNativeTransition(navigationTransition, false);
+        if (!nativeTransition) {
+            return _super.prototype.popViewControllerAnimated.call(this, animated);
+        }
+        var duration = navigationTransition.duration ? navigationTransition.duration / 1000 : _defaultTransitionDuration;
+        var curve = _getNativeCurve(navigationTransition);
+        var id = _getTransitionId(nativeTransition, "pop");
+        var transitionDelegate = TransitionDelegate.new().initWithOwnerId(this, id);
+        UIView.animateWithDurationAnimations(duration, function () {
+            UIView.setAnimationDelegate(transitionDelegate);
+            UIView.setAnimationWillStartSelector("animationWillStart");
+            UIView.setAnimationDidStopSelector("animationDidStop");
+            UIView.setAnimationCurve(curve);
+            _super.prototype.popViewControllerAnimated.call(_this, false);
+            UIView.setAnimationTransitionForViewCache(nativeTransition, _this.view, true);
+        });
+        return null;
+    };
+    UINavigationControllerImpl.prototype.popToViewControllerAnimated = function (viewController, animated) {
+        var _this = this;
+        var lastViewController = this.viewControllers.lastObject;
+        var navigationTransition = lastViewController[TRANSITION];
+        trace.write("UINavigationControllerImpl.popToViewControllerAnimated(" + viewController + ", " + animated + "); transition: " + JSON.stringify(navigationTransition), trace.categories.NativeLifecycle);
+        if (!animated || !navigationTransition) {
+            return _super.prototype.popToViewControllerAnimated.call(this, viewController, animated);
+        }
+        var nativeTransition = _getNativeTransition(navigationTransition, false);
+        if (!nativeTransition) {
+            return _super.prototype.popToViewControllerAnimated.call(this, viewController, animated);
+        }
+        var duration = navigationTransition.duration ? navigationTransition.duration / 1000 : _defaultTransitionDuration;
+        var curve = _getNativeCurve(navigationTransition);
+        var id = _getTransitionId(nativeTransition, "popTo");
+        var transitionDelegate = TransitionDelegate.new().initWithOwnerId(this, id);
+        UIView.animateWithDurationAnimations(duration, function () {
+            UIView.setAnimationDelegate(transitionDelegate);
+            UIView.setAnimationWillStartSelector("animationWillStart");
+            UIView.setAnimationDidStopSelector("animationDidStop");
+            UIView.setAnimationCurve(curve);
+            _super.prototype.popToViewControllerAnimated.call(_this, viewController, false);
+            UIView.setAnimationTransitionForViewCache(nativeTransition, _this.view, true);
+        });
+        return null;
+    };
+    UINavigationControllerImpl.prototype.navigationControllerAnimationControllerForOperationFromViewControllerToViewController = function (navigationController, operation, fromVC, toVC) {
+        var viewController;
+        switch (operation) {
+            case UINavigationControllerOperation.UINavigationControllerOperationPush:
+                viewController = toVC;
+                break;
+            case UINavigationControllerOperation.UINavigationControllerOperationPop:
+                viewController = fromVC;
+                break;
+        }
+        if (!viewController) {
+            return null;
+        }
+        var navigationTransition = viewController[TRANSITION];
+        if (!navigationTransition) {
+            return null;
+        }
+        trace.write("UINavigationControllerImpl.navigationControllerAnimationControllerForOperationFromViewControllerToViewController(" + operation + ", " + fromVC + ", " + toVC + "), transition: " + JSON.stringify(navigationTransition), trace.categories.NativeLifecycle);
+        var _transitionModule = require("ui/transition");
+        return _transitionModule._createIOSAnimatedTransitioning(navigationTransition, operation, fromVC, toVC);
+    };
     UINavigationControllerImpl.ObjCProtocols = [UINavigationControllerDelegate];
     return UINavigationControllerImpl;
 })(UINavigationController);
+function _getTransitionId(nativeTransition, transitionType) {
+    var name;
+    switch (nativeTransition) {
+        case UIViewAnimationTransition.UIViewAnimationTransitionCurlDown:
+            name = "CurlDown";
+            break;
+        case UIViewAnimationTransition.UIViewAnimationTransitionCurlUp:
+            name = "CurlUp";
+            break;
+        case UIViewAnimationTransition.UIViewAnimationTransitionFlipFromLeft:
+            name = "FlipFromLeft";
+            break;
+        case UIViewAnimationTransition.UIViewAnimationTransitionFlipFromRight:
+            name = "FlipFromRight";
+            break;
+        case UIViewAnimationTransition.UIViewAnimationTransitionNone:
+            name = "None";
+            break;
+    }
+    return name + " " + transitionType;
+}
+function _getNativeTransition(navigationTransition, push) {
+    if (navigationTransition.name) {
+        switch (navigationTransition.name.toLowerCase()) {
+            case "flip":
+            case "flipright":
+                return push ? UIViewAnimationTransition.UIViewAnimationTransitionFlipFromRight : UIViewAnimationTransition.UIViewAnimationTransitionFlipFromLeft;
+            case "flipleft":
+                return push ? UIViewAnimationTransition.UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransition.UIViewAnimationTransitionFlipFromRight;
+            case "curl":
+            case "curlup":
+                return push ? UIViewAnimationTransition.UIViewAnimationTransitionCurlUp : UIViewAnimationTransition.UIViewAnimationTransitionCurlDown;
+            case "curldown":
+                return push ? UIViewAnimationTransition.UIViewAnimationTransitionCurlDown : UIViewAnimationTransition.UIViewAnimationTransitionCurlUp;
+        }
+    }
+    return null;
+}
+function _getNativeCurve(transition) {
+    if (transition.curve) {
+        switch (transition.curve) {
+            case enums.AnimationCurve.easeIn:
+                trace.write("Transition curve resolved to UIViewAnimationCurve.UIViewAnimationCurveEaseIn.", trace.categories.Transition);
+                return UIViewAnimationCurve.UIViewAnimationCurveEaseIn;
+            case enums.AnimationCurve.easeOut:
+                trace.write("Transition curve resolved to UIViewAnimationCurve.UIViewAnimationCurveEaseOut.", trace.categories.Transition);
+                return UIViewAnimationCurve.UIViewAnimationCurveEaseOut;
+            case enums.AnimationCurve.easeInOut:
+                trace.write("Transition curve resolved to UIViewAnimationCurve.UIViewAnimationCurveEaseInOut.", trace.categories.Transition);
+                return UIViewAnimationCurve.UIViewAnimationCurveEaseInOut;
+            case enums.AnimationCurve.linear:
+                trace.write("Transition curve resolved to UIViewAnimationCurve.UIViewAnimationCurveLinear.", trace.categories.Transition);
+                return UIViewAnimationCurve.UIViewAnimationCurveLinear;
+            default:
+                trace.write("Transition curve resolved to original: " + transition.curve, trace.categories.Transition);
+                return transition.curve;
+        }
+    }
+    return UIViewAnimationCurve.UIViewAnimationCurveEaseInOut;
+}
+exports._getNativeCurve = _getNativeCurve;
 var iOSFrame = (function () {
     function iOSFrame(owner) {
         this._controller = UINavigationControllerImpl.initWithOwner(new WeakRef(owner));
@@ -330,9 +605,9 @@ var iOSFrame = (function () {
             var change = this._showNavigationBar !== value;
             this._showNavigationBar = value;
             this._controller.navigationBarHidden = !value;
-            var owner = this._controller.owner;
-            if (owner && change) {
-                owner.requestLayout();
+            var currentPage = this._controller.owner.currentPage;
+            if (currentPage && change) {
+                currentPage.requestLayout();
             }
         },
         enumerable: true,

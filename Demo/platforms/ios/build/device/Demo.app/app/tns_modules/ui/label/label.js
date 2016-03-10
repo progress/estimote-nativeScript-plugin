@@ -1,8 +1,15 @@
 var common = require("./label-common");
-var utils = require("utils/utils");
-var viewModule = require("ui/core/view");
 var enums = require("ui/enums");
+var utils = require("utils/utils");
+var view = require("ui/core/view");
+var style = require("ui/styling/style");
 global.moduleMerge(common, exports);
+var background;
+function ensureBackground() {
+    if (!background) {
+        background = require("ui/styling/background");
+    }
+}
 var UILabelImpl = (function (_super) {
     __extends(UILabelImpl, _super);
     function UILabelImpl() {
@@ -77,11 +84,46 @@ var Label = (function (_super) {
             }
             var measureWidth = Math.max(labelWidth, this.minWidth);
             var measureHeight = Math.max(nativeSize.height, this.minHeight);
-            var widthAndState = viewModule.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
-            var heightAndState = viewModule.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
+            var widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
+            var heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
             this.setMeasuredDimension(widthAndState, heightAndState);
         }
     };
     return Label;
 })(common.Label);
 exports.Label = Label;
+var LabelStyler = (function () {
+    function LabelStyler() {
+    }
+    LabelStyler.setBackgroundInternalProperty = function (view, newValue) {
+        var uiLabel = view._nativeView;
+        if (uiLabel && uiLabel.layer) {
+            var flipImage = true;
+            ensureBackground();
+            var uiColor = background.ios.createBackgroundUIColor(view, flipImage);
+            var cgColor = uiColor ? uiColor.CGColor : null;
+            uiLabel.layer.backgroundColor = cgColor;
+        }
+    };
+    LabelStyler.resetBackgroundInternalProperty = function (view, nativeValue) {
+        var uiLabel = view._nativeView;
+        if (uiLabel && uiLabel.layer) {
+            var uiColor = nativeValue;
+            var cgColor = uiColor ? uiColor.CGColor : null;
+            uiLabel.layer.backgroundColor = cgColor;
+        }
+    };
+    LabelStyler.getNativeBackgroundInternalValue = function (view) {
+        var uiLabel = view._nativeView;
+        if (uiLabel && uiLabel.layer && uiLabel.layer.backgroundColor) {
+            return UIColor.colorWithCGColor(uiLabel.layer.backgroundColor);
+        }
+        return undefined;
+    };
+    LabelStyler.registerHandlers = function () {
+        style.registerHandler(style.backgroundInternalProperty, new style.StylePropertyChangedHandler(LabelStyler.setBackgroundInternalProperty, LabelStyler.resetBackgroundInternalProperty, LabelStyler.getNativeBackgroundInternalValue), "Label");
+    };
+    return LabelStyler;
+})();
+exports.LabelStyler = LabelStyler;
+LabelStyler.registerHandlers();

@@ -39,3 +39,18 @@ function getImage(arg) {
     });
 }
 exports.getImage = getImage;
+function getFile(arg, destinationFilePath) {
+    return new Promise(function (resolve, reject) {
+        httpRequest.request(typeof arg === "string" ? { url: arg, method: "GET" } : arg)
+            .then(function (r) {
+            try {
+                var file = r.content.toFile(destinationFilePath);
+                resolve(file);
+            }
+            catch (e) {
+                reject(e);
+            }
+        }, function (e) { return reject(e); });
+    });
+}
+exports.getFile = getFile;

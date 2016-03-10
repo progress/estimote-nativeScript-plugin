@@ -1,4 +1,3 @@
-var enums = require("ui/enums");
 var locationModule = require("location");
 var common = require("./location-common");
 global.moduleMerge(common, exports);
@@ -44,6 +43,7 @@ var LocationListenerImpl = (function (_super) {
 })(NSObject);
 var LocationManager = (function () {
     function LocationManager() {
+        var enums = require("ui/enums");
         this.desiredAccuracy = enums.Accuracy.any;
         this.updateDistance = kCLDistanceFilterNone;
         var iosLocManager = new CLLocationManager();

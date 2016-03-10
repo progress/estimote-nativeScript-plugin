@@ -82,4 +82,4 @@ The method stops the estimote beacon manager for monitoring beacons.
 ## Platform
 
 - iOS (NativeScript 1.5+)
-- Android (Coming soon)
+- Android (5.0, 6.0 in progress)

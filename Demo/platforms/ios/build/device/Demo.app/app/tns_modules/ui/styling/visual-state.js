@@ -1,6 +1,6 @@
-var constants = require("ui/styling/visual-state-constants");
 var observable = require("ui/core/dependency-observable");
 var styleProperty = require("ui/styling/style-property");
+var visualStateConstants = require("ui/styling/visual-state-constants");
 var VisualState = (function () {
     function VisualState() {
         this._setters = {};
@@ -25,7 +25,7 @@ function goToState(view, state) {
         return undefined;
     }
     if (!(state in allStates)) {
-        state = constants.Normal;
+        state = visualStateConstants.Normal;
     }
     if (state !== view.visualState) {
         var newState = allStates[state];

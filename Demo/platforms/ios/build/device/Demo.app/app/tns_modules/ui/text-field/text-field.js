@@ -1,6 +1,7 @@
 var common = require("./text-field-common");
 var textBase = require("ui/text-base");
 var enums = require("ui/enums");
+var style = require("ui/styling/style");
 function onSecurePropertyChanged(data) {
     var textField = data.object;
     textField.ios.secureTextEntry = data.newValue;
@@ -128,3 +129,35 @@ var TextField = (function (_super) {
     return TextField;
 })(common.TextField);
 exports.TextField = TextField;
+var TextFieldStyler = (function () {
+    function TextFieldStyler() {
+    }
+    TextFieldStyler.setColorProperty = function (view, newValue) {
+        var tf = view._nativeView;
+        TextFieldStyler._setTextFieldColor(tf, newValue);
+    };
+    TextFieldStyler.resetColorProperty = function (view, nativeValue) {
+        var tf = view._nativeView;
+        TextFieldStyler._setTextFieldColor(tf, nativeValue);
+    };
+    TextFieldStyler._setTextFieldColor = function (tf, newValue) {
+        var color = newValue;
+        if (tf.isShowingHint && color) {
+            tf.textColor = color.colorWithAlphaComponent(0.22);
+        }
+        else {
+            tf.textColor = color;
+            tf.tintColor = color;
+        }
+    };
+    TextFieldStyler.getNativeColorValue = function (view) {
+        var tf = view._nativeView;
+        return tf.tintColor;
+    };
+    TextFieldStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(TextFieldStyler.setColorProperty, TextFieldStyler.resetColorProperty, TextFieldStyler.getNativeColorValue), "TextField");
+    };
+    return TextFieldStyler;
+})();
+exports.TextFieldStyler = TextFieldStyler;
+TextFieldStyler.registerHandlers();

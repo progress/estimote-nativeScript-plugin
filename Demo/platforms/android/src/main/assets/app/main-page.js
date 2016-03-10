@@ -36,18 +36,14 @@ function pageLoaded(args) {
         callback : function(beacons){
           var items = new observableArrayModule.ObservableArray([]);
 
-          for (var i = 0; i < beacons.count; i++) {
+          for (var i = 0; i < beacons.length; i++) {
              var beacon = beacons[i];
              if (beacon.major > 0){
+                var distance = "NA";
                 var identifier = "Major:" + beacon.major + " Minor:" + beacon.minor;
 
-                var distance = "Immediate";
-
-                if (beacon.proximity === CLProximity.Near){
-                    distance = "Near";
-                }
-                else if (beacon.proximity === CLProximity.Far){
-                   distance = "Far";
+                if (beacon.proximity) {
+                  distance = beacon.proximity;
                 }
 
                 items.push({
@@ -58,8 +54,6 @@ function pageLoaded(args) {
                 });
              }
           }
-          //items.sort(function (a, b) { return parseInt(a.proximity) > parseInt(b.proximity); });
-
           data.set("beacons", items);
         }
     };

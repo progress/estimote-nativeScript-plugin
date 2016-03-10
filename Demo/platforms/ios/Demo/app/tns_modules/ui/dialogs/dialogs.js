@@ -336,10 +336,14 @@ function showUIAlertController(alertController) {
             }
             var lblColor = dialogsCommon.getLabelColor();
             if (lblColor) {
-                var title = NSAttributedString.alloc().initWithStringAttributes(alertController.title, (_a = {}, _a[NSForegroundColorAttributeName] = lblColor.ios, _a));
-                alertController.setValueForKey(title, "attributedTitle");
-                var message = NSAttributedString.alloc().initWithStringAttributes(alertController.message, (_b = {}, _b[NSForegroundColorAttributeName] = lblColor.ios, _b));
-                alertController.setValueForKey(message, "attributedMessage");
+                if (alertController.title) {
+                    var title = NSAttributedString.alloc().initWithStringAttributes(alertController.title, (_a = {}, _a[NSForegroundColorAttributeName] = lblColor.ios, _a));
+                    alertController.setValueForKey(title, "attributedTitle");
+                }
+                if (alertController.message) {
+                    var message = NSAttributedString.alloc().initWithStringAttributes(alertController.message, (_b = {}, _b[NSForegroundColorAttributeName] = lblColor.ios, _b));
+                    alertController.setValueForKey(message, "attributedMessage");
+                }
             }
             viewController.presentModalViewControllerAnimated(alertController, true);
         }

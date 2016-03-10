@@ -1,5 +1,10 @@
-var http = require("http");
 var utils = require("utils/utils");
+var http;
+function ensureHttp() {
+    if (!http) {
+        http = require("http");
+    }
+}
 var definition = require("image-source");
 function fromResource(name) {
     var image = new definition.ImageSource();
@@ -27,6 +32,7 @@ function fromNativeSource(source) {
 }
 exports.fromNativeSource = fromNativeSource;
 function fromUrl(url) {
+    ensureHttp();
     return http.getImage(url);
 }
 exports.fromUrl = fromUrl;

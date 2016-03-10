@@ -1,4 +1,5 @@
 var common = require("./slider-common");
+var style = require("ui/styling/style");
 function onValuePropertyChanged(data) {
     var slider = data.object;
     slider.ios.value = data.newValue;
@@ -56,3 +57,39 @@ var Slider = (function (_super) {
     return Slider;
 })(common.Slider);
 exports.Slider = Slider;
+var SliderStyler = (function () {
+    function SliderStyler() {
+    }
+    SliderStyler.setColorProperty = function (view, newValue) {
+        var bar = view.ios;
+        bar.thumbTintColor = newValue;
+    };
+    SliderStyler.resetColorProperty = function (view, nativeValue) {
+        var bar = view.ios;
+        bar.thumbTintColor = nativeValue;
+    };
+    SliderStyler.getNativeColorValue = function (view) {
+        var bar = view.ios;
+        return bar.thumbTintColor;
+    };
+    SliderStyler.setBackgroundColorProperty = function (view, newValue) {
+        var bar = view.ios;
+        bar.minimumTrackTintColor = newValue;
+    };
+    SliderStyler.resetBackgroundColorProperty = function (view, nativeValue) {
+        var bar = view.ios;
+        bar.minimumTrackTintColor = nativeValue;
+    };
+    SliderStyler.getBackgroundColorProperty = function (view) {
+        var bar = view.ios;
+        return bar.minimumTrackTintColor;
+    };
+    SliderStyler.registerHandlers = function () {
+        style.registerHandler(style.colorProperty, new style.StylePropertyChangedHandler(SliderStyler.setColorProperty, SliderStyler.resetColorProperty, SliderStyler.getNativeColorValue), "Slider");
+        style.registerHandler(style.backgroundColorProperty, new style.StylePropertyChangedHandler(SliderStyler.setBackgroundColorProperty, SliderStyler.resetBackgroundColorProperty, SliderStyler.getBackgroundColorProperty), "Slider");
+        style.registerHandler(style.backgroundInternalProperty, style.ignorePropertyHandler, "Slider");
+    };
+    return SliderStyler;
+})();
+exports.SliderStyler = SliderStyler;
+SliderStyler.registerHandlers();

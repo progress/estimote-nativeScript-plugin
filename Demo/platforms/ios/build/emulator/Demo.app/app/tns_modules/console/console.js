@@ -202,7 +202,11 @@ var Console = (function () {
         }
         if (!test) {
             Array.prototype.shift.apply(arguments);
-            this.error(this.formatParams.apply(this, arguments));
+            var formatedMessage = this.formatParams.apply(this, arguments);
+            this.error(formatedMessage, trace.messageType.error);
+            if (global.__consoleMessage) {
+                global.__consoleMessage(this.escapeConsoleMessage(formatedMessage), "error");
+            }
         }
     };
     Console.prototype.info = function (message) {
@@ -217,23 +221,53 @@ var Console = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             formatParams[_i - 1] = arguments[_i];
         }
-        this.logMessage(this.formatParams.apply(this, arguments), trace.messageType.warn);
+        var formatedMessage = this.formatParams.apply(this, arguments);
+        this.logMessage(formatedMessage, trace.messageType.warn);
+        if (global.__consoleMessage) {
+            global.__consoleMessage(this.escapeConsoleMessage(formatedMessage), "warning");
+        }
     };
     Console.prototype.error = function (message) {
         var formatParams = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             formatParams[_i - 1] = arguments[_i];
         }
-        this.logMessage(this.formatParams.apply(this, arguments), trace.messageType.error);
+        var formatedMessage = this.formatParams.apply(this, arguments);
+        this.logMessage(formatedMessage, trace.messageType.error);
+        if (global.__consoleMessage) {
+            global.__consoleMessage(this.escapeConsoleMessage(formatedMessage), "error");
+        }
     };
     Console.prototype.log = function (message) {
         var formatParams = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             formatParams[_i - 1] = arguments[_i];
         }
-        this.logMessage(this.formatParams.apply(this, arguments), trace.messageType.log);
+        var formatedMessage = this.formatParams.apply(this, arguments);
+        this.logMessage(formatedMessage, trace.messageType.log);
+        if (global.__consoleMessage) {
+            global.__consoleMessage(this.escapeConsoleMessage(formatedMessage), "log");
+        }
+    };
+    Console.prototype.escapeConsoleMessage = function (str) {
+        if (typeof (str) !== "string") {
+            return str;
+        }
+        return str
+            .replace(/[\\]/g, '\\\\')
+            .replace(/[\/]/g, '\\/')
+            .replace(/[\b]/g, '\\b')
+            .replace(/[\f]/g, '\\f')
+            .replace(/[\n]/g, '\\n')
+            .replace(/[\r]/g, '\\r')
+            .replace(/[\t]/g, '\\t')
+            .replace(/[\"]/g, '\\"')
+            .replace(/\\'/g, "\\'");
     };
     Console.prototype.logMessage = function (message, messageType) {
+        if (!global.android) {
+            return;
+        }
         var arrayToLog = [];
         if (message.length > 4000) {
             var i;

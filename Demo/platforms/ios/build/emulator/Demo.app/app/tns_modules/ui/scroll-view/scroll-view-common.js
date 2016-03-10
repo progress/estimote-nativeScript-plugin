@@ -1,7 +1,6 @@
 var dependencyObservable = require("ui/core/dependency-observable");
 var proxy = require("ui/core/proxy");
 var enums = require("ui/enums");
-var definition = require("ui/scroll-view");
 var contentView = require("ui/content-view");
 function isValidOrientation(value) {
     return value === enums.Orientation.vertical || value === enums.Orientation.horizontal;
@@ -25,14 +24,14 @@ var ScrollView = (function (_super) {
     });
     ScrollView.prototype.addEventListener = function (arg, callback, thisArg) {
         _super.prototype.addEventListener.call(this, arg, callback, thisArg);
-        if (arg === definition.ScrollView.scrollEvent) {
+        if (arg === ScrollView.scrollEvent) {
             this._scrollChangeCount++;
             this.attach();
         }
     };
     ScrollView.prototype.removeEventListener = function (arg, callback, thisArg) {
         _super.prototype.addEventListener.call(this, arg, callback, thisArg);
-        if (arg === definition.ScrollView.scrollEvent) {
+        if (arg === ScrollView.scrollEvent) {
             this._scrollChangeCount--;
             this.dettach();
         }

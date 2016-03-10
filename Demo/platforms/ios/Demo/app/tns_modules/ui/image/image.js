@@ -1,8 +1,5 @@
 var imageCommon = require("./image-common");
 var enums = require("ui/enums");
-var utils = require("utils/utils");
-var trace = require("trace");
-var view = require("ui/core/view");
 global.moduleMerge(imageCommon, exports);
 function onStretchPropertyChanged(data) {
     var image = data.object;
@@ -51,6 +48,7 @@ var Image = (function (_super) {
         }
     };
     Image.prototype.onMeasure = function (widthMeasureSpec, heightMeasureSpec) {
+        var utils = require("utils/utils");
         var width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
         var widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
         var height = utils.layout.getMeasureSpecSize(heightMeasureSpec);
@@ -67,10 +65,12 @@ var Image = (function (_super) {
             var resultH = Math.floor(nativeHeight * scale.height);
             measureWidth = finiteWidth ? Math.min(resultW, width) : resultW;
             measureHeight = finiteHeight ? Math.min(resultH, height) : resultH;
+            var trace = require("trace");
             trace.write("Image stretch: " + this.stretch +
                 ", nativeWidth: " + nativeWidth +
                 ", nativeHeight: " + nativeHeight, trace.categories.Layout);
         }
+        var view = require("ui/core/view");
         var widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
         var heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
         this.setMeasuredDimension(widthAndState, heightAndState);
