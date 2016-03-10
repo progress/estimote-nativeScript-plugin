@@ -1,0 +1,26 @@
+{
+  "name": "nativescript-estimote-sdk",
+  "description": "Estimote SDK plugin for Nativescript",
+  "version": "1.0.1",
+  "main": "estimote.js",
+  "author": {
+    "name": "Progress Software Corporation"
+  },
+  "license": "MIT",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.5.1",
+      "android": "1.5.1"
+    }
+  },
+  "devDependencies": {
+    "tns-core-modules": "^1.5.1"
+  },
+  "readme": "# Estimote Plugin for NativeScript\n\nEstimote Beacon is a super small device. It has a powerful 32-bit ARM® Cortex M0 CPU with 256kB flash memory, accelerometer, temperature sensor and most importantly – a 2.4 GHz Bluetooth 4.0 Smart (also known as BLE or Bluetooth low energy) bidirectional radio.\n\nYou can think of the beacon as a small lighthouse tower that's installed in a fixed location and broadcasts its presence to all the ships (smartphones) around. They could be as close as 2 inches and as far as 230 feet (approx. 70 metres) away.\n\nThe plugin is implemented on top of the Estimote native SDKs that lets you track beacon devices around you. It defines a global estimote object, which defines various operations that are used for tracking a beacon device.\n\n## Prerequisites\n\nNativeScript 1.5+ (tns --version), please upgrade if you need to.\n\n## installation\n\nFrom the command prompt go to your app's root folder and execute:\n\n```\ntns plugin add nativescript-estimote-sdk\n\n```\n\n## Methods\n\n- estimote.startRanging\n- estimote.stopRanging\n\n\nYou can initialize the plugin for a region in the following way:\n\n    var Estimote = require('nativescript-estimote-sdk');\n\n    var options = {\n      region : 'Progress', // optional\n      callback : function(beacons){\n        /* This is called everytime beacons are discovered or proximity changes\n\n          for (var i = 0; i < beacons.count; i++) {\n             var beacon = beacons[i];\n             if (beacon.major > 0){\n                var identifier = \"Major:\" + beacon.major + \" Minor:\" + beacon.minor;\n\n                var distance = \"Immediate\";\n\n                if (beacon.proximity === CLProximity.Near){\n                    distance = \"Near\";\n                }\n                else if (beacon.proximity === CLProximity.Far){\n                   distance = \"Far\";\n                }\n\n                var json = {\n                    \"proximity\" : beacon.proximity,\n                    \"identifier\": identifier,\n                    \"distance\":  \"Distance: \" + distance,\n                    \"rssi\": \"Power: \" +  beacon.rssi + \"dBm\"\n                };\n\n                console.log(json);\n             }\n        }\n      */\n    }\n\n    var estimote = new Estimote(options);\n\n\n# estimote.startRanging\n\nThe method initializes the estimote beacon manager to monitor for beacons for a specified region.\n\n    estimote.startRanging();\n\nIf an existing region with the same identifier is already being monitored by the application, the old region is replaced by the new one. The regions you add using this method are shared by all beacon and location manager objects in your application.\n\n\n# estimote.stopRanging\n\nThe method stops the estimote beacon manager for monitoring beacons.\n\n    estimote.stopRanging();\n\n## Platform\n\n- iOS (NativeScript 1.5+)\n- Android (5.0, 6.0 in progress)\n",
+  "readmeFilename": "README.md",
+  "_id": "nativescript-estimote-sdk@1.0.1",
+  "scripts": {},
+  "_shasum": "61198d89b45ea9fc61adb4727848154ce90440a0",
+  "_from": "../Plugin",
+  "_resolved": "file:../Plugin"
+}
