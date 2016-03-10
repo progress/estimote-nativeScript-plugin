@@ -32,8 +32,6 @@ function pageLoaded(args) {
 
     page.bindingContext = data;
 
-    console.log("monitoring beacons");
-
     var options = {
         callback : function(beacons){
           var items = new observableArrayModule.ObservableArray([]);

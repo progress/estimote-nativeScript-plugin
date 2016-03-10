@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
-        "source": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view_list_item.xml"
-    },
-    {
         "merged": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",
         "source": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view_list_item.xml"
     },
     {
         "merged": "/Users/mehfuz/Source/Telerik/Beacon/Demo/platforms/android/build/intermediates/res/merged/debug/layout/abc_screen_simple.xml",
