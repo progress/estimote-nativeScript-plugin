@@ -37,25 +37,21 @@ You can initialize the plugin for a region in the following way:
           for (var i = 0; i < beacons.count; i++) {
              var beacon = beacons[i];
              if (beacon.major > 0){
-                var identifier = "Major:" + beacon.major + " Minor:" + beacon.minor;
+                 var distance = "NA";
+                 var identifier = "Major:" + beacon.major + " Minor:" + beacon.minor;
 
-                var distance = "Immediate";
+                 if (beacon.proximity) {
+                   distance = beacon.proximity;
+                 }
 
-                if (beacon.proximity === CLProximity.Near){
-                    distance = "Near";
-                }
-                else if (beacon.proximity === CLProximity.Far){
-                   distance = "Far";
-                }
+                 items.push({
+                     "proximity" : beacon.proximity,
+                     "identifier": identifier,
+                     "distance":  "Distance: " + distance,
+                     "rssi": "Power: " +  beacon.rssi + "dBm"
+                 });
 
-                var json = {
-                    "proximity" : beacon.proximity,
-                    "identifier": identifier,
-                    "distance":  "Distance: " + distance,
-                    "rssi": "Power: " +  beacon.rssi + "dBm"
-                };
-
-                console.log(json);
+                 console.log(json);
              }
         }
       */
