@@ -1,16 +1,16 @@
 {
-  "nativescript": {
-    "id": "org.nativescript.Demo",
-    "tns-ios": {
-      "version": "1.7.0"
-    },
-    "tns-android": {
-      "version": "1.6.3"
-    }
-  },
-  "dependencies": {
-    "nativescript-estimote-sdk": "file:../Plugin",
-    "nativescript-sqlite": "^1.0.8",
-    "tns-core-modules": "1.6.2"
-  }
+	"nativescript": {
+		"id": "org.nativescript.Demo",
+		"tns-ios": {
+			"version": "1.7.0"
+		},
+		"tns-android": {
+			"version": "1.6.3"
+		}
+	},
+	"dependencies": {
+		"nativescript-estimote-sdk": "file:../Plugin",
+		"nativescript-sqlite": "^1.0.8",
+		"tns-core-modules": "1.6.2"
+	}
 }
