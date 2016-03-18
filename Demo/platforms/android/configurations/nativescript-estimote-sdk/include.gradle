@@ -1,3 +1,0 @@
-dependencies {
-  compile 'com.estimote:sdk:0.9.4@aar'
-}

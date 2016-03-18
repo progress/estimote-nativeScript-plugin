@@ -32,9 +32,9 @@ function pageLoaded(args) {
 
     page.bindingContext = data;
 
-    var options = {
+    this.options = {
         callback : function(beacons){
-          var items = new observableArrayModule.ObservableArray([]);
+          var items =[];
 
           for (var i = 0; i < beacons.length; i++) {
              var beacon = beacons[i];
@@ -46,18 +46,22 @@ function pageLoaded(args) {
                   distance = beacon.proximity;
                 }
 
-                items.push({
+                var item = {
                     "proximity" : beacon.proximity,
                     "identifier": identifier,
                     "distance":  "Distance: " + distance,
                     "rssi": "Power: " +  beacon.rssi + "dBm"
-                });
+                };
+
+                items.push(item);
              }
           }
-          data.set("beacons", items);
+
+          data.set("beacons", new observableArrayModule.ObservableArray(items));
         }
     };
-    new Estimote(options).startRanging();
+
+    new Estimote(this.options).startRanging();
 }
 
 exports.pageLoaded = pageLoaded;
