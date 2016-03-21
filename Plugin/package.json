@@ -4,14 +4,22 @@
   "version": "1.0.1",
   "main" :  "estimote.js",
   "author": "Progress Software Corporation",
-  "license": "MIT",
   "nativescript": {
     "platforms": {
       "ios": "1.5.1",
       "android": "1.5.1"
     }
   },
-   "devDependencies": {
-       "tns-core-modules": "^1.5.1"
-   }
+  "repository": {
+   "type": "git",
+   "url": "https://github.com/progress/estimote-nativeScript-plugin.git"
+  },
+  "keywords": [
+   "NativeScript", "Estimote", "Beacon"
+  ],
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/progress/estimote-nativeScript-plugin/blob/master/LICENSE"
+  },  
+  "readmeFilename": "README.md"
 }
