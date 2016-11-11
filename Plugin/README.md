@@ -16,7 +16,14 @@ From the command prompt go to your app's root folder and execute:
 
 ```
 tns plugin add nativescript-estimote-sdk
+```
 
+For Android, add these permissions into app/App_Resources/AndroidManifest.xml
+```
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 ```
 
 ## Methods
@@ -34,7 +41,7 @@ You can initialize the plugin for a region in the following way:
       callback : function(beacons){
         /* This is called everytime beacons are discovered or proximity changes
 
-          for (var i = 0; i < beacons.count; i++) {
+          for (var i = 0; i < beacons.length; i++) {
              var beacon = beacons[i];
              if (beacon.major > 0){
                  var distance = "NA";
