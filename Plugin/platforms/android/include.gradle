@@ -1,3 +1,10 @@
+android {
+  productFlavors {
+    "nativescript-estimote-sdk" {
+      dimension "nativescript-estimote-sdk"
+    }
+  }
+}
 dependencies {
   compile 'com.estimote:sdk:0.9.4@aar'
 }
