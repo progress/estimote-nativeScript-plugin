@@ -31,9 +31,11 @@ For Android, add these permissions into app/App_Resources/AndroidManifest.xml
 - estimote.startRanging
 - estimote.stopRanging
 
-
 You can initialize the plugin for a region in the following way:
 
+### Basic example
+
+```
     var Estimote = require('nativescript-estimote-sdk');
 
     var options = {
@@ -65,7 +67,85 @@ You can initialize the plugin for a region in the following way:
     }
 
     var estimote = new Estimote(options);
+```
 
+### Angular Example
+items.component.ts
+```
+import { Component, OnInit, NgZone } from "@angular/core";
+
+var Estimote = require('nativescript-estimote-sdk');
+
+
+@Component({
+    selector: "ns-items",
+    moduleId: module.id,
+    templateUrl: "./items.component.html",
+})
+export class ItemsComponent implements OnInit {
+    public items: Array<any>;
+
+    constructor(private zone: NgZone) {
+        this.items = [];
+     }
+
+    ngOnInit(): void {
+        
+        let options = {
+            region : 'Progress', // optional
+            callback : beacons => {
+                 this.zone.run(() => {
+                    
+                    //console.log("My beacons: ", JSON.stringify(beacons));
+                    
+                    for (var i = 0; i < beacons.length; i++) {
+                        var beacon = beacons[i];                       
+                        
+                        if (beacon.major > 0){
+                            var distance = "NA";
+                            var identifier = "Major:" + beacon.major + " Minor:" + beacon.minor;
+
+                            if (beacon.proximity) {
+                                distance = beacon.proximity;
+                            }
+
+                            this.items.push({
+                                "proximity" : beacon.proximity,
+                                "identifier": identifier,
+                                "distance":  "Distance: " + distance,
+                                "rssi": "Power: " +  beacon.rssi + "dBm",
+                                "id": 0
+                            });
+
+                        }
+                    }
+                });
+            }
+        }
+
+        var estimote = new Estimote(options);
+
+        estimote.startRanging();
+
+    }
+
+}
+
+```
+
+items.component.html
+```
+<ActionBar title="My App" class="action-bar"></ActionBar>
+<StackLayout class="page">
+    <ListView [items]="items" class="list-group">
+        <template let-item="item">
+            <Label [nsRouterLink]="['/item', item.id]" [text]="item.identifier"
+                class="list-group-item"></Label>
+        </template>
+    </ListView>
+</StackLayout>
+
+```
 
 # estimote.startRanging
 
