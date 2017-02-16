@@ -1,1 +1,1 @@
-LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../lib/iOS
+LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../node_modules/nativescript-estimote-sdk/platforms/ios
